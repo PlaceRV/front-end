@@ -17,7 +17,7 @@ export class UserComponent {
 	onSubmit(user: any) {
 		this.httpSvc
 			.post(
-				'http://backend.anhvietnguyen.id.vn/auth/login',
+				'backend.anhvietnguyen.id.vn:8880/auth/login',
 				{
 					email: user.email,
 					password: user.password,
