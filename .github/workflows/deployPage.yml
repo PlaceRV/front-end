@@ -32,8 +32,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - uses: actions/setup-node@v4.0.3
+      - name: Cache npm dependencies
+        uses: actions/cache@v2
         with:
-          cache: 'npm'
+          path: '~/.npm'
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
       - run: 'npm run build'
       - name: Setup Pages
         uses: actions/configure-pages@v5
