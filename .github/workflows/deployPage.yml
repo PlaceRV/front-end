@@ -39,10 +39,12 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-      - run: "npm install && npm run build"
-      - run: 'echo "permalink: /index.html" > ./dist/browser/404.md'
+      - run: "npm ci && npm run build"
+      - run: "mv ./dist/browser/index.html ./dist/browser/404.html"
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist/browser
+          cname: tmplrv.anhvietnguyen.id.vn
+          force_orphan: true
