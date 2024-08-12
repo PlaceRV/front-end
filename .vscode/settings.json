@@ -6,11 +6,11 @@
 		"**/CVS": true,
 		"**/.DS_Store": true,
 		"**/Thumbs.db": true,
-		"dist": false,
+		"dist": true,
 		"node_modules": true,
 		".vscode": true,
-		".gitignore": false,
-		".github": false,
+		".gitignore": true,
+		".github": true,
 		".angular": true
 	},
 	"explorerExclude.backup": {}
