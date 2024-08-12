@@ -32,11 +32,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - uses: actions/setup-node@v4.0.3
+      - run: "npm i --package-lock-only"
       - name: Cache npm dependencies
         uses: actions/cache@v2
         with:
           path: "~/.npm"
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package.json') }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
       - run: "npm ci && npm run build"

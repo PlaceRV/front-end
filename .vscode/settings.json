@@ -9,7 +9,7 @@
 		"dist": false,
 		"node_modules": true,
 		".vscode": true,
-		".gitignore": true,
+		".gitignore": false,
 		".github": false,
 		".angular": true
 	},
