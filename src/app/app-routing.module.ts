@@ -4,6 +4,7 @@ import { LuckComponent } from './pages/luck/luck.component';
 import { FortuneComponent } from './pages/fortune/fortune.component';
 import { FameComponent } from './pages/fame/fame.component';
 import { UserComponent } from './pages/user/user.component';
+import { NotFoundComponent } from './error/not-found/not-found.component';
 
 const routes: Routes = [
 	{
@@ -15,6 +16,7 @@ const routes: Routes = [
 	{ path: 'fortune', component: FortuneComponent },
 	{ path: 'fame', component: FameComponent },
 	{ path: 'user', component: UserComponent },
+	{ path: '**', component: NotFoundComponent },
 ];
 
 @NgModule({

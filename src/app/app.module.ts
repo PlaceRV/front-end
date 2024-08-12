@@ -18,6 +18,7 @@ import { MapComponent } from './components/map/map.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { provideHttpClient } from '@angular/common/http';
+import { NotFoundComponent } from './error/not-found/not-found.component';
 
 @NgModule({
 	declarations: [
@@ -28,6 +29,7 @@ import { provideHttpClient } from '@angular/common/http';
 		UserComponent,
 		SidenavComponent,
 		MapComponent,
+		NotFoundComponent,
 	],
 	imports: [
 		BrowserModule,
