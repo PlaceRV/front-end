@@ -32,7 +32,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - uses: actions/setup-node@v4.0.3
-      - run: "npm i --package-lock-only"
       - name: Cache npm dependencies
         uses: actions/cache@v2
         with:
