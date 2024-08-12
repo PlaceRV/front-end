@@ -36,11 +36,11 @@ jobs:
         uses: actions/cache@v2
         with:
           path: "~/.npm"
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-      - run: "npm ci && npm run build"
-      - run: "mv ./dist/browser/index.html ./dist/browser/404.html"
+      - run: "npm install && npm run build"
+      - run: 'mv ./dist/browser/index.html ./dist/browser/404.html'
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
         with:
