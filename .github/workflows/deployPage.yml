@@ -35,19 +35,14 @@ jobs:
       - name: Cache npm dependencies
         uses: actions/cache@v2
         with:
-          path: '~/.npm'
+          path: "~/.npm"
           key: ${{ runner.os }}-node-${{ hashFiles('**/package.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-      - run: 'npm install && npm run build'
+      - run: "npm install && npm run build"
       - run: 'echo "permalink: /index.html" > ./dist/browser/404.md'
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          # Upload entire repository
-          path: './dist/browser'
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist/browser
