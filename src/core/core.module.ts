@@ -20,9 +20,11 @@ import { FameComponent } from '../app/pages/fame/fame.component';
 import { LuckComponent } from '../app/pages/luck/luck.component';
 import { UserComponent } from '../app/pages/user/user.component';
 import { FortuneComponent } from '../app/pages/fortune/fortune.component';
+import { LoginComponent } from '../app/pages/user/login/login.component';
 
 @NgModule({
 	declarations: [
+		// Components
 		CoreComponent,
 		AppComponent,
 		SidenavComponent,
@@ -32,6 +34,7 @@ import { FortuneComponent } from '../app/pages/fortune/fortune.component';
 		UserComponent,
 		FortuneComponent,
 		FameComponent,
+		LoginComponent,
 	],
 	imports: [
 		BrowserModule,

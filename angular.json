@@ -24,7 +24,7 @@
 				"build": {
 					"builder": "@angular-devkit/build-angular:application",
 					"options": {
-						"outputPath": "dist/tmpl-frontend",
+						"outputPath": "dist/",
 						"index": "src/index.html",
 						"browser": "src/main.ts",
 						"polyfills": ["zone.js"],
@@ -54,7 +54,8 @@
 									"maximumError": "4kB"
 								}
 							],
-							"outputHashing": "all"
+							"outputHashing": "all",
+							"optimization": true
 						},
 						"development": {
 							"optimization": false,
@@ -74,7 +75,14 @@
 							"buildTarget": "tmpl-frontend:build:development"
 						}
 					},
-					"defaultConfiguration": "development"
+					"defaultConfiguration": "development",
+					"options": {
+						"host": "0.0.0.0",
+						"port": 2083,
+						"ssl": true,
+						"sslCert": "./secrets/cert.pem",
+						"sslKey": "./secrets/key.pem"
+					}
 				},
 				"extract-i18n": {
 					"builder": "@angular-devkit/build-angular:extract-i18n"
@@ -94,9 +102,6 @@
 						"styles": [],
 						"scripts": []
 					}
-				},
-				"deploy": {
-					"builder": "angular-cli-ghpages:deploy"
 				}
 			}
 		}

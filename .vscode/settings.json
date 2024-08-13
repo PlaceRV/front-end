@@ -9,9 +9,11 @@
 		"dist": true,
 		"node_modules": true,
 		".vscode": true,
-		".gitignore": true,
+		".gitignore": false,
 		".github": true,
-		".angular": true
+		".angular": true,
+		"**/*.spec.*": true,
+		"**/package-lock.json": true
 	},
 	"explorerExclude.backup": {}
 }

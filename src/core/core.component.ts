@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 
 @Component({
 	selector: 'core',
-	template: ` <router-outlet /> `,
+	template: '<router-outlet/>',
 })
-export class CoreComponent {
-	constructor() {}
-}
+export class CoreComponent {}

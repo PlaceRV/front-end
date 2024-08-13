@@ -7,6 +7,8 @@ import { LuckComponent } from '../app/pages/luck/luck.component';
 import { FortuneComponent } from '../app/pages/fortune/fortune.component';
 import { FameComponent } from '../app/pages/fame/fame.component';
 import { UserComponent } from '../app/pages/user/user.component';
+import { LoginComponent } from '../app/pages/user/login/login.component';
+import { InfoComponent } from '../app/pages/user/info/info.component';
 
 const routes: Routes = [
 	{
@@ -17,7 +19,14 @@ const routes: Routes = [
 			{ path: 'luck', component: LuckComponent },
 			{ path: 'fortune', component: FortuneComponent },
 			{ path: 'fame', component: FameComponent },
-			{ path: 'user', component: UserComponent },
+			{
+				path: 'user',
+				component: UserComponent,
+				children: [
+					{ path: '', pathMatch: 'full', component: InfoComponent },
+					{ path: 'login', component: LoginComponent },
+				],
+			},
 			{ path: '', pathMatch: 'full', redirectTo: 'user' },
 		],
 	},
