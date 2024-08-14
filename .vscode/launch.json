@@ -7,7 +7,7 @@
       "type": "msedge",
       "request": "launch",
       "preLaunchTask": "npm: start",
-      "url": "http://backend.anhvietnguyen.id.vn:2083/"
+      "url": "https://backend.anhvietnguyen.id.vn:2083/"
     },
     {
       "name": "ng test",
