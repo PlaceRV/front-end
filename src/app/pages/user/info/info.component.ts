@@ -10,20 +10,33 @@ import { environment } from 'src/environments/environment';
 })
 export class InfoComponent implements OnInit {
 	constructor(private http: HttpClient, private router: Router) {}
-	async ngOnInit() {
+	user: any = null;
+
+	ngOnInit() {
 		this.http
 			.get(environment.backendUrl('/user'), {
-				reportProgress: true,
-				observe: 'events',
 				withCredentials: true,
 			})
 			.subscribe({
-				next: (res) => {
-					res;
+				next: (req: any) => {
+					this.user = req;
 				},
 				error: () => {
-					this.router.navigate(['/user/login']);
+					this.router.navigateByUrl('/user/login');
 				},
+				complete() {},
+			});
+	}
+
+	logout() {
+		this.http
+			.post(
+				environment.backendUrl('/auth/logout'),
+				{},
+				{ withCredentials: true }
+			)
+			.subscribe(() => {
+				this.router.navigateByUrl('/user/login');
 			});
 	}
 }

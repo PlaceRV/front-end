@@ -6,7 +6,7 @@ import { SidenavComponent } from '../app/components/sidenav/sidenav.component';
 import { MapComponent } from '../app/components/map/map.component';
 // Angular's modules
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient } from '@angular/common/http';
 // materials' module
@@ -21,6 +21,8 @@ import { LuckComponent } from '../app/pages/luck/luck.component';
 import { UserComponent } from '../app/pages/user/user.component';
 import { FortuneComponent } from '../app/pages/fortune/fortune.component';
 import { LoginComponent } from '../app/pages/user/login/login.component';
+import { CommonModule } from '@angular/common';
+import { InfoComponent } from 'src/app/pages/user/info/info.component';
 
 @NgModule({
 	declarations: [
@@ -35,11 +37,14 @@ import { LoginComponent } from '../app/pages/user/login/login.component';
 		FortuneComponent,
 		FameComponent,
 		LoginComponent,
+		InfoComponent,
 	],
 	imports: [
 		BrowserModule,
 		CoreRoutingModule,
 		FormsModule,
+		ReactiveFormsModule,
+		CommonModule,
 		// Materials
 		MatIconModule,
 		MatSidenavModule,
