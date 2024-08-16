@@ -1,24 +1,27 @@
-<header>
-	<nav>
-		<ul>
-			<li>Home</li>
-			<li>About</li>
-			<li>Contact</li>
-			<li>
-				<button (click)="logout()">Logout</button>
-			</li>
-		</ul>
-	</nav>
-</header>
+<section *ngIf="!user" class="h-full">
+	<cp-loading></cp-loading>
+</section>
+<section *ngIf="user" class="h-full">
+	<header>
+		<nav>
+			<ul>
+				<li>Home</li>
+				<li>About</li>
+				<li>Contact</li>
+				<li>
+					<button (click)="logout()">Logout</button>
+				</li>
+			</ul>
+		</nav>
+	</header>
 
-<main>
-	<section *ngIf="user">
+	<main>
 		<h2>User Information</h2>
 		<p>Username: {{ user.firstName + " " + user.lastName }}</p>
 		<p>Email: {{ user.email }}</p>
-	</section>
-</main>
+	</main>
 
-<footer>
-	<p>&copy; 2023 My Angular Website</p>
-</footer>
+	<footer>
+		<p>&copy; 2023 My Angular Website</p>
+	</footer>
+</section>
