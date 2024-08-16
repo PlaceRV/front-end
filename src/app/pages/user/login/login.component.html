@@ -1,22 +1,49 @@
-<div class="align-center">
-	<h2>User Login</h2>
-	<form #myForm="ngForm" (ngSubmit)="onSubmit(myForm.value)">
-		<input
-			placeholder="Email Id"
-			type="text"
-			name="email"
-			[(ngModel)]="user.email"
-		/>
-		<input
-			placeholder="Password"
-			type="password"
-			name="password"
-			[(ngModel)]="user.password"
-		/>
-		<div class="btn-div">
-			<button type="submit" [disabled]="!myForm.valid" class="login-btn">
-				Login
-			</button>
-		</div>
-	</form>
+<div class="relative flex flex-col justify-center h-full overflow-hidden">
+	<div class="w-full p-6 m-auto">
+		<h4 class="text-3xl font-semibold">Login</h4>
+		<form [formGroup]="form" (ngSubmit)="onSubmit()">
+			<div>
+				<label class="ds-label pb-0">
+					<span class="ds-label-text">Email</span>
+				</label>
+				<input
+					type="text"
+					formControlName="email"
+					class="ds-input ds-input-bordered ds-input-primary w-full"
+					[ngClass]="{ 'is-invalid': submitted && f['email'].errors }"
+				/>
+				<div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+					<div *ngIf="f['email'].errors['required']">email is required</div>
+				</div>
+			</div>
+
+			<div>
+				<label class="ds-label pb-0">
+					<span class="ds-text-base ds-label-text">Password</span>
+				</label>
+				<input
+					type="password"
+					formControlName="password"
+					class="ds-input ds-input-bordered ds-input-primary w-full"
+					[ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
+				/>
+				<div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+					<div *ngIf="f['password'].errors['required']">
+						Password is required
+					</div>
+				</div>
+			</div>
+
+			<div class="pt-2">
+				<button [disabled]="loading" class="ds-btn ds-btn-primary">
+					<span
+						*ngIf="loading"
+						class="spinner-border spinner-border-sm me-1"
+					></span>
+					Login
+				</button>
+				<a routerLink="../signup" class="ds-btn ds-btn-link">Register</a>
+			</div>
+		</form>
+	</div>
 </div>
