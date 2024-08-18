@@ -21,7 +21,7 @@ export class MapService {
 		return await fetch(
 			`https://router.project-osrm.org/route/v1/driving/${coordinates
 				.map((coord) => coord.join(','))
-				.join(';')}?overview=full&geometries=polyline6`
+				.join(';')}?overview=full&geometries=polyline6`,
 		)
 			.then((response) => response.json())
 			.then((result) => {

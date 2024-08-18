@@ -16,7 +16,7 @@ export class SignupComponent implements OnInit {
 	constructor(
 		private formBuilder: FormBuilder,
 		private router: Router,
-		private usrSvc: UserService
+		private usrSvc: UserService,
 	) {}
 
 	ngOnInit() {
@@ -51,7 +51,7 @@ export class SignupComponent implements OnInit {
 			},
 			() => {
 				this.loading = false;
-			}
+			},
 		);
 	}
 }

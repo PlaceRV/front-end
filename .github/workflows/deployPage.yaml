@@ -4,7 +4,7 @@ name: Deploy page
 on:
   # Runs on pushes targeting the default branch
   push:
-    branches: ["main"]
+    branches: ['main']
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -18,7 +18,7 @@ permissions:
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
-  group: "pages"
+  group: 'pages'
   cancel-in-progress: false
 
 jobs:
@@ -30,13 +30,13 @@ jobs:
       - uses: actions/setup-node@v4.0.3
       - uses: actions/cache@v2
         with:
-          path: "./node_modules"
+          path: './node_modules'
           key: ${{ runner.os }}-node-${{ hashFiles('**/package.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-      - run: "npm install"
-      - run: "npm run build"
-      - run: "mv ./dist/browser/index.html ./dist/browser/404.html"
+      - run: 'npm install'
+      - run: 'npm run build'
+      - run: 'mv ./dist/browser/index.html ./dist/browser/404.html'
       - uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

@@ -10,13 +10,13 @@ import { MatIconRegistry } from '@angular/material/icon';
 export class AppComponent implements OnInit {
 	constructor(
 		private matIconReg: MatIconRegistry,
-		private observer: BreakpointObserver
+		private observer: BreakpointObserver,
 	) {}
 
 	isMobile = true;
 	isCollapsed = signal(false);
 	menuIcon = computed(() =>
-		this.isCollapsed() ? 'temple_buddhist' : 'arrow_back_ios'
+		this.isCollapsed() ? 'temple_buddhist' : 'arrow_back_ios',
 	);
 
 	toggleMenu() {

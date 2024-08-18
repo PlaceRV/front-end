@@ -8,13 +8,16 @@ import { UserService } from '../user.service';
 	styleUrl: './info.component.sass',
 })
 export class InfoComponent implements OnInit {
-	constructor(private usrSvc: UserService, private router: Router) {}
+	constructor(
+		private usrSvc: UserService,
+		private router: Router,
+	) {}
 	user: any = null;
 
 	ngOnInit() {
 		this.usrSvc.get(
 			(req: any) => (this.user = req),
-			() => this.router.navigateByUrl('/user/login')
+			() => this.router.navigateByUrl('/user/login'),
 		);
 	}
 

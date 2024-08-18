@@ -1,13 +1,14 @@
 <div class="flex flex-col justify-between h-full">
 	<div class="tabs ds-join ds-join-vertical">
 		@for (item of menuItems(); track item) {
-		<a
-			[routerLink]="item.route" class="ds-join-item ds-btn"
-			routerLinkActive="ds-btn-primary"
-		>
-			<mat-icon>{{ item.icon }}</mat-icon>
-			<span *ngIf="!isCollapsed()">{{ item.label }}</span>
-		</a>
+			<a
+				[routerLink]="item.route"
+				class="ds-join-item ds-btn"
+				routerLinkActive="ds-btn-primary"
+			>
+				<mat-icon>{{ item.icon }}</mat-icon>
+				<span *ngIf="!isCollapsed()">{{ item.label }}</span>
+			</a>
 		}
 	</div>
 	<button routerLink="user" class="ds-btn rounded-full px-0">

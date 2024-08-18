@@ -27,7 +27,7 @@ export class MapComponent implements OnInit {
 					maxZoom: 18,
 				}),
 				controls: [],
-			})
+			}),
 		);
 
 		const coordinates = [

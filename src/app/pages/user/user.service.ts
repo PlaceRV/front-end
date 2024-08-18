@@ -13,7 +13,7 @@ export class UserService {
 		type: 'signup' | 'login' | 'logout',
 		body: any,
 		next: (value: any) => void,
-		error?: (error: any) => void
+		error?: (error: any) => void,
 	) {
 		this.httpSvc
 			.post(this.apiUrl(`auth/${type}`), body, { withCredentials: true })
