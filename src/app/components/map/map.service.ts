@@ -13,8 +13,6 @@ import Stroke from 'ol/style/Stroke';
 export class MapService {
 	public map!: Map;
 
-	constructor() {}
-
 	init(map: Map) {
 		this.map = map;
 	}

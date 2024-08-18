@@ -1,9 +1,9 @@
 import { Component, Input, signal } from '@angular/core';
-export type MenuItems = {
+export interface MenuItems {
 	icon: string;
 	label: string;
 	route?: string;
-};
+}
 
 @Component({
 	selector: 'cp-sidenav',

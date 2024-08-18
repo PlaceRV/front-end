@@ -1,11 +1,5 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import {
-	Component,
-	computed,
-	ElementRef,
-	signal,
-	ViewChild,
-} from '@angular/core';
+import { Component, computed, signal, OnInit } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 
 @Component({
@@ -13,7 +7,7 @@ import { MatIconRegistry } from '@angular/material/icon';
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.sass',
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 	constructor(
 		private matIconReg: MatIconRegistry,
 		private observer: BreakpointObserver

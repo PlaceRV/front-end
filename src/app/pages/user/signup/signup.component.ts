@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -50,7 +49,7 @@ export class SignupComponent implements OnInit {
 			(value: any) => {
 				if (value.success) this.router.navigateByUrl('/user');
 			},
-			(err) => {
+			() => {
 				this.loading = false;
 			}
 		);
