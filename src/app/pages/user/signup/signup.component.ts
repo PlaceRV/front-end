@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { environment } from '@env/environment';
+import { UserService } from '../user.service';
 
 @Component({
 	selector: 'pg-signup',
@@ -17,7 +17,7 @@ export class SignupComponent implements OnInit {
 	constructor(
 		private formBuilder: FormBuilder,
 		private router: Router,
-		private httpSvc: HttpClient
+		private usrSvc: UserService
 	) {}
 
 	ngOnInit() {
@@ -39,24 +39,20 @@ export class SignupComponent implements OnInit {
 		if (this.form.invalid) return;
 
 		this.loading = true;
-		this.httpSvc
-			.post(
-				environment.backendUrl('/auth/signup'),
-				{
-					email: this.f['email'].value,
-					password: this.f['password'].value,
-					firstName: this.f['firstName'].value,
-					lastName: this.f['lastName'].value,
-				},
-				{ withCredentials: true }
-			)
-			.subscribe({
-				next: (value: any) => {
-					if (value.success) this.router.navigateByUrl('/user');
-				},
-				error: (err) => {
-					this.loading = false;
-				},
-			});
+		this.usrSvc.execute(
+			'signup',
+			{
+				email: this.f['email'].value,
+				password: this.f['password'].value,
+				firstName: this.f['firstName'].value,
+				lastName: this.f['lastName'].value,
+			},
+			(value: any) => {
+				if (value.success) this.router.navigateByUrl('/user');
+			},
+			(err) => {
+				this.loading = false;
+			}
+		);
 	}
 }

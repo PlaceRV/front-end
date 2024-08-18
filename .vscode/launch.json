@@ -6,7 +6,6 @@
       "name": "ng serve",
       "type": "msedge",
       "request": "launch",
-      "preLaunchTask": "npm: start",
       "url": "https://backend.anhvietnguyen.id.vn:2083/"
     },
     {

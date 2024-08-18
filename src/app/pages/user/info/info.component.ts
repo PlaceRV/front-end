@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { UserService } from '../user.service';
 
 @Component({
 	selector: 'pg-user-info',
@@ -9,34 +8,19 @@ import { environment } from 'src/environments/environment';
 	styleUrl: './info.component.sass',
 })
 export class InfoComponent implements OnInit {
-	constructor(private http: HttpClient, private router: Router) {}
+	constructor(private usrSvc: UserService, private router: Router) {}
 	user: any = null;
 
 	ngOnInit() {
-		this.http
-			.get(environment.backendUrl('/user'), {
-				withCredentials: true,
-			})
-			.subscribe({
-				next: (req: any) => {
-					this.user = req;
-				},
-				error: () => {
-					this.router.navigateByUrl('/user/login');
-				},
-				complete() {},
-			});
+		this.usrSvc.get(
+			(req: any) => (this.user = req),
+			() => this.router.navigateByUrl('/user/login')
+		);
 	}
 
 	logout() {
-		this.http
-			.post(
-				environment.backendUrl('/auth/logout'),
-				{},
-				{ withCredentials: true }
-			)
-			.subscribe(() => {
-				this.router.navigateByUrl('/user/login');
-			});
+		this.usrSvc.execute('logout', null, () => {
+			this.router.navigateByUrl('/user/login');
+		});
 	}
 }
