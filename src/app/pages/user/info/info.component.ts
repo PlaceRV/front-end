@@ -14,10 +14,9 @@ export class InfoComponent implements OnInit {
 	) {}
 	user: any = null;
 
-	ngOnInit() {
-		this.usrSvc.get(
-			(req: any) => (this.user = req),
-			() => this.router.navigateByUrl('/user/login'),
+	async ngOnInit() {
+		this.user = await this.usrSvc.get(() =>
+			this.router.navigateByUrl('/user/login'),
 		);
 	}
 

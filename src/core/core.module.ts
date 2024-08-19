@@ -1,7 +1,7 @@
 import { CoreRoutingModule } from './core-routing.module';
 // Components
 import { CoreComponent } from './core.component';
-import { AppComponent } from '@app/app.component';
+import { AppComponent } from '../app/app.component';
 import { SidenavComponent } from '@cp/sidenav/sidenav.component';
 import { MapComponent } from '@cp/map/map.component';
 import { LoadingComponent } from '@cp/loading/loading.component';
