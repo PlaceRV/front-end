@@ -1,5 +1,3 @@
- 
- 
 import { dummyDecorator } from 'utils';
 
 export function Column(i1?: string | object, i2?: object) {
