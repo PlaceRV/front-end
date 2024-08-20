@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { User } from 'backend/user/user.entity';
+import { User } from '@backend/user/user.entity';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -8,7 +8,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class UserService {
 	private apiUrl = (path?: string) =>
-		`https://backend.anhvietnguyen.id.vn:2053/${path}`;
+		`https://@backend.anhvietnguyen.id.vn:2053/${path}`;
 	private _user = new BehaviorSubject<User>(null);
 	currentUser = this._user.asObservable();
 

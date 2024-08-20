@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../user.service';
-import { User } from 'backend/user/user.entity';
+import { User } from '@backend/user/user.entity';
 
 @Component({
 	selector: 'pg-user-info',

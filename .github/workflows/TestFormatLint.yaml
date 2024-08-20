@@ -35,7 +35,7 @@ jobs:
       - uses: actions/cache/restore@v4
         with:
           path: './front-end/node_modules'
-          key: npm-${{ hashFiles('./package.json') }}
+          key: npm-${{ hashFiles('./front-end/package.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
 
@@ -55,4 +55,4 @@ jobs:
         if: always()
         with:
           path: './front-end/node_modules'
-          key: ${{ runner.os }}-node-${{ hashFiles('./package.json') }}
+          key: ${{ runner.os }}-node-${{ hashFiles('./front-end/package.json') }}
