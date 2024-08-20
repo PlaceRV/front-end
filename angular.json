@@ -100,7 +100,10 @@
 							}
 						],
 						"styles": [],
-						"scripts": []
+						"scripts": [],
+						"browsers": "Firefox",
+            "codeCoverage": false,
+            "karmaConfig": "karma.conf.js"
 					}
 				},
 				"lint": {
