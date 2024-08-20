@@ -1,4 +1,4 @@
-name: Test & Format & Lint
+name: Build & Test & Format & Lint
 
 on:
   pull_request:
@@ -10,7 +10,7 @@ on:
 
 jobs:
   TestFormatLint:
-    name: "Test Format Lint"
+    name: 'Jobs'
 
     runs-on: ubuntu-latest
 
@@ -19,32 +19,56 @@ jobs:
       # added or changed files to the repository.
       contents: write
 
-
     steps:
       - uses: actions/checkout@v4
         with:
+          path: front-end
           ref: ${{ github.head_ref }}
+
+      - uses: actions/checkout@v4
+        with:
+          repository: TmplRV/back-end
+          path: back-end
 
       - uses: actions/setup-node@v4
 
       - uses: actions/cache/restore@v4
         with:
-          path: './node_modules'
-          key: npm-${{ hashFiles('./package.json') }}
+          path: './front-end/node_modules'
+          key: ${{ runner.os }}-front-${{ hashFiles('./front-end/package.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-front-
+
+      - uses: actions/cache/restore@v4
+        with:
+          path: './back-end/node_modules'
+          key: ${{ runner.os }}-back-${{ hashFiles('./back-end/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-back-
 
       - run: 'npm install'
+        working-directory: front-end
+
+      - run: 'npm install'
+        working-directory: back-end
 
       - uses: pyvista/setup-headless-display-action@v2
 
-      - run: npm run test && npm run format && npm run lint
+      - run: npm run build && npm run test && npm run format && npm run lint
+        working-directory: front-end
 
       - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          repository: ./front-end
 
       - uses: actions/cache/save@v4
         if: always()
         with:
-          path: './node_modules'
-          key: ${{ runner.os }}-node-${{ hashFiles('./package.json') }}
+          path: './front-end/node_modules'
+          key: ${{ runner.os }}-front-${{ hashFiles('./front-end/package.json') }}
 
+      - uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: './back-end/node_modules'
+          key: ${{ runner.os }}-back-${{ hashFiles('./back-end/package.json') }}

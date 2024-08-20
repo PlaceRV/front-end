@@ -10,9 +10,9 @@
 		"node_modules": true,
 		".vscode": true,
 		".gitignore": true,
-		".github": false,
+		".github": true,
 		".angular": true,
-		"**/*.spec.*": false,
+		"**/*.spec.*": true,
 		"**/package-lock.json": true,
 		"secrets": true,
 		"coverage": true
