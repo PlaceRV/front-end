@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-empty-function */
+ 
+ 
 import { dummyDecorator } from 'utils';
 
 export function Column(i1?: string | object, i2?: object) {
