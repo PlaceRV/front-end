@@ -19,9 +19,6 @@ jobs:
       # added or changed files to the repository.
       contents: write
 
-    strategy:
-      matrix: { dir: ['back-end', 'front-end'] }
-
     steps:
       - uses: actions/checkout@v4
         with:
@@ -37,18 +34,21 @@ jobs:
 
       - uses: actions/cache/restore@v4
         with:
-          path: './${{ matrix.dir }}/node_modules'
-          key: ${{ runner.os }}-${{ matrix.dir }}-${{ hashFiles('./front-end/package.json') }}
+          path: './front-end/node_modules'
+          key: ${{ runner.os }}-node-${{ hashFiles('./front-end/package.json') }}
           restore-keys: |
-            ${{ runner.os }}-${{ matrix.dir }}-
+            ${{ runner.os }}-node-
 
       - run: 'npm install'
-        working-directory: ${{ matrix.dir }}
+        working-directory: front-end
+
+      - run: 'npm install'
+        working-directory: back-end
 
       - uses: pyvista/setup-headless-display-action@v2
 
       - run: npm run build && npm run test && npm run format && npm run lint
-        working-directory: ${{ matrix.dir }}
+        working-directory: front-end
 
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
@@ -57,5 +57,5 @@ jobs:
       - uses: actions/cache/save@v4
         if: always()
         with:
-          path: './${{ matrix.dir }}/node_modules'
-          key: ${{ runner.os }}-${{ matrix.dir }}-${{ hashFiles('./front-end/package.json') }}
+          path: './front-end/node_modules'
+          key: ${{ runner.os }}-node-${{ hashFiles('./front-end/package.json') }}
