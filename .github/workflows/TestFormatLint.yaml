@@ -22,32 +22,37 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          path: front-end
           ref: ${{ github.head_ref }}
 
       - uses: actions/checkout@v4
         with:
           repository: TmplRV/back-end
-          path: '../back-end'
+          path: back-end
 
       - uses: actions/setup-node@v4
 
       - uses: actions/cache/restore@v4
         with:
-          path: './node_modules'
+          path: './front-end/node_modules'
           key: npm-${{ hashFiles('./package.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
 
       - run: 'npm install'
+        working-directory: front-end
 
       - uses: pyvista/setup-headless-display-action@v2
 
       - run: npm run build && npm run test && npm run format && npm run lint
+        working-directory: front-end
 
       - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          repository: ./front-end
 
       - uses: actions/cache/save@v4
         if: always()
         with:
-          path: './node_modules'
+          path: './front-end/node_modules'
           key: ${{ runner.os }}-node-${{ hashFiles('./package.json') }}
