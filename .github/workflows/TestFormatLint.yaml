@@ -1,4 +1,4 @@
-name: Test & Format & Lint
+name: Build & Test & Format & Lint
 
 on:
   pull_request:
@@ -10,7 +10,7 @@ on:
 
 jobs:
   TestFormatLint:
-    name: "Test Format Lint"
+    name: 'Build Test Format Lint'
 
     runs-on: ubuntu-latest
 
@@ -18,7 +18,6 @@ jobs:
       # Give the default GITHUB_TOKEN write permission to commit and push the
       # added or changed files to the repository.
       contents: write
-
 
     steps:
       - uses: actions/checkout@v4
@@ -38,7 +37,7 @@ jobs:
 
       - uses: pyvista/setup-headless-display-action@v2
 
-      - run: npm run test && npm run format && npm run lint
+      - run: npm run build && npm run test && npm run format && npm run lint
 
       - uses: stefanzweifel/git-auto-commit-action@v5
 
@@ -47,4 +46,3 @@ jobs:
         with:
           path: './node_modules'
           key: ${{ runner.os }}-node-${{ hashFiles('./package.json') }}
-
