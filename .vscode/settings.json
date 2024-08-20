@@ -10,11 +10,12 @@
 		"node_modules": true,
 		".vscode": true,
 		".gitignore": true,
-		".github": true,
+		".github": false,
 		".angular": true,
-		"**/*.spec.*": true,
+		"**/*.spec.*": false,
 		"**/package-lock.json": true,
-		"secrets": true
+		"secrets": true,
+		"coverage": true
 	},
 	"explorerExclude.backup": {}
 }

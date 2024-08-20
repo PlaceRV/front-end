@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserService } from '../user.service';
 
 @Component({
 	selector: 'pg-user-login',
@@ -17,14 +16,18 @@ export class LoginComponent implements OnInit {
 	constructor(
 		private formBuilder: FormBuilder,
 		private router: Router,
-		private httpSvc: HttpClient
+		private usrSvc: UserService,
 	) {}
 
-	ngOnInit() {
+	async ngOnInit() {
 		this.form = this.formBuilder.group({
 			email: ['', Validators.required],
 			password: ['', Validators.required],
 		});
+
+		(await this.usrSvc.get()).subscribe((usr) =>
+			usr === null ? null : this.router.navigateByUrl('/user'),
+		);
 	}
 
 	get f() {
@@ -36,23 +39,19 @@ export class LoginComponent implements OnInit {
 		if (this.form.invalid) return;
 
 		this.loading = true;
-		this.httpSvc
-			.post(
-				environment.backendUrl('/auth/login'),
-				{
-					email: this.f['email'].value,
-					password: this.f['password'].value,
-				},
-				{ withCredentials: true }
-			)
-			.subscribe({
-				next: (req: any) => {
-					if (req.success) this.router.navigateByUrl('/user');
-				},
-				error: (err) => {
-					console.error(err.error.message);
-					this.loading = false;
-				},
-			});
+		this.usrSvc.execute(
+			'login',
+			{
+				email: this.f['email'].value,
+				password: this.f['password'].value,
+			},
+			(req: any) => {
+				if (req.success) this.router.navigateByUrl('/user');
+			},
+			(err) => {
+				console.error(err.error.message);
+				this.loading = false;
+			},
+		);
 	}
 }

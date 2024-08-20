@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { UserService } from '../user.service';
+import { User } from '@backend/user/user.entity';
 
 @Component({
 	selector: 'pg-user-info',
@@ -9,34 +9,21 @@ import { environment } from 'src/environments/environment';
 	styleUrl: './info.component.sass',
 })
 export class InfoComponent implements OnInit {
-	constructor(private http: HttpClient, private router: Router) {}
-	user: any = null;
+	constructor(
+		private usrSvc: UserService,
+		private router: Router,
+	) {}
+	user: User;
 
-	ngOnInit() {
-		this.http
-			.get(environment.backendUrl('/user'), {
-				withCredentials: true,
-			})
-			.subscribe({
-				next: (req: any) => {
-					this.user = req;
-				},
-				error: () => {
-					this.router.navigateByUrl('/user/login');
-				},
-				complete() {},
-			});
+	async ngOnInit() {
+		(
+			await this.usrSvc.get(() => this.router.navigateByUrl('/user/login'))
+		).subscribe((usr) => (this.user = usr));
 	}
 
 	logout() {
-		this.http
-			.post(
-				environment.backendUrl('/auth/logout'),
-				{},
-				{ withCredentials: true }
-			)
-			.subscribe(() => {
-				this.router.navigateByUrl('/user/login');
-			});
+		this.usrSvc.execute('logout', null, () => {
+			this.router.navigateByUrl('/user/login');
+		});
 	}
 }
