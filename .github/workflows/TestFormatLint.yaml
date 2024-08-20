@@ -27,7 +27,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: TmplRV/back-end
-          path: ../back-end
 
       - uses: actions/setup-node@v4
 
