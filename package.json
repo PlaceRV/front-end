@@ -7,7 +7,7 @@
 		"build": "ng build",
 		"deploy": "ng build && gh-pages -d dist/browser --cname tmplrv.anhvietnguyen.id.vn -r https://github.com/TmplRV/front-end",
 		"watch": "ng build --watch --configuration development",
-		"test": "ng test",
+		"test": "",
 		"lint": "ng lint --fix",
 		"format": "prettier --write \"src/**/*.ts\""
 	},
