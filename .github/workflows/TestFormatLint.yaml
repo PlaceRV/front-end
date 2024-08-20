@@ -22,13 +22,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          path: front-end
           ref: ${{ github.head_ref }}
 
       - uses: actions/checkout@v4
         with:
           repository: TmplRV/back-end
-          path: back-end
+          path: '../back-end'
 
       - uses: actions/setup-node@v4
 
