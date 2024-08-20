@@ -3,13 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 // Components
 import { AppComponent } from '../app/app.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { LuckComponent } from '@pg/luck/luck.component';
-import { FortuneComponent } from '@pg/fortune/fortune.component';
-import { FameComponent } from '@pg/fame/fame.component';
-import { UserComponent } from '@pg/user/user.component';
-import { LoginComponent } from '@pg/user/login/login.component';
-import { InfoComponent } from '@pg/user/info/info.component';
-import { SignupComponent } from '@pg/user/signup/signup.component';
+import { LuckComponent } from 'pg/luck/luck.component';
+import { FortuneComponent } from 'pg/fortune/fortune.component';
+import { FameComponent } from 'pg/fame/fame.component';
+import { UserComponent } from 'pg/user/user.component';
+import { LoginComponent } from 'pg/user/login/login.component';
+import { InfoComponent } from 'pg/user/info/info.component';
+import { SignupComponent } from 'pg/user/signup/signup.component';
 
 const routes: Routes = [
 	{

@@ -2,17 +2,17 @@ import { CoreRoutingModule } from './core-routing.module';
 // Components
 import { CoreComponent } from './core.component';
 import { AppComponent } from '../app/app.component';
-import { SidenavComponent } from '@cp/sidenav/sidenav.component';
-import { MapComponent } from '@cp/map/map.component';
-import { LoadingComponent } from '@cp/loading/loading.component';
+import { SidenavComponent } from 'cp/sidenav/sidenav.component';
+import { MapComponent } from 'cp/map/map.component';
+import { LoadingComponent } from 'cp/loading/loading.component';
 // Pages
-import { LoginComponent } from '@pg/user/login/login.component';
-import { SignupComponent } from '@pg/user/signup/signup.component';
-import { LuckComponent } from '@pg/luck/luck.component';
-import { InfoComponent } from '@pg/user/info/info.component';
-import { FameComponent } from '@pg/fame/fame.component';
-import { UserComponent } from '@pg/user/user.component';
-import { FortuneComponent } from '@pg/fortune/fortune.component';
+import { LoginComponent } from 'pg/user/login/login.component';
+import { SignupComponent } from 'pg/user/signup/signup.component';
+import { LuckComponent } from 'pg/luck/luck.component';
+import { InfoComponent } from 'pg/user/info/info.component';
+import { FameComponent } from 'pg/fame/fame.component';
+import { UserComponent } from 'pg/user/user.component';
+import { FortuneComponent } from 'pg/fortune/fortune.component';
 // Angular's modules
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -37,7 +37,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 		SidenavComponent,
 		MapComponent,
 		LoadingComponent,
-		// @pg
+		// pg
 		FameComponent,
 		LuckComponent,
 		FortuneComponent,

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { User } from '@backend/user/user.entity';
+import { User } from 'backend/user/user.entity';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({

@@ -24,9 +24,9 @@
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"paths": {
-			"@cp/*": ["./src/app/components/*"],
-			"@pg/*": ["./src/app/pages/*"],
-			"@backend/*": ["../back-end/src/*"],
+			"cp/*": ["./src/app/components/*"],
+			"pg/*": ["./src/app/pages/*"],
+			"backend/*": ["../back-end/src/*"],
 			"*": ["./src/fake/*"]
 		}
 	},

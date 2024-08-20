@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, signal } from '@angular/core';
-import { User } from '@backend/user/user.entity';
-import { UserService } from '@pg/user/user.service';
+import { User } from 'backend/user/user.entity';
+import { UserService } from 'pg/user/user.service';
 export interface MenuItems {
 	icon: string;
 	label: string;
