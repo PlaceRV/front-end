@@ -35,9 +35,16 @@ jobs:
       - uses: actions/cache/restore@v4
         with:
           path: './front-end/node_modules'
-          key: ${{ runner.os }}-node-${{ hashFiles('./front-end/package.json') }}
+          key: ${{ runner.os }}-front-${{ hashFiles('./front-end/package.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-front-
+
+      - uses: actions/cache/restore@v4
+        with:
+          path: './back-end/node_modules'
+          key: ${{ runner.os }}-back-${{ hashFiles('./back-end/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-back-
 
       - run: 'npm install'
         working-directory: front-end
@@ -58,4 +65,10 @@ jobs:
         if: always()
         with:
           path: './front-end/node_modules'
-          key: ${{ runner.os }}-node-${{ hashFiles('./front-end/package.json') }}
+          key: ${{ runner.os }}-front-${{ hashFiles('./front-end/package.json') }}
+
+      - uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: './back-end/node_modules'
+          key: ${{ runner.os }}-back-${{ hashFiles('./back-end/package.json') }}
