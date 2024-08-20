@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 // Components
-import { AppComponent } from '@app/app.component';
+import { AppComponent } from '../app/app.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { LuckComponent } from '@pg/luck/luck.component';
 import { FortuneComponent } from '@pg/fortune/fortune.component';

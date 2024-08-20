@@ -34,11 +34,11 @@
 				</div>
 			</div>
 
-			<div class="pt-2">
-				<button [disabled]="loading" class="ds-btn ds-btn-primary">
+			<div class="pt-2 flex">
+				<button [disabled]="loading" class="ds-btn ds-btn-primary flex">
 					<span
 						*ngIf="loading"
-						class="spinner-border spinner-border-sm me-1"
+						class="ds-loading ds-loading-spinner text-primary"
 					></span>
 					Login
 				</button>
