@@ -27,7 +27,8 @@
 			"cp/*": ["./src/app/components/*"],
 			"pg/*": ["./src/app/pages/*"],
 			"@backend/*": ["../back-end/src/*"],
-			"*": ["./src/fake/*"]
+			"*": ["./src/fake/*"],
+			"tslib" : ["./node_modules/tslib/tslib.d.ts"]
 		}
 	},
 	"angularCompilerOptions": {
