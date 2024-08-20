@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../user.service';
+import { User } from '@backend/user/user.entity';
 
 @Component({
 	selector: 'pg-user-info',
@@ -12,12 +13,12 @@ export class InfoComponent implements OnInit {
 		private usrSvc: UserService,
 		private router: Router,
 	) {}
-	user: any = null;
+	user: User;
 
 	async ngOnInit() {
-		this.user = await this.usrSvc.get(() =>
-			this.router.navigateByUrl('/user/login'),
-		);
+		(
+			await this.usrSvc.get(() => this.router.navigateByUrl('/user/login'))
+		).subscribe((usr) => (this.user = usr));
 	}
 
 	logout() {

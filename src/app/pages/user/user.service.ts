@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '@backend/user/user.entity';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root',
@@ -8,7 +9,9 @@ import { User } from '@backend/user/user.entity';
 export class UserService {
 	private apiUrl = (path?: string) =>
 		`https://backend.anhvietnguyen.id.vn:2053/${path}`;
-	private _user: User;
+	private _user = new BehaviorSubject<User>(null);
+	currentUser = this._user.asObservable();
+
 	constructor(private httpSvc: HttpClient) {}
 
 	execute(
@@ -20,7 +23,7 @@ export class UserService {
 		this.httpSvc
 			.post(this.apiUrl(`auth/${type}`), body, { withCredentials: true })
 			.subscribe({ next, error });
-		if (type === 'logout') this._user = null;
+		if (type === 'logout') this._user.next(null);
 	}
 
 	private _get(): Promise<User> {
@@ -31,20 +34,17 @@ export class UserService {
 					next: (val: object) => {
 						resolve(new User(val as Required<typeof User.prototype.info>));
 					},
-					error: (err: any) => {
-						reject(err);
-					},
+					error: reject,
 				});
 		});
 	}
 
-	async get(error: (err?: any) => void) {
+	async get(error: (err?: any) => void = () => null) {
 		try {
-			if (!this._user) this._user = await this._get();
+			if (!this._user.value) this._user.next(await this._get());
 		} catch (err) {
 			error(err);
-			return null;
 		}
-		return this._user;
+		return this.currentUser;
 	}
 }

@@ -19,11 +19,15 @@ export class LoginComponent implements OnInit {
 		private usrSvc: UserService,
 	) {}
 
-	ngOnInit() {
+	async ngOnInit() {
 		this.form = this.formBuilder.group({
 			email: ['', Validators.required],
 			password: ['', Validators.required],
 		});
+
+		(await this.usrSvc.get()).subscribe((usr) =>
+			usr === null ? null : this.router.navigateByUrl('/user'),
+		);
 	}
 
 	get f() {

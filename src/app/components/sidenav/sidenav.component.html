@@ -14,9 +14,11 @@
 	<button routerLink="user" class="ds-btn rounded-full px-0">
 		<div class="user">
 			<img src="https://github.com/takahashinguyen.png" />
-			<span *ngIf="!isCollapsed()">
-				Nguyễn Việt Anh aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-			</span>
+			<div *ngIf="!isCollapsed()" class="truncate">
+				<span>
+					{{ user ? user.firstName : 'Login' }}
+				</span>
+			</div>
 		</div>
 	</button>
 </div>
