@@ -10,7 +10,7 @@ on:
 
 jobs:
   TestFormatLint:
-    name: 'Build Test Format Lint'
+    name: 'Jobs'
 
     runs-on: ubuntu-latest
 

@@ -27,7 +27,6 @@
 			"cp/*": ["./src/app/components/*"],
 			"pg/*": ["./src/app/pages/*"],
 			"@backend/*": ["../back-end/src/*"],
-			"tslib": ["./node_modules/tslib/tslib.d.ts"],
 			"*": ["./src/fake/*"]
 		}
 	},
