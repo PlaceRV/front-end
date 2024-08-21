@@ -1,4 +1,10 @@
-<div class="relative flex flex-col justify-center h-full overflow-hidden">
+<section *ngIf="!isLoaded" class="h-full">
+	<cp-loading></cp-loading>
+</section>
+<div
+	*ngIf="isLoaded"
+	class="relative flex flex-col justify-center h-full overflow-hidden"
+>
 	<div class="w-full p-6 m-auto">
 		<h4 class="text-3xl font-semibold">Login</h4>
 		<form [formGroup]="form" (ngSubmit)="onSubmit()">

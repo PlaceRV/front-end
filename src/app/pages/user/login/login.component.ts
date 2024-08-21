@@ -12,6 +12,7 @@ export class LoginComponent implements OnInit {
 	form!: FormGroup;
 	loading = false;
 	submitted = false;
+	isLoaded = false;
 
 	constructor(
 		private formBuilder: FormBuilder,
@@ -28,6 +29,7 @@ export class LoginComponent implements OnInit {
 		(await this.usrSvc.get()).subscribe((usr) =>
 			usr === null ? null : this.router.navigateByUrl('/user'),
 		);
+		this.isLoaded = true;
 	}
 
 	get f() {

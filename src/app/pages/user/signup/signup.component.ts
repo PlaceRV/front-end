@@ -12,6 +12,7 @@ export class SignupComponent implements OnInit {
 	form!: FormGroup;
 	loading = false;
 	submitted = false;
+	isLoaded = false;
 
 	constructor(
 		private formBuilder: FormBuilder,
@@ -19,13 +20,19 @@ export class SignupComponent implements OnInit {
 		private usrSvc: UserService,
 	) {}
 
-	ngOnInit() {
+	async ngOnInit() {
 		this.form = this.formBuilder.group({
 			firstName: ['', Validators.required],
 			lastName: ['', Validators.required],
 			email: ['', Validators.required],
 			password: ['', [Validators.required, Validators.minLength(6)]],
 		});
+
+		(await this.usrSvc.get()).subscribe((usr) =>
+			usr === null ? null : this.router.navigateByUrl('/user'),
+		);
+
+		this.isLoaded = true;
 	}
 
 	get f() {
