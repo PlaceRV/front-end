@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
 		(await this.usrSvc.get()).subscribe((usr) =>
 			usr === null ? null : this.router.navigateByUrl('/user'),
 		);
-		this.isLoaded = true
+		this.isLoaded = true;
 	}
 
 	get f() {
