@@ -16,14 +16,15 @@ export class InfoComponent implements OnInit {
 	user: User;
 
 	async ngOnInit() {
-		(
-			await this.usrSvc.get(() => this.router.navigateByUrl('/user/login'))
-		).subscribe((usr) => (this.user = usr));
+		this.usrSvc.required((usr) => {
+			this.user = usr;
+			if (!usr) this.router.navigateByUrl('/login');
+		});
 	}
 
 	logout() {
 		this.usrSvc.execute('logout', null, () => {
-			this.router.navigateByUrl('/user/login');
+			this.router.navigateByUrl('/login');
 		});
 	}
 }

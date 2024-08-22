@@ -23,12 +23,10 @@ const routes: Routes = [
 			{
 				path: 'user',
 				component: UserComponent,
-				children: [
-					{ path: '', pathMatch: 'full', component: InfoComponent },
-					{ path: 'login', component: LoginComponent },
-					{ path: 'signup', component: SignupComponent },
-				],
+				children: [{ path: '', pathMatch: 'full', component: InfoComponent }],
 			},
+			{ path: 'login', component: LoginComponent },
+			{ path: 'signup', component: SignupComponent },
 			{ path: '', pathMatch: 'full', redirectTo: 'user' },
 		],
 	},

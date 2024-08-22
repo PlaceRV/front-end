@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../user.service';
+import { Location } from '@angular/common';
 
 @Component({
 	selector: 'pg-signup',
@@ -9,6 +10,9 @@ import { UserService } from '../user.service';
 	styleUrl: './signup.component.sass',
 })
 export class SignupComponent implements OnInit {
+	returnLogin() {
+		throw new Error('Method not implemented.');
+	}
 	form!: FormGroup;
 	loading = false;
 	submitted = false;
@@ -18,6 +22,7 @@ export class SignupComponent implements OnInit {
 		private formBuilder: FormBuilder,
 		private router: Router,
 		private usrSvc: UserService,
+		private lctSvc: Location,
 	) {}
 
 	async ngOnInit() {
@@ -28,11 +33,9 @@ export class SignupComponent implements OnInit {
 			password: ['', [Validators.required, Validators.minLength(6)]],
 		});
 
-		(await this.usrSvc.get()).subscribe((usr) =>
-			usr === null ? null : this.router.navigateByUrl('/user'),
+		this.usrSvc.subscribe((usr) =>
+			usr === null ? (this.isLoaded = true) : this.lctSvc.back(),
 		);
-
-		this.isLoaded = true;
 	}
 
 	get f() {

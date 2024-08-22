@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../user.service';
+import { Location } from '@angular/common';
 
 @Component({
 	selector: 'pg-user-login',
@@ -18,6 +19,7 @@ export class LoginComponent implements OnInit {
 		private formBuilder: FormBuilder,
 		private router: Router,
 		private usrSvc: UserService,
+		private lctSvc: Location,
 	) {}
 
 	async ngOnInit() {
@@ -26,10 +28,9 @@ export class LoginComponent implements OnInit {
 			password: ['', Validators.required],
 		});
 
-		(await this.usrSvc.get()).subscribe((usr) =>
-			usr === null ? null : this.router.navigateByUrl('/user'),
+		this.usrSvc.subscribe((usr) =>
+			usr === null ? (this.isLoaded = true) : this.lctSvc.back(),
 		);
-		this.isLoaded = true;
 	}
 
 	get f() {
@@ -50,10 +51,7 @@ export class LoginComponent implements OnInit {
 			(req: any) => {
 				if (req.success) this.router.navigateByUrl('/user');
 			},
-			(err) => {
-				console.error(err.error.message);
-				this.loading = false;
-			},
+			() => (this.loading = false),
 		);
 	}
 }
