@@ -10,6 +10,7 @@ import { UserComponent } from 'pg/user/user.component';
 import { LoginComponent } from 'pg/user/login/login.component';
 import { InfoComponent } from 'pg/user/info/info.component';
 import { SignupComponent } from 'pg/user/signup/signup.component';
+import { EditComponent } from 'pg/edit/edit.component';
 
 const routes: Routes = [
 	{
@@ -20,6 +21,7 @@ const routes: Routes = [
 			{ path: 'luck', component: LuckComponent },
 			{ path: 'fortune', component: FortuneComponent },
 			{ path: 'fame', component: FameComponent },
+			{ path: 'edit', component: EditComponent },
 			{
 				path: 'user',
 				component: UserComponent,

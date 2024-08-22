@@ -8,7 +8,7 @@ import { BehaviorSubject, Observer } from 'rxjs';
 })
 export class UserService extends BehaviorSubject<User> {
 	private apiUrl = (path?: string) =>
-		`https://@backend.anhvietnguyen.id.vn:2053/${path}`;
+		`https://backend.anhvietnguyen.id.vn:2053/${path}`;
 
 	constructor(private httpSvc: HttpClient) {
 		super(null);

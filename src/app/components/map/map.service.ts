@@ -6,15 +6,32 @@ import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import Style from 'ol/style/Style';
 import Stroke from 'ol/style/Stroke';
+import { BehaviorSubject } from 'rxjs';
+import { toLonLat } from 'ol/proj';
+
+interface MapData {
+	x: number;
+	y: number;
+}
 
 @Injectable({
 	providedIn: 'root',
 })
-export class MapService {
+export class MapService extends BehaviorSubject<MapData> {
 	public map!: Map;
+
+	constructor() {
+		super(null);
+	}
 
 	init(map: Map) {
 		this.map = map;
+
+		this.map.on('click', (event) => {
+			const coordinate = toLonLat(this.map.getCoordinateFromPixel(event.pixel));
+			this.next({ x: coordinate[0], y: coordinate[1] });
+			console.log(coordinate);
+		});
 	}
 
 	async getRoute(coordinates: number[][]) {
