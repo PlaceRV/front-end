@@ -27,6 +27,7 @@
 			"cp/*": ["./src/app/components/*"],
 			"pg/*": ["./src/app/pages/*"],
 			"@backend/*": ["../back-end/src/*"],
+			"utils": ["./src/core/utils.ts"],
 			"*": ["./src/fake/*"]
 		}
 	},

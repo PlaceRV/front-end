@@ -1,4 +1,4 @@
-import { dummyDecorator } from 'utils';
+import { dummyDecorator } from "utils";
 
 export function ObjectType() {
 	return dummyDecorator();
