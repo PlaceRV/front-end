@@ -7,11 +7,14 @@ import VectorSource from 'ol/source/Vector';
 import Style from 'ol/style/Style';
 import Stroke from 'ol/style/Stroke';
 import { BehaviorSubject } from 'rxjs';
+import Icon from 'ol/style/Icon';
+import { Point } from 'ol/geom';
+import { Coordinate } from 'ol/coordinate';
 import { toLonLat } from 'ol/proj';
+import View from 'ol/View';
 
 interface MapData {
-	x: number;
-	y: number;
+	coordinate: Coordinate;
 }
 
 @Injectable({
@@ -27,17 +30,16 @@ export class MapService extends BehaviorSubject<MapData> {
 	init(map: Map) {
 		this.map = map;
 
-		this.map.on('click', (event) => {
-			const coordinate = toLonLat(this.map.getCoordinateFromPixel(event.pixel));
-			this.next({ x: coordinate[0], y: coordinate[1] });
-			console.log(coordinate);
+		this.map.on('singleclick', (event) => {
+			const coordinate = this.map.getCoordinateFromPixel(event.pixel);
+			this.next({ coordinate });
 		});
 	}
 
-	async getRoute(coordinates: number[][]) {
+	async getRoute(coordinates: Coordinate[]) {
 		return await fetch(
 			`https://router.project-osrm.org/route/v1/driving/${coordinates
-				.map((coord) => coord.join(','))
+				.map((_) => toLonLat(_).join(','))
 				.join(';')}?overview=full&geometries=polyline6`,
 		)
 			.then((response) => response.json())
@@ -57,7 +59,7 @@ export class MapService extends BehaviorSubject<MapData> {
 			});
 	}
 
-	async showRoute(coordinates: number[][]) {
+	async showRoute(coordinates: Coordinate[]) {
 		const vectorLayer = new VectorLayer({
 			source: new VectorSource({
 				features: [await this.getRoute(coordinates)],
@@ -71,5 +73,28 @@ export class MapService extends BehaviorSubject<MapData> {
 		});
 
 		this.map.addLayer(vectorLayer);
+	}
+
+	async showMarker(coordinate: Coordinate) {
+		const vectorLayer = new VectorLayer({
+			source: new VectorSource({
+				features: [new Feature({ geometry: new Point(coordinate) })],
+			}),
+			style: new Style({
+				image: new Icon({
+					anchor: [0.5, 1],
+					src: './favicon.ico',
+				}),
+			}),
+		});
+
+		this.map.addLayer(vectorLayer);
+		this.setCenter(coordinate);
+	}
+
+	setCenter(coordinate: Coordinate) {
+		this.map.setView(
+			new View({ center: coordinate, zoom: 6, padding: [0, 0, 0, 444] }),
+		);
 	}
 }

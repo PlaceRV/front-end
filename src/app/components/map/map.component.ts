@@ -30,15 +30,15 @@ export class MapComponent implements OnInit {
 			}),
 		);
 
-		this.mapSvc.subscribe((value) => {
-			if (!value) return;
-			
-			const coordinates = [
-				[value.x, value.y],
-				[83.397634, 22.529407],
-			];
+		// this.mapSvc.subscribe((value) => {
+		// 	if (!value) return;
 
-			this.mapSvc.showRoute(coordinates);
-		});
+		// 	const coordinates = [
+		// 		[value.coordinate[0], value.coordinate[1]],
+		// 		[83.397634, 22.529407],
+		// 	];
+
+		// 	this.mapSvc.showRoute(coordinates);
+		// });
 	}
 }

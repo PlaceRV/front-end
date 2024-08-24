@@ -27,6 +27,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { EditComponent } from 'pg/edit/edit.component';
 
 @NgModule({
 	declarations: [
@@ -47,6 +48,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 		LoginComponent,
 		SignupComponent,
 		InfoComponent,
+		// Editor
+		EditComponent,
 	],
 	imports: [
 		BrowserModule,

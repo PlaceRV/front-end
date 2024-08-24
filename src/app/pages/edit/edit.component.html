@@ -1,0 +1,19 @@
+<section *ngIf="!isLoaded" class="h-full">
+	<cp-loading></cp-loading>
+</section>
+<div class="flex">
+	<div class="flex flex-col p-2 w-full">
+		<input
+			type="text"
+			placeholder="Longitude"
+			[value]="coordinate[0]"
+			class="ds-input ds-input-bordered w-full max-w-xs"
+		/>
+		<input
+			type="text"
+			placeholder="Latitude"
+			[value]="coordinate[1]"
+			class="ds-input ds-input-bordered w-full max-w-xs"
+		/>
+	</div>
+</div>
