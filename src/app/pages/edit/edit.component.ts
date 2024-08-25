@@ -1,16 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MapService } from 'cp/map/map.service';
 import { Coordinate } from 'ol/coordinate';
-import { toLonLat } from 'ol/proj';
 import { UserService } from 'pg/user/user.service';
 
 @Component({
 	selector: 'pg-edit',
 	templateUrl: './edit.component.html',
 })
-export class EditComponent implements OnInit {
+export class EditComponent implements AfterViewInit, OnInit, OnDestroy {
 	coordinate: Coordinate;
 	isLoaded = false;
 	form!: FormGroup;
@@ -28,23 +27,30 @@ export class EditComponent implements OnInit {
 		return this.form.controls;
 	}
 
-	ngOnInit(): void {
+	ngAfterViewInit(): void {
 		this.usrSvc.required((usr) => {
 			if (!usr) this.router.navigateByUrl('/login');
-			this.isLoaded = true;
 		});
+	}
 
+	ngOnInit(): void {
 		this.form = this.formBuilder.group({
 			longitude: ['', Validators.required],
 			latitude: ['', Validators.required],
 		});
 
 		this.mapSvc.subscribe((value) => {
-			if (value) {
-				this.coordinate = toLonLat(value.coordinate);
+			if (value && this.isLoaded) {
+				this.coordinate = value.coordinate;
 				this.mapSvc.showMarker(value.coordinate);
-			} else this.coordinate = [0, 0];
+			}
 		});
+
+		this.isLoaded = true;
+	}
+
+	ngOnDestroy(): void {
+		this.isLoaded = false;
 	}
 
 	onSubmit() {

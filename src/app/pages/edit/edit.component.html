@@ -9,24 +9,22 @@
 				<label> Longitude </label>
 				<input
 					type="text"
+					[readonly]="true"
+					class="ds-btn-disabled"
 					formControlName="longitude"
-					[value]="coordinate[0]"
+					[value]="coordinate ? coordinate[0] : 0"
 				/>
-				<div *ngIf="submitted && f['longitude'].errors">
-					<div *ngIf="f['longitude'].errors['required']">
-						Longitude is required
-					</div>
-				</div>
 			</div>
 
 			<div class="text-input">
 				<label> Latitude </label>
-				<input type="text" formControlName="latitude" [value]="coordinate[1]" />
-				<div *ngIf="submitted && f['latitude'].errors">
-					<div *ngIf="f['latitude'].errors['required']">
-						latitude is required
-					</div>
-				</div>
+				<input
+					type="text"
+					[readonly]="true"
+					class="ds-btn-disabled"
+					formControlName="latitude"
+					[value]="coordinate ? coordinate[1] : 0"
+				/>
 			</div>
 
 			<div class="submit-buttons">
