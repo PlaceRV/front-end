@@ -5,6 +5,7 @@ import TileLayer from 'ol/layer/Tile';
 import 'ol/ol.css';
 import { OSM } from 'ol/source';
 import { MapService } from './map.service';
+import { fromLonLat } from 'ol/proj';
 
 @Component({
 	selector: 'cp-map',
@@ -22,16 +23,15 @@ export class MapComponent implements OnInit {
 				],
 				target: 'map',
 				view: new View({
-					center: [0, 0],
-					zoom: 2,
-					maxZoom: 18,
+					center: fromLonLat([106.67583063, 10.76833026]),
+					zoom: 14,
 				}),
 				controls: [],
 			}),
 		);
 
 		// this.mapSvc.subscribe((value) => {
-		// 	if (!value) return;
+		// 	if (!value) return; 11877618 1206460
 
 		// 	const coordinates = [
 		// 		[value.coordinate[0], value.coordinate[1]],

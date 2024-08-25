@@ -12,8 +12,7 @@ import { Point } from 'ol/geom';
 import { Coordinate } from 'ol/coordinate';
 import { toLonLat } from 'ol/proj';
 import View from 'ol/View';
-import { allImplement, logMethodCall } from '@backend/utils';
-import { clearMap } from 'utils';
+import { methodDecorator } from '@backend/utils';
 
 interface MapData {
 	coordinate: Coordinate;
@@ -61,6 +60,9 @@ export class MapService extends BehaviorSubject<MapData> {
 			});
 	}
 
+	@methodDecorator((t: MapService) => {
+		t.clear();
+	})
 	async showRoute(coordinates: Coordinate[]) {
 		const vectorLayer = new VectorLayer({
 			source: new VectorSource({
@@ -77,7 +79,9 @@ export class MapService extends BehaviorSubject<MapData> {
 		this.map.addLayer(vectorLayer);
 	}
 
-	@logMethodCall
+	@methodDecorator((t: MapService) => {
+		t.clear();
+	})
 	async showMarker(coordinate: Coordinate) {
 		const vectorLayer = new VectorLayer({
 			source: new VectorSource({
@@ -96,10 +100,14 @@ export class MapService extends BehaviorSubject<MapData> {
 	}
 
 	async clear() {
-		this.map.getLayers().forEach((_) => this.map.removeLayer(_));
+		this.map.getLayers().forEach((layer) => {
+			if (layer instanceof VectorLayer) {
+				this.map.removeLayer(layer);
+			}
+		});
 	}
 
 	setCenter(coordinate: Coordinate) {
-		this.map.setView(new View({ center: coordinate, zoom: 6 }));
+		this.map.setView(new View({ center: coordinate, zoom: 18 }));
 	}
 }
