@@ -5,72 +5,41 @@
 	*ngIf="isLoaded"
 	class="relative flex flex-col justify-center h-full overflow-hidden"
 >
-	<div class="w-full p-6 m-auto">
-		<h4 class="text-3xl font-semibold">Register</h4>
+	<div class="form">
+		<h4>Register</h4>
 		<form [formGroup]="form" (ngSubmit)="onSubmit()">
-			<div>
-				<label class="ds-label pb-0">
-					<span class="ds-label-text">First name</span>
-				</label>
-				<input
-					type="text"
-					formControlName="firstName"
-					class="ds-input ds-input-bordered ds-input-primary w-full"
-					[ngClass]="{ 'is-invalid': submitted && f['firstName'].errors }"
-				/>
-				<div
-					*ngIf="submitted && f['firstName'].errors"
-					class="invalid-feedback"
-				>
+			<div class="text-input">
+				<label>First name</label>
+				<input type="text" formControlName="firstName" />
+				<div *ngIf="submitted && f['firstName'].errors">
 					<div *ngIf="f['firstName'].errors['required']">
 						First Name is required
 					</div>
 				</div>
 			</div>
 
-			<div>
-				<label class="ds-label pb-0">
-					<span class="ds-label-text">Last name</span>
-				</label>
-				<input
-					type="text"
-					formControlName="lastName"
-					class="ds-input ds-input-bordered ds-input-primary w-full"
-					[ngClass]="{ 'is-invalid': submitted && f['lastName'].errors }"
-				/>
-				<div *ngIf="submitted && f['lastName'].errors" class="invalid-feedback">
+			<div class="text-input">
+				<label> Last name </label>
+				<input type="text" formControlName="lastName" />
+				<div *ngIf="submitted && f['lastName'].errors">
 					<div *ngIf="f['lastName'].errors['required']">
 						Last Name is required
 					</div>
 				</div>
 			</div>
 
-			<div>
-				<label class="ds-label pb-0">
-					<span class="ds-label-text">Email</span>
-				</label>
-				<input
-					type="text"
-					formControlName="email"
-					class="ds-input ds-input-bordered ds-input-primary w-full"
-					[ngClass]="{ 'is-invalid': submitted && f['email'].errors }"
-				/>
-				<div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+			<div class="text-input">
+				<label> Email </label>
+				<input type="text" formControlName="email" />
+				<div *ngIf="submitted && f['email'].errors">
 					<div *ngIf="f['email'].errors['required']">Username is required</div>
 				</div>
 			</div>
 
-			<div>
-				<label class="ds-label pb-0">
-					<span class="ds-label-text">Password</span>
-				</label>
-				<input
-					type="password"
-					formControlName="password"
-					class="ds-input ds-input-bordered ds-input-primary w-full"
-					[ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
-				/>
-				<div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+			<div class="text-input">
+				<label>Password </label>
+				<input type="password" formControlName="password" />
+				<div *ngIf="submitted && f['password'].errors">
 					<div *ngIf="f['password'].errors['required']">
 						Password is required
 					</div>
@@ -80,15 +49,12 @@
 				</div>
 			</div>
 
-			<div class="pt-2 flex">
-				<button [disabled]="loading" class="ds-btn ds-btn-primary">
-					<span
-						*ngIf="loading"
-						class="ds-loading ds-loading-spinner text-primary"
-					></span>
+			<div class="submit-buttons">
+				<button [disabled]="loading">
+					<span *ngIf="loading"></span>
 					Register
 				</button>
-				<a routerLink="/login" class="ds-btn ds-btn-link">Cancel</a>
+				<a routerLink="/login">Cancel</a>
 			</div>
 		</form>
 	</div>

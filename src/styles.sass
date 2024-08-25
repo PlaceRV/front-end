@@ -13,6 +13,24 @@
 		@apply flex flex-row
 	.round
 		@apply rounded-[24px]
+	.form
+		@apply w-full p-6 m-auto
+		& h4
+			@apply text-3xl font-semibold
+		& form
+			& .text-input
+				& label
+					@apply ds-label pb-0 ds-label-text
+				& input
+					@apply ds-input ds-input-bordered ds-input-primary w-full
+			& .submit-buttons
+				@apply pt-2 fr
+				& button
+					@apply fr ds-btn mr-2 ds-btn-primary
+					& span
+						@apply ds-loading ds-loading-spinner text-primary
+				& a
+					@apply ds-btn ds-btn-link
 
 body
 	font-family: Roboto, "Helvetica Neue", sans-serif

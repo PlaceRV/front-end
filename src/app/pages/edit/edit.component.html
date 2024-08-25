@@ -1,19 +1,40 @@
 <section *ngIf="!isLoaded" class="h-full">
 	<cp-loading></cp-loading>
 </section>
-<div class="fr">
-	<div class="fc p-2 w-full">
-		<input
-			type="text"
-			placeholder="Longitude"
-			[value]="coordinate[0]"
-			class="ds-input ds-input-bordered w-full max-w-xs"
-		/>
-		<input
-			type="text"
-			placeholder="Latitude"
-			[value]="coordinate[1]"
-			class="ds-input ds-input-bordered w-full max-w-xs"
-		/>
+<div class="h-full fc justify-center">
+	<div class="form">
+		<h4>Create new place</h4>
+		<form [formGroup]="form" (ngSubmit)="onSubmit()">
+			<div class="text-input">
+				<label> Longitude </label>
+				<input
+					type="text"
+					formControlName="longitude"
+					[value]="coordinate[0]"
+				/>
+				<div *ngIf="submitted && f['longitude'].errors">
+					<div *ngIf="f['longitude'].errors['required']">
+						Longitude is required
+					</div>
+				</div>
+			</div>
+
+			<div class="text-input">
+				<label> Latitude </label>
+				<input type="text" formControlName="latitude" [value]="coordinate[1]" />
+				<div *ngIf="submitted && f['latitude'].errors">
+					<div *ngIf="f['latitude'].errors['required']">
+						latitude is required
+					</div>
+				</div>
+			</div>
+
+			<div class="submit-buttons">
+				<button [disabled]="loading">
+					<span *ngIf="loading"></span>
+					Assign
+				</button>
+			</div>
+		</form>
 	</div>
 </div>
