@@ -2,7 +2,11 @@
 	@apply rounded-[24px]
 
 .sidebar
-	@apply absolute	bg-slate-100 dark:bg-slate-900 h-[99%] top-[0.5%] left-[0.5%] shadow-md round hidden md:flex
+	@apply bg-slate-100 dark:bg-slate-900 h-[99%] my-[0.5%] ml-[0.5%] shadow-md round hidden md:flex z-10 flex-row
+
+cp-map
+	transform: translate(-50%, 0%)
+	@apply h-full w-[200%]	left-1/2 absolute	z-0
 
 .menu
 	@apply flex items-center
@@ -12,10 +16,7 @@
 		@apply flex-1
 
 .tabs
-	@apply max-w-[18vw] lg:max-w-[14vw] round mr-2 shadow-md bg-slate-50 dark:bg-slate-950
-
-cp-map
-	@apply absolute h-dvh w-dvw
+	@apply round mr-2 shadow-md bg-slate-50 dark:bg-slate-950 flex-col flex
 
 .content
 	@apply w-80 h-full round

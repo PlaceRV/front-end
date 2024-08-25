@@ -1,7 +1,6 @@
-<cp-map />
-<div class="sidebar">
-	<div class="flex flex-row h-full w-fit">
-		<div class="tabs flex flex-col h-full z-10">
+<div class="flex full overflow-hidden">
+	<div class="sidebar">
+		<div class="tabs">
 			<button
 				class="flex-none"
 				(click)="toggleMenu()"
@@ -21,5 +20,8 @@
 		<div class="content bg-slate-200 dark:bg-slate-800">
 			<router-outlet />
 		</div>
+	</div>
+	<div class="relative full">
+		<cp-map />
 	</div>
 </div>

@@ -100,8 +100,6 @@ export class MapService extends BehaviorSubject<MapData> {
 	}
 
 	setCenter(coordinate: Coordinate) {
-		this.map.setView(
-			new View({ center: coordinate, zoom: 6, padding: [0, 0, 0, 444] }),
-		);
+		this.map.setView(new View({ center: coordinate, zoom: 6 }));
 	}
 }
