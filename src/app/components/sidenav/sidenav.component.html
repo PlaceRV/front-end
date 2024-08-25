@@ -1,9 +1,9 @@
-<div class="flex flex-col justify-between h-full">
-	<div class="tabs ds-join ds-join-vertical">
+<div class="fc justify-between h-full">
+	<div class="tabs fc">
 		@for (item of menuItems(); track item.label) {
 			<a
 				[routerLink]="item.route"
-				class="ds-join-item ds-btn"
+				class="tab ds-btn rounded-full fc"
 				routerLinkActive="ds-btn-primary"
 			>
 				<mat-icon>{{ item.icon }}</mat-icon>
@@ -11,8 +11,8 @@
 			</a>
 		}
 	</div>
-	<button routerLink="user" class="ds-btn rounded-full px-0">
-		<div class="user">
+	<button routerLink="user" class="user">
+		<div>
 			<img src="https://github.com/takahashinguyen.png" />
 			<div *ngIf="!isCollapsed()" class="truncate">
 				<span>
