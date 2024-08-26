@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import TileLayer from 'ol/layer/Tile';
 import Map from 'ol/Map';
 import View from 'ol/View';
-import TileLayer from 'ol/layer/Tile';
 import 'ol/ol.css';
+import { fromLonLat } from 'ol/proj';
 import { OSM } from 'ol/source';
 import { MapService } from './map.service';
-import { fromLonLat } from 'ol/proj';
 
 @Component({
 	selector: 'cp-map',

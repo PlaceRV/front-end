@@ -8,11 +8,15 @@
 	.full
 		@apply h-full w-full
 	.fc
-		@apply flex flex-col
+		@apply flex flex-col flex-nowrap
 	.fr
-		@apply flex flex-row
+		@apply flex flex-row flex-nowrap
 	.round
 		@apply rounded-[24px]
+	.button-center
+		@apply ds-btn rounded-full items-center justify-start w-full fr px-0 text-nowrap
+		& span
+			@apply pr-4
 	.form
 		@apply w-full p-6 m-auto
 		& h4

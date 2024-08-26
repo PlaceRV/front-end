@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MapService } from 'cp/map/map.service';
@@ -9,7 +9,7 @@ import { UserService } from 'pg/user/user.service';
 	selector: 'pg-edit',
 	templateUrl: './edit.component.html',
 })
-export class EditComponent implements AfterViewInit, OnInit, OnDestroy {
+export class EditComponent implements OnInit, OnDestroy {
 	coordinate: Coordinate;
 	isLoaded = false;
 	form!: FormGroup;
@@ -27,13 +27,11 @@ export class EditComponent implements AfterViewInit, OnInit, OnDestroy {
 		return this.form.controls;
 	}
 
-	ngAfterViewInit(): void {
-		this.usrSvc.required((usr) => {
-			if (!usr) this.router.navigateByUrl('/login');
-		});
-	}
-
 	ngOnInit(): void {
+		this.usrSvc.required((usr) => {
+			if (!usr) this.router.navigateByUrl('/user/login');
+		});
+
 		this.form = this.formBuilder.group({
 			longitude: ['', Validators.required],
 			latitude: ['', Validators.required],

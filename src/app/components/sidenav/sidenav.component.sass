@@ -1,17 +1,13 @@
 .tabs
 	@apply pt-3 fc
 	&	.tab
-		@apply px-0 justify-center items-start my-2
+		@apply my-2 button-center
 		& mat-icon
 			@apply text-5xl h-12 w-12 scale-[70%]
-		& span
-			@apply pr-6
+	& .tab-active
+		@apply ds-btn-primary
 
 .user
-	@apply ds-btn rounded-full px-0
-	& div
-		@apply flex w-full items-center
-		& img
-			@apply sidebar-icon rounded-full scale-75	flex-none
-		& span
-			@apply text-ellipsis text-nowrap overflow-hidden
+	@apply button-center
+	& img
+		@apply sidebar-icon rounded-full scale-75

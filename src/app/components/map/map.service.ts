@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
-import Polyline from 'ol/format/Polyline';
-import Map from 'ol/Map';
-import Feature from 'ol/Feature';
-import VectorLayer from 'ol/layer/Vector';
-import VectorSource from 'ol/source/Vector';
-import Style from 'ol/style/Style';
-import Stroke from 'ol/style/Stroke';
-import { BehaviorSubject } from 'rxjs';
-import Icon from 'ol/style/Icon';
-import { Point } from 'ol/geom';
-import { Coordinate } from 'ol/coordinate';
-import { toLonLat } from 'ol/proj';
-import View from 'ol/View';
 import { methodDecorator } from '@backend/utils';
+import { Coordinate } from 'ol/coordinate';
+import Feature from 'ol/Feature';
+import Polyline from 'ol/format/Polyline';
+import { Point } from 'ol/geom';
+import VectorLayer from 'ol/layer/Vector';
+import Map from 'ol/Map';
+import { toLonLat } from 'ol/proj';
+import VectorSource from 'ol/source/Vector';
+import Icon from 'ol/style/Icon';
+import Stroke from 'ol/style/Stroke';
+import Style from 'ol/style/Style';
+import View from 'ol/View';
+import { BehaviorSubject } from 'rxjs';
 
 interface MapData {
 	coordinate: Coordinate;
