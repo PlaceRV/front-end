@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { MapService } from 'cp/map/map.service';
 import { Coordinate } from 'ol/coordinate';
 import { UserService } from 'pg/user/user.service';
+import { InputItem } from 'utils';
 import { EditService } from './edit.service';
 
 @Component({
@@ -16,6 +17,12 @@ export class EditComponent implements OnInit, OnDestroy {
 	form!: FormGroup;
 	loading = false;
 	submitted = false;
+	properties: InputItem[] = [
+		{ label: 'Longitude', readonly: true },
+		{ label: 'Latitude', readonly: true },
+		{ label: 'Name' },
+		{ label: 'Description', required: false },
+	].map((_) => new InputItem(_));
 
 	constructor(
 		private mapSvc: MapService,
@@ -25,19 +32,25 @@ export class EditComponent implements OnInit, OnDestroy {
 		private edtSvc: EditService,
 	) {}
 
-	get f() {
+	get controls() {
 		return this.form.controls;
 	}
 
 	ngOnInit(): void {
+		this.form = this.formBuilder.group(
+			Object.assign(
+				{},
+				...this.properties.map((v) => ({
+					[v.label]: [
+						v.defaultValue,
+						v.required ? Validators.required : Validators.nullValidator,
+					],
+				})),
+			),
+		);
+
 		this.usrSvc.required((usr) => {
 			if (!usr) this.router.navigateByUrl('/user/login');
-		});
-
-		this.form = this.formBuilder.group({
-			longitude: ['', Validators.required],
-			latitude: ['', Validators.required],
-			name: ['', Validators.required],
 		});
 
 		this.mapSvc.subscribe((value) => {
@@ -51,8 +64,8 @@ export class EditComponent implements OnInit, OnDestroy {
 			if (v) {
 				this.coordinate = v.coordinate;
 				this.form.patchValue({
-					longitude: this.coordinate[0],
-					latitude: this.coordinate[1],
+					Longitude: this.coordinate[0],
+					Latitude: this.coordinate[1],
 				});
 			}
 		});
@@ -72,8 +85,8 @@ export class EditComponent implements OnInit, OnDestroy {
 		this.usrSvc.execute(
 			'login',
 			{
-				longitude: this.f['longitude'].value,
-				latitude: this.f['latitude'].value,
+				longitude: this.controls['longitude'].value,
+				latitude: this.controls['latitude'].value,
 			},
 			(req: any) => {
 				if (req.success) this.router.navigateByUrl('/user');

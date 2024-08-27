@@ -23,12 +23,15 @@
 			@apply text-3xl font-semibold
 		& form
 			& .text-input
+				@apply fc
 				& label
 					@apply ds-label pb-0 ds-label-text
 				& input
 					@apply ds-input ds-input-bordered w-full
 				& .disabled
 					@apply ds-btn-disabled select-none
+				& span
+					@apply text-error
 			& .submit-buttons
 				@apply pt-2 fr
 				& button

@@ -5,35 +5,17 @@
 	<div class="form">
 		<h4>Create new place</h4>
 		<form [formGroup]="form" (ngSubmit)="onSubmit()">
-			<div class="text-input">
-				<label> Longitude </label>
-				<input
-					type="text"
-					[readonly]="true"
-					class="disabled"
-					formControlName="longitude"
-				/>
-				<div *ngIf="submitted && f['des'].errors">
-					<div *ngIf="f['lastName'].errors['required']">
-						Last Name is required
-					</div>
+			@for (i of properties; track i) {
+				<div class="text-input">
+					<label> {{ i.label }} </label>
+					<input
+						type="text"
+						[readonly]="i.readonly"
+						formControlName="{{ i.label }}"
+					/>
+					<span *ngIf="controls[i.label].errors && submitted"> Not valid </span>
 				</div>
-			</div>
-
-			<div class="text-input">
-				<label> Latitude </label>
-				<input
-					type="text"
-					[readonly]="true"
-					class="disabled"
-					formControlName="latitude"
-				/>
-			</div>
-
-			<div class="text-input">
-				<label>Name</label>
-				<input type="text" formControlName="name" />
-			</div>
+			}
 
 			<div class="submit-buttons">
 				<button [disabled]="loading">
