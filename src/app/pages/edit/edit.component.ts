@@ -1,6 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { isMatchRoles, Role } from '@backend/user/user.entity';
 import { MapService } from 'cp/map/map.service';
 import { Coordinate } from 'ol/coordinate';
 import { UserService } from 'pg/user/user.service';
@@ -11,7 +12,7 @@ import { EditService } from './edit.service';
 	selector: 'pg-edit',
 	templateUrl: './edit.component.html',
 })
-export class EditComponent implements OnInit, OnDestroy {
+export class EditComponent implements OnInit {
 	coordinate: Coordinate;
 	isLoaded = false;
 	form!: FormGroup;
@@ -50,7 +51,9 @@ export class EditComponent implements OnInit, OnDestroy {
 		);
 
 		this.usrSvc.required((usr) => {
-			if (!usr) this.router.navigateByUrl('/user/login');
+			if (!usr || !isMatchRoles(usr.roles, [Role.STAFF]))
+				this.router.navigateByUrl('/user');
+			else this.isLoaded = true;
 		});
 
 		this.mapSvc.subscribe((value) => {
@@ -69,12 +72,6 @@ export class EditComponent implements OnInit, OnDestroy {
 				});
 			}
 		});
-
-		this.isLoaded = true;
-	}
-
-	ngOnDestroy(): void {
-		this.isLoaded = false;
 	}
 
 	onSubmit() {

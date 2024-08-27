@@ -15,4 +15,5 @@ export class InputItem {
 	required = true;
 	readonly = false;
 	defaultValue = '';
+	type: "text" | "password" = "text";
 }

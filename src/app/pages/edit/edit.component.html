@@ -9,7 +9,7 @@
 				<div class="text-input">
 					<label> {{ i.label }} </label>
 					<input
-						type="text"
+						[type]="i.type"
 						[readonly]="i.readonly"
 						formControlName="{{ i.label }}"
 					/>
