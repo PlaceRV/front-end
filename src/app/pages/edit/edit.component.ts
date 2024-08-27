@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { isMatchRoles, Role } from '@backend/user/user.entity';
 import { MapService } from 'cp/map/map.service';
 import { Coordinate } from 'ol/coordinate';
+import { toLonLat } from 'ol/proj';
 import { UserService } from 'pg/user/user.service';
 import { InputItem } from 'utils';
 import { EditService } from './edit.service';
@@ -65,7 +66,7 @@ export class EditComponent implements OnInit {
 
 		this.edtSvc.subscribe((v) => {
 			if (v) {
-				this.coordinate = v.coordinate;
+				this.coordinate = toLonLat(v.coordinate);
 				this.form.patchValue({
 					Longitude: this.coordinate[0],
 					Latitude: this.coordinate[1],
@@ -79,11 +80,19 @@ export class EditComponent implements OnInit {
 		if (this.form.invalid) return;
 
 		this.loading = true;
-		this.usrSvc.execute(
-			'login',
+		this.edtSvc.execute(
+			'assign',
 			{
-				longitude: this.controls['longitude'].value,
-				latitude: this.controls['latitude'].value,
+				location: {
+					type: 'Point',
+					coordinates: [
+						this.controls['Longitude'].value,
+						this.controls['Latitude'].value,
+					],
+				},
+				name: this.controls['Name'].value,
+				type: 'Temple',
+				description: this.controls['Description'].value,
 			},
 			(req: any) => {
 				if (req.success) this.router.navigateByUrl('/user');

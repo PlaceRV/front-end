@@ -20,17 +20,24 @@ export class EditService extends BehaviorSubject<EditData> {
 		super(null);
 	}
 
-	async execute(type: 'assign', body: PlaceAssign) {
-		this.graphQl.mutate({
-			mutation:
-				type === 'assign'
-					? gql`
-							mutation Create($assignPlace: PlaceAssign!) {
-								createPlace(assignPlace: $assignPlace)
-							}
-						`
-					: '',
-			variables: body,
-		});
+	async execute(
+		type: 'assign',
+		body: PlaceAssign,
+		next: (value: any) => void,
+		error?: (error: any) => void,
+	) {
+		this.graphQl
+			.mutate({
+				mutation:
+					type === 'assign'
+						? gql`
+								mutation Create($assignPlace: PlaceAssign!) {
+									createPlace(assignPlace: $assignPlace)
+								}
+							`
+						: '',
+				variables: { assignPlace: body },
+			})
+			.subscribe({ next, error });
 	}
 }

@@ -24,6 +24,10 @@ export function JoinColumn(i1: any) {
 	return dummyDecorator({ i1 });
 }
 
+export function Index(i1: any) {
+	return dummyDecorator({ i1 });
+}
+
 export class BaseEntity {}
 
 export class Point {}
