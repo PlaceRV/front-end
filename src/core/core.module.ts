@@ -27,6 +27,7 @@ import { AppComponent } from '../app/app.component';
 // Core
 import { CoreRoutingModule } from './core-routing.module';
 import { CoreComponent } from './core.component';
+import { GraphQLModule } from './graphql.module';
 
 @NgModule({
 	declarations: [
@@ -55,6 +56,7 @@ import { CoreComponent } from './core.component';
 		FormsModule,
 		ReactiveFormsModule,
 		CommonModule,
+		GraphQLModule,
 		// Materials
 		MatIconModule,
 		MatSidenavModule,

@@ -10,10 +10,14 @@
 				<input
 					type="text"
 					[readonly]="true"
-					class="ds-btn-disabled"
+					class="disabled"
 					formControlName="longitude"
-					[value]="coordinate ? coordinate[0] : 0"
 				/>
+				<div *ngIf="submitted && f['des'].errors">
+					<div *ngIf="f['lastName'].errors['required']">
+						Last Name is required
+					</div>
+				</div>
 			</div>
 
 			<div class="text-input">
@@ -21,10 +25,14 @@
 				<input
 					type="text"
 					[readonly]="true"
-					class="ds-btn-disabled"
+					class="disabled"
 					formControlName="latitude"
-					[value]="coordinate ? coordinate[1] : 0"
 				/>
+			</div>
+
+			<div class="text-input">
+				<label>Name</label>
+				<input type="text" formControlName="name" />
 			</div>
 
 			<div class="submit-buttons">

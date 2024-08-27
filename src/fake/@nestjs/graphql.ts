@@ -4,6 +4,10 @@ export function ObjectType() {
 	return dummyDecorator();
 }
 
-export function Field(input?: () => any) {
+export function InputType() {
+	return dummyDecorator();
+}
+
+export function Field(input?: any) {
 	return dummyDecorator({ input });
 }

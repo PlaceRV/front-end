@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { MapService } from 'cp/map/map.service';
 import { Coordinate } from 'ol/coordinate';
 import { UserService } from 'pg/user/user.service';
+import { EditService } from './edit.service';
 
 @Component({
 	selector: 'pg-edit',
@@ -21,6 +22,7 @@ export class EditComponent implements OnInit, OnDestroy {
 		private usrSvc: UserService,
 		private router: Router,
 		private formBuilder: FormBuilder,
+		private edtSvc: EditService,
 	) {}
 
 	get f() {
@@ -35,12 +37,23 @@ export class EditComponent implements OnInit, OnDestroy {
 		this.form = this.formBuilder.group({
 			longitude: ['', Validators.required],
 			latitude: ['', Validators.required],
+			name: ['', Validators.required],
 		});
 
 		this.mapSvc.subscribe((value) => {
 			if (value && this.isLoaded) {
-				this.coordinate = value.coordinate;
+				this.edtSvc.next({ coordinate: value.coordinate });
 				this.mapSvc.showMarker(value.coordinate);
+			}
+		});
+
+		this.edtSvc.subscribe((v) => {
+			if (v) {
+				this.coordinate = v.coordinate;
+				this.form.patchValue({
+					longitude: this.coordinate[0],
+					latitude: this.coordinate[1],
+				});
 			}
 		});
 

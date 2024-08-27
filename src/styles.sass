@@ -26,13 +26,15 @@
 				& label
 					@apply ds-label pb-0 ds-label-text
 				& input
-					@apply ds-input ds-input-bordered ds-input-primary w-full
+					@apply ds-input ds-input-bordered w-full
+				& .disabled
+					@apply ds-btn-disabled select-none
 			& .submit-buttons
 				@apply pt-2 fr
 				& button
-					@apply fr ds-btn mr-2 ds-btn-primary
+					@apply fr ds-btn mr-2
 					& span
-						@apply ds-loading ds-loading-spinner text-primary
+						@apply ds-loading ds-loading-spinner
 				& a
 					@apply ds-btn ds-btn-link
 

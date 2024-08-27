@@ -24,11 +24,14 @@
     "@angular/platform-browser": "^18.1.0",
     "@angular/platform-browser-dynamic": "^18.1.0",
     "@angular/router": "^18.1.0",
+    "apollo-angular": "^7.1.2",
     "gh-pages": "^6.1.1",
     "ol": "^10.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.6.3",
-    "zone.js": "~0.14.3"
+    "zone.js": "~0.14.3",
+    "@apollo/client": "^3.0.0",
+    "graphql": "^16"
   },
   "devDependencies": {
     "@angular/cli": "^18.1.2",
