@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import 'ol/ol.css';
+import TileLayer from 'ol/layer/Tile';
 import Map from 'ol/Map';
 import View from 'ol/View';
+import 'ol/ol.css';
+import { fromLonLat } from 'ol/proj';
 import { OSM } from 'ol/source';
-import TileLayer from 'ol/layer/Tile';
 import { MapService } from './map.service';
 
 @Component({
@@ -22,19 +23,22 @@ export class MapComponent implements OnInit {
 				],
 				target: 'map',
 				view: new View({
-					center: [0, 0],
-					zoom: 2,
-					maxZoom: 18,
+					center: fromLonLat([106.67583063, 10.76833026]),
+					zoom: 14,
 				}),
 				controls: [],
 			}),
 		);
 
-		const coordinates = [
-			[53.38886, 12.517037],
-			[83.397634, 22.529407],
-		];
+		// this.mapSvc.subscribe((value) => {
+		// 	if (!value) return; 11877618 1206460
 
-		this.mapSvc.showRoute(coordinates);
+		// 	const coordinates = [
+		// 		[value.coordinate[0], value.coordinate[1]],
+		// 		[83.397634, 22.529407],
+		// 	];
+
+		// 	this.mapSvc.showRoute(coordinates);
+		// });
 	}
 }

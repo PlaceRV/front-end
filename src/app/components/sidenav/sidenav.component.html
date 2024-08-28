@@ -1,24 +1,20 @@
-<div class="flex flex-col justify-between h-full">
-	<div class="tabs ds-join ds-join-vertical">
-		@for (item of menuItems(); track item) {
-			<a
+<div class="fc justify-between h-full">
+	<div class="tabs fc">
+		@for (item of menuItems(); track item.label) {
+			<button
+				class="tab"
+				routerLinkActive="tab-active"
 				[routerLink]="item.route"
-				class="ds-join-item ds-btn"
-				routerLinkActive="ds-btn-primary"
 			>
 				<mat-icon>{{ item.icon }}</mat-icon>
 				<span *ngIf="!isCollapsed()">{{ item.label }}</span>
-			</a>
+			</button>
 		}
 	</div>
-	<button routerLink="user" class="ds-btn rounded-full px-0">
-		<div class="user">
-			<img src="https://github.com/takahashinguyen.png" />
-			<div *ngIf="!isCollapsed()" class="truncate">
-				<span>
-					{{ user ? user.firstName : 'Login' }}
-				</span>
-			</div>
-		</div>
+	<button routerLink="user" class="user">
+		<img src="https://github.com/takahashinguyen.png" />
+		<span *ngIf="!isCollapsed()">
+			{{ user ? user.firstName : 'Login' }}
+		</span>
 	</button>
 </div>

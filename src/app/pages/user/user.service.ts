@@ -1,50 +1,54 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '@backend/user/user.entity';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observer } from 'rxjs';
+import { AppService } from '../../app.service';
 
 @Injectable({
 	providedIn: 'root',
 })
-export class UserService {
-	private apiUrl = (path?: string) =>
-		`https://@backend.anhvietnguyen.id.vn:2053/${path}`;
-	private _user = new BehaviorSubject<User>(null);
-	currentUser = this._user.asObservable();
+export class UserService extends BehaviorSubject<User> {
+	private authUrl = (path?: string) =>
+		`${this.appSvc.backendUrl()}/auth/${path}`;
 
-	constructor(private httpSvc: HttpClient) {}
+	constructor(
+		private httpSvc: HttpClient,
+		private appSvc: AppService,
+	) {
+		super(null);
+	}
 
-	execute(
+	async execute(
 		type: 'signup' | 'login' | 'logout',
 		body: any,
 		next: (value: any) => void,
 		error?: (error: any) => void,
 	) {
 		this.httpSvc
-			.post(this.apiUrl(`auth/${type}`), body, { withCredentials: true })
-			.subscribe({ next, error });
-		if (type === 'logout') this._user.next(null);
+			.post(this.authUrl(type), body, { withCredentials: true })
+			.subscribe({
+				next: async (value) => {
+					this.next(await this.get());
+					next(value);
+				},
+				error,
+			});
 	}
 
-	private _get(): Promise<User> {
-		return new Promise((resolve, reject) => {
+	private get() {
+		return new Promise<User>((resolve) => {
 			this.httpSvc
-				.post(this.apiUrl('user'), null, { withCredentials: true })
+				.post(this.appSvc.backendUrl('/user'), null, { withCredentials: true })
 				.subscribe({
-					next: (val: object) => {
-						resolve(new User(val as Required<typeof User.prototype.info>));
-					},
-					error: reject,
+					next: (val: object) =>
+						resolve(new User(val as Required<typeof User.prototype.info>)),
+					error: () => resolve(null),
 				});
 		});
 	}
 
-	async get(error: (err?: any) => void = () => null) {
-		try {
-			if (!this._user.value) this._user.next(await this._get());
-		} catch (err) {
-			error(err);
-		}
-		return this.currentUser;
+	async required(func?: Partial<Observer<User>> | ((value: User) => void)) {
+		if (!this.value) this.next(await this.get());
+		this.subscribe(func);
 	}
 }

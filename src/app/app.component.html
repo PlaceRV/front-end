@@ -1,25 +1,26 @@
-<cp-map />
-<div class="sidebar">
-	<div class="flex flex-row h-full w-fit">
-		<div class="tabs flex flex-col h-full z-10">
+<div class="fr full overflow-hidden">
+	<div class="sidebar">
+		<div class="tabs">
 			<button
-				class="flex-none"
 				(click)="toggleMenu()"
 				[ngClass]="
 					isCollapsed()
 						? 'ds-btn ds-btn-circle scale-75 h-12'
-						: 'ds-btn rounded-[24px] w-full static h-9'
+						: 'ds-btn round w-full static h-9'
 				"
 			>
-				<div class="menu" [ngClass]="isCollapsed() ? '' : 'w-full'">
+				<div class="extendButton" [ngClass]="isCollapsed() ? '' : 'w-full'">
 					<mat-icon>{{ menuIcon() }}</mat-icon>
 					<p *ngIf="!isCollapsed()">TmplRV</p>
 				</div>
 			</button>
-			<cp-sidenav [isCollapsed]="isCollapsed" class="flex-1" />
+			<cp-sidenav [isCollapsed]="isCollapsed" class="flex-grow" />
 		</div>
-		<div class="content bg-slate-200 dark:bg-slate-800">
+		<div class="content">
 			<router-outlet />
 		</div>
+	</div>
+	<div class="relative full">
+		<cp-map />
 	</div>
 </div>

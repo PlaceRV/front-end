@@ -1,5 +1,5 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { Component, computed, signal, OnInit } from '@angular/core';
+import { Component, computed, OnInit, signal } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 
 @Component({

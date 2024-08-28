@@ -1,4 +1,5 @@
 {
+	"explorerExclude.backup": {},
 	"files.exclude": {
 		"**/.git": true,
 		"**/.svn": true,
@@ -6,16 +7,15 @@
 		"**/CVS": true,
 		"**/.DS_Store": true,
 		"**/Thumbs.db": true,
-		"dist": true,
-		"node_modules": true,
-		".vscode": true,
-		".gitignore": true,
-		".github": true,
-		".angular": true,
 		"**/*.spec.*": true,
 		"**/package-lock.json": true,
-		"secrets": true,
-		"coverage": true
-	},
-	"explorerExclude.backup": {}
+		".angular": true,
+		".github": true,
+		".gitignore": true,
+		".vscode": true,
+		"coverage": true,
+		"dist": true,
+		"node_modules": true,
+		"secrets": true
+	}
 }

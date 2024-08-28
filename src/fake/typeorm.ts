@@ -8,8 +8,8 @@ export function PrimaryGeneratedColumn(i1: string) {
 	return dummyDecorator({ i1 });
 }
 
-export function OneToMany(i1: any, i2: any) {
-	return dummyDecorator({ i1, i2 });
+export function OneToMany(i1: any, i2: any, i3: any) {
+	return dummyDecorator({ i1, i2, i3 });
 }
 
 export function ManyToOne(i1: any, i2: any) {
@@ -24,4 +24,10 @@ export function JoinColumn(i1: any) {
 	return dummyDecorator({ i1 });
 }
 
+export function Index(i1: any) {
+	return dummyDecorator({ i1 });
+}
+
 export class BaseEntity {}
+
+export class Point {}

@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserService } from '../user.service';
 import { User } from '@backend/user/user.entity';
+import { UserService } from '../user.service';
 
 @Component({
 	selector: 'pg-user-info',
 	templateUrl: './info.component.html',
-	styleUrl: './info.component.sass',
 })
 export class InfoComponent implements OnInit {
 	constructor(
@@ -16,9 +15,10 @@ export class InfoComponent implements OnInit {
 	user: User;
 
 	async ngOnInit() {
-		(
-			await this.usrSvc.get(() => this.router.navigateByUrl('/user/login'))
-		).subscribe((usr) => (this.user = usr));
+		this.usrSvc.required((usr) => {
+			this.user = usr;
+			if (!usr) this.router.navigateByUrl('/user/login');
+		});
 	}
 
 	logout() {

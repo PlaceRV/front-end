@@ -1,26 +1,46 @@
 import { Injectable } from '@angular/core';
-import Polyline from 'ol/format/Polyline';
-import Map from 'ol/Map';
+import { methodDecorator } from '@backend/utils';
+import { Coordinate } from 'ol/coordinate';
 import Feature from 'ol/Feature';
+import Polyline from 'ol/format/Polyline';
+import { Point } from 'ol/geom';
 import VectorLayer from 'ol/layer/Vector';
+import Map from 'ol/Map';
+import { toLonLat } from 'ol/proj';
 import VectorSource from 'ol/source/Vector';
-import Style from 'ol/style/Style';
+import Icon from 'ol/style/Icon';
 import Stroke from 'ol/style/Stroke';
+import Style from 'ol/style/Style';
+import View from 'ol/View';
+import { BehaviorSubject } from 'rxjs';
+
+interface MapData {
+	coordinate: Coordinate;
+}
 
 @Injectable({
 	providedIn: 'root',
 })
-export class MapService {
+export class MapService extends BehaviorSubject<MapData> {
 	public map!: Map;
+
+	constructor() {
+		super(null);
+	}
 
 	init(map: Map) {
 		this.map = map;
+
+		this.map.on('singleclick', (event) => {
+			const coordinate = this.map.getCoordinateFromPixel(event.pixel);
+			this.next({ coordinate });
+		});
 	}
 
-	async getRoute(coordinates: number[][]) {
+	async getRoute(coordinates: Coordinate[]) {
 		return await fetch(
 			`https://router.project-osrm.org/route/v1/driving/${coordinates
-				.map((coord) => coord.join(','))
+				.map((_) => toLonLat(_).join(','))
 				.join(';')}?overview=full&geometries=polyline6`,
 		)
 			.then((response) => response.json())
@@ -40,7 +60,10 @@ export class MapService {
 			});
 	}
 
-	async showRoute(coordinates: number[][]) {
+	@methodDecorator((t: MapService) => {
+		t.clear();
+	})
+	async showRoute(coordinates: Coordinate[]) {
 		const vectorLayer = new VectorLayer({
 			source: new VectorSource({
 				features: [await this.getRoute(coordinates)],
@@ -54,5 +77,37 @@ export class MapService {
 		});
 
 		this.map.addLayer(vectorLayer);
+	}
+
+	@methodDecorator((t: MapService) => {
+		t.clear();
+	})
+	async showMarker(coordinate: Coordinate) {
+		const vectorLayer = new VectorLayer({
+			source: new VectorSource({
+				features: [new Feature({ geometry: new Point(coordinate) })],
+			}),
+			style: new Style({
+				image: new Icon({
+					anchor: [0.5, 1],
+					src: './favicon.ico',
+				}),
+			}),
+		});
+
+		this.map.addLayer(vectorLayer);
+		this.setCenter(coordinate);
+	}
+
+	async clear() {
+		this.map.getLayers().forEach((layer) => {
+			if (layer instanceof VectorLayer) {
+				this.map.removeLayer(layer);
+			}
+		});
+	}
+
+	setCenter(coordinate: Coordinate) {
+		this.map.setView(new View({ center: coordinate, zoom: 18 }));
 	}
 }
