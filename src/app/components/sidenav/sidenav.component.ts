@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, signal } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, signal } from '@angular/core';
 import { isMatchRoles, Role, User } from '@backend/user/user.entity';
 import { UserService } from 'pg/user/user.service';
 
@@ -13,7 +13,7 @@ export interface MenuItems {
 	templateUrl: './sidenav.component.html',
 	styleUrl: './sidenav.component.sass',
 })
-export class SidenavComponent implements OnInit {
+export class SidenavComponent implements OnInit, OnDestroy {
 	@Input({ required: false }) isCollapsed = signal(false);
 	user: User;
 	menuItems = signal<MenuItems[]>([]);
@@ -50,5 +50,9 @@ export class SidenavComponent implements OnInit {
 				...appendRows,
 			]);
 		});
+	}
+
+	async ngOnDestroy() {
+		this.usrSvc.unsubscribe();
 	}
 }

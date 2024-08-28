@@ -11,6 +11,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserModule } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { AlertModule } from 'cp/alert/alert.module';
 // Components
 import { LoadingComponent } from 'cp/loading/loading.component';
 import { MapComponent } from 'cp/map/map.component';
@@ -57,6 +58,8 @@ import { GraphQLModule } from './graphql.module';
 		ReactiveFormsModule,
 		CommonModule,
 		GraphQLModule,
+		// Core's modules
+		AlertModule,
 		// Materials
 		MatIconModule,
 		MatSidenavModule,

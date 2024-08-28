@@ -1,5 +1,3 @@
-import { InitClass } from '@backend/utils';
-
 export const dummyDecorator = (input?: object) =>
 	function (target?: any, context?: string) {
 		(() => input)();
@@ -8,12 +6,13 @@ export const dummyDecorator = (input?: object) =>
 	};
 
 export class InputItem {
-	constructor(payload: InitClass<Partial<InputItem>>) {
-		for (const key in payload as any) this[key] = payload[key];
+	constructor(payload: Partial<InputItem>) {
+		Object.assign(this, payload);
 	}
+
 	label: string;
 	required = true;
 	readonly = false;
 	defaultValue = '';
-	type: "text" | "password" = "text";
+	type: 'text' | 'password' = 'text';
 }

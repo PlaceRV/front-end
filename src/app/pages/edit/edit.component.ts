@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { isMatchRoles, Role } from '@backend/user/user.entity';
@@ -13,7 +13,7 @@ import { EditService } from './edit.service';
 	selector: 'pg-edit',
 	templateUrl: './edit.component.html',
 })
-export class EditComponent implements OnInit {
+export class EditComponent implements OnInit, OnDestroy {
 	coordinate: Coordinate;
 	isLoaded = false;
 	form!: FormGroup;
@@ -75,6 +75,11 @@ export class EditComponent implements OnInit {
 		});
 	}
 
+	ngOnDestroy() {
+		this.mapSvc.unsubscribe();
+		this.edtSvc.unsubscribe();
+	}
+
 	onSubmit() {
 		this.submitted = true;
 		if (this.form.invalid) return;
@@ -95,7 +100,7 @@ export class EditComponent implements OnInit {
 				description: this.controls['Description'].value,
 			},
 			(req: any) => {
-				if (req.success) this.router.navigateByUrl('/user');
+				if (req.data.createPlace) this.router.navigateByUrl('/user');
 			},
 			() => (this.loading = false),
 		);
