@@ -1,21 +1,21 @@
 {
-  "explorerExclude.backup": {},
-  "files.exclude": {
-    "**/*.spec.*": true,
-    "**/.DS_Store": true,
-    "**/.git": true,
-    "**/.hg": true,
-    "**/.svn": true,
-    "**/CVS": true,
-    "**/Thumbs.db": true,
-    "**/package-lock.json": true,
-    ".angular": false,
-    ".github": true,
-    ".gitignore": true,
-    ".vscode": true,
-    "coverage": true,
-    "dist": false,
-    "node_modules": true,
-    "secrets": true
-  }
+	"explorerExclude.backup": {},
+	"files.exclude": {
+		"**/.git": true,
+		"**/.svn": true,
+		"**/.hg": true,
+		"**/CVS": true,
+		"**/.DS_Store": true,
+		"**/Thumbs.db": true,
+		"**/*.spec.*": true,
+		"**/package-lock.json": true,
+		".angular": true,
+		".github": true,
+		".gitignore": true,
+		".vscode": true,
+		"coverage": true,
+		"dist": true,
+		"node_modules": true,
+		"secrets": true
+	}
 }

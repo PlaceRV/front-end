@@ -1,7 +1,8 @@
 <section *ngIf="!isLoaded" class="h-full">
 	<cp-loading></cp-loading>
 </section>
-<div class="h-full fc justify-center">
+<div class="h-full fc justify-center relative">
+	<cp-alert></cp-alert>
 	<div class="form">
 		<h4>Create new place</h4>
 		<form [formGroup]="form" (ngSubmit)="onSubmit()">

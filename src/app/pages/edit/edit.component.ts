@@ -1,7 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { isMatchRoles, Role } from '@backend/user/user.entity';
+import { AlertService } from 'cp/alert/alert.service';
 import { MapService } from 'cp/map/map.service';
 import { Coordinate } from 'ol/coordinate';
 import { toLonLat } from 'ol/proj';
@@ -13,7 +14,7 @@ import { EditService } from './edit.service';
 	selector: 'pg-edit',
 	templateUrl: './edit.component.html',
 })
-export class EditComponent implements OnInit, OnDestroy {
+export class EditComponent implements OnInit {
 	coordinate: Coordinate;
 	isLoaded = false;
 	form!: FormGroup;
@@ -32,6 +33,7 @@ export class EditComponent implements OnInit, OnDestroy {
 		private router: Router,
 		private formBuilder: FormBuilder,
 		private edtSvc: EditService,
+		public alrSvc: AlertService,
 	) {}
 
 	get controls() {
@@ -75,11 +77,6 @@ export class EditComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	ngOnDestroy() {
-		this.mapSvc.unsubscribe();
-		this.edtSvc.unsubscribe();
-	}
-
 	onSubmit() {
 		this.submitted = true;
 		if (this.form.invalid) return;
@@ -100,9 +97,13 @@ export class EditComponent implements OnInit, OnDestroy {
 				description: this.controls['Description'].value,
 			},
 			(req: any) => {
-				if (req.data.createPlace) this.router.navigateByUrl('/user');
+				if (req.data.createPlace) {
+					this.alrSvc.success('Place successfully assigned');
+					this.submitted = false;
+				}
 			},
-			() => (this.loading = false),
+			() => null,
 		);
+		this.loading = false;
 	}
 }
