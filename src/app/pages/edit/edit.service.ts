@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { PlaceAssign } from '@backend/place/place.dto';
+import { IPlace } from '@backend/place/place.interface';
 import { Apollo, gql } from 'apollo-angular';
 import { Coordinate } from 'ol/coordinate';
 import { BehaviorSubject } from 'rxjs';
@@ -22,7 +22,7 @@ export class EditService extends BehaviorSubject<EditData> {
 
 	async execute(
 		type: 'assign',
-		body: PlaceAssign,
+		body: Omit<IPlace, 'createdBy'>,
 		next: (value: any) => void,
 		error?: (error: any) => void,
 	) {
@@ -35,7 +35,7 @@ export class EditService extends BehaviorSubject<EditData> {
 									createPlace(assignPlace: $assignPlace)
 								}
 							`
-						: '',
+						: gql``,
 				variables: { assignPlace: body },
 			})
 			.subscribe({ next, error });

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { isMatchRoles, Role } from '@backend/user/user.entity';
+import { matchingRoles, Role } from '@backend/user/user.enum';
 import { AlertService } from 'cp/alert/alert.service';
 import { MapService } from 'cp/map/map.service';
 import { Coordinate } from 'ol/coordinate';
@@ -54,7 +54,7 @@ export class EditComponent implements OnInit {
 		);
 
 		this.usrSvc.required((usr) => {
-			if (!usr || !isMatchRoles(usr.roles, [Role.STAFF]))
+			if (!usr || !matchingRoles(usr.roles, [Role.STAFF]))
 				this.router.navigateByUrl('/user');
 			else this.isLoaded = true;
 		});
