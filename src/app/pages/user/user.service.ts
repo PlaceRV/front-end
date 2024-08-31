@@ -1,13 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { User } from '@backend/user/user.entity';
+import { IUser } from '@backend/user/user.interface';
 import { BehaviorSubject, Observer } from 'rxjs';
 import { AppService } from '../../app.service';
 
 @Injectable({
 	providedIn: 'root',
 })
-export class UserService extends BehaviorSubject<User> {
+export class UserService extends BehaviorSubject<IUser> {
 	private authUrl = (path?: string) =>
 		`${this.appSvc.backendUrl()}/auth/${path}`;
 
@@ -36,18 +36,17 @@ export class UserService extends BehaviorSubject<User> {
 	}
 
 	private get() {
-		return new Promise<User>((resolve) => {
+		return new Promise<IUser>((resolve) => {
 			this.httpSvc
 				.post(this.appSvc.backendUrl('/user'), null, { withCredentials: true })
 				.subscribe({
-					next: (val: object) =>
-						resolve(new User(val as Required<typeof User.prototype.info>)),
+					next: (val: object) => resolve(val as IUser),
 					error: () => resolve(null),
 				});
 		});
 	}
 
-	async required(func?: Partial<Observer<User>> | ((value: User) => void)) {
+	async required(func?: Partial<Observer<IUser>> | ((value: IUser) => void)) {
 		if (!this.value) this.next(await this.get());
 		this.subscribe(func);
 	}

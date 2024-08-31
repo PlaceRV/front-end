@@ -24,9 +24,8 @@
 		"paths": {
 			"cp/*": ["./src/app/components/*"],
 			"pg/*": ["./src/app/pages/*"],
-			"@backend/*": ["../back-end/src/*"],
-			"utils": ["./src/core/utils.ts"],
-			"*": ["./src/fake/*"]
+			"@backend/*": ["../back-end/src/*.ts"],
+			"utils": ["./src/core/utils.ts"]
 		},
 		"allowSyntheticDefaultImports": true
 	},
@@ -35,5 +34,6 @@
 		"strictInjectionParameters": true,
 		"strictInputAccessModifiers": true,
 		"strictTemplates": true
-	}
+	},
+	"exclude": ["../**/node_modules"]
 }

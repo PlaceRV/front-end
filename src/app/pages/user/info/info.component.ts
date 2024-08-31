@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from '@backend/user/user.entity';
+import { IUser } from '@backend/user/user.interface';
 import { UserService } from '../user.service';
 
 @Component({
@@ -12,7 +12,7 @@ export class InfoComponent implements OnInit {
 		private usrSvc: UserService,
 		private router: Router,
 	) {}
-	user: User;
+	user: IUser;
 
 	async ngOnInit() {
 		this.usrSvc.required((usr) => {

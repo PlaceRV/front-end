@@ -1,5 +1,6 @@
 import { Component, Input, OnDestroy, OnInit, signal } from '@angular/core';
-import { isMatchRoles, Role, User } from '@backend/user/user.entity';
+import { matchingRoles, Role } from '@backend/user/user.enum';
+import { IUser } from '@backend/user/user.interface';
 import { UserService } from 'pg/user/user.service';
 
 export interface MenuItems {
@@ -15,7 +16,7 @@ export interface MenuItems {
 })
 export class SidenavComponent implements OnInit, OnDestroy {
 	@Input({ required: false }) isCollapsed = signal(false);
-	user: User;
+	user: IUser;
 	menuItems = signal<MenuItems[]>([]);
 
 	constructor(private usrSvc: UserService) {}
@@ -26,10 +27,10 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
 			const appendRows: MenuItems[] = this.user
 				? [
-						...(isMatchRoles(this.user.roles, [Role.STAFF])
+						...(matchingRoles(this.user.roles, [Role.STAFF])
 							? [{ icon: 'edit', label: 'Chỉnh sửa', route: 'edit' }]
 							: []),
-						...(isMatchRoles(this.user.roles, [Role.ADMIN])
+						...(matchingRoles(this.user.roles, [Role.ADMIN])
 							? [
 									{
 										icon: 'delete_forever',
