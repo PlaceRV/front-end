@@ -1,0 +1,46 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+{
+	"name": "PlaceRV-frontend",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"formulahendry.auto-rename-tag",
+				"aaron-bond.better-comments",
+				"GraphQL.vscode-graphql-syntax",
+				"NicholasHsiang.vscode-javascript-comment",
+				"wayou.vscode-todo-highlight",
+				"vscodevim.vim",
+				"Angular.ng-template",
+				"MichaelCurrin.auto-commit-msg",
+				"dbaeumer.vscode-eslint",
+				"PeterSchmalfeldt.explorer-exclude",
+				"ms-vscode.vscode-typescript-next",
+				"Orta.vscode-jest",
+				"esbenp.prettier-vscode",
+				"mutantdino.resourcemonitor",
+				"bradlc.vscode-tailwindcss",
+				"redhat.vscode-yaml"
+			]
+		}
+	},
+	"features": {
+		"ghcr.io/devcontainers/features/git:1": {
+			"ppa": "false",
+			"version": "latest"
+		},
+		"ghcr.io/devcontainers/features/node:1": {
+			"installYarnUsingApt": true,
+			"nodeGypDependencies": true,
+			"nvmVersion": "latest",
+			"pnpmVersion": "latest",
+			"version": "latest"
+		}
+	},
+	"forwardPorts": [
+		2083
+	],
+	"image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+	"runArgs": [
+		"--add-host=host.docker.internal:host-gateway"
+	]
+}
