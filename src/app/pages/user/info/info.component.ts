@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { IUser } from '@backend/user/user.interface';
+import { IUser } from 'place-review-backend';
 import { UserService } from '../user.service';
 
-@Component({
-	selector: 'pg-user-info',
-	templateUrl: './info.component.html',
-})
+@Component({ selector: 'pg-user-info', templateUrl: './info.component.html' })
 export class InfoComponent implements OnInit {
 	constructor(
 		private usrSvc: UserService,

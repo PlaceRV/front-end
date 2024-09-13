@@ -14,11 +14,7 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
 @NgModule({
 	exports: [ApolloModule],
 	providers: [
-		{
-			provide: APOLLO_OPTIONS,
-			useFactory: createApollo,
-			deps: [HttpLink],
-		},
+		{ provide: APOLLO_OPTIONS, useFactory: createApollo, deps: [HttpLink] },
 	],
 })
 export class GraphQLModule {}

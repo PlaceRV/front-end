@@ -1,116 +1,88 @@
 {
-  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "cli": {
-    "analytics": "084960d4-1b14-4061-a783-5783acb05374",
-    "schematicCollections": [
-      "@angular-eslint/schematics"
-    ]
-  },
-  "newProjectRoot": "projects",
-  "projects": {
-    "tmpl-frontend": {
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:application",
-          "configurations": {
-            "development": {
-              "extractLicenses": false,
-              "optimization": false,
-              "sourceMap": true
-            },
-            "production": {
-              "budgets": [
-                {
-                  "maximumError": "4MB",
-                  "maximumWarning": "1MB",
-                  "type": "initial"
-                },
-                {
-                  "maximumError": "32kB",
-                  "maximumWarning": "64kB",
-                  "type": "anyComponentStyle"
-                }
-              ],
-              "optimization": true,
-              "outputHashing": "all"
-            }
-          },
-          "defaultConfiguration": "production",
-          "options": {
-            "allowedCommonJsDependencies": [
-              "geotiff",
-              "lerc"
-            ],
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
-            "browser": "src/main.ts",
-            "index": "src/index.html",
-            "inlineStyleLanguage": "sass",
-            "outputPath": "dist/",
-            "polyfills": [
-              "zone.js"
-            ],
-            "scripts": [],
-            "styles": [
-              "node_modules/ol/ol.css",
-              "src/styles.sass"
-            ],
-            "tsConfig": "tsconfig.app.json"
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n"
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": [
-              "src/**/*.ts",
-              "src/**/*.html"
-            ]
-          }
-        },
-        "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "configurations": {
-            "development": {
-              "buildTarget": "tmpl-frontend:build:development"
-            },
-            "production": {
-              "buildTarget": "tmpl-frontend:build:production"
-            }
-          },
-          "defaultConfiguration": "development",
-          "options": {
-            "host": "0.0.0.0",
-            "port": 2083,
-            "ssl": true,
-            "sslCert": "./secrets/cert.pem",
-            "sslKey": "./secrets/key.pem"
-          }
-        }
-      },
-      "prefix": "app",
-      "projectType": "application",
-      "root": "",
-      "schematics": {
-        "@schematics/angular:component": {
-          "standalone": false,
-          "style": "sass"
-        },
-        "@schematics/angular:directive": {
-          "standalone": false
-        },
-        "@schematics/angular:pipe": {
-          "standalone": false
-        }
-      },
-      "sourceRoot": "src"
-    }
-  },
-  "version": 1
+	"$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+	"cli": {
+		"analytics": "084960d4-1b14-4061-a783-5783acb05374",
+		"schematicCollections": ["@angular-eslint/schematics"]
+	},
+	"newProjectRoot": "projects",
+	"projects": {
+		"tmpl-frontend": {
+			"architect": {
+				"build": {
+					"builder": "@angular-devkit/build-angular:application",
+					"configurations": {
+						"development": {
+							"extractLicenses": false,
+							"optimization": false,
+							"sourceMap": true
+						},
+						"production": {
+							"budgets": [
+								{
+									"maximumError": "4MB",
+									"maximumWarning": "1MB",
+									"type": "initial"
+								},
+								{
+									"maximumError": "32kB",
+									"maximumWarning": "64kB",
+									"type": "anyComponentStyle"
+								}
+							],
+							"optimization": true,
+							"outputHashing": "all"
+						}
+					},
+					"defaultConfiguration": "production",
+					"options": {
+						"allowedCommonJsDependencies": ["geotiff", "lerc"],
+						"assets": [{ "glob": "**/*", "input": "public" }],
+						"browser": "src/main.ts",
+						"index": "src/index.html",
+						"inlineStyleLanguage": "sass",
+						"outputPath": "dist/",
+						"polyfills": ["zone.js"],
+						"scripts": [],
+						"styles": ["node_modules/ol/ol.css", "src/styles.sass"],
+						"tsConfig": "tsconfig.app.json"
+					}
+				},
+				"extract-i18n": {
+					"builder": "@angular-devkit/build-angular:extract-i18n"
+				},
+				"lint": {
+					"builder": "@angular-eslint/builder:lint",
+					"options": { "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"] }
+				},
+				"serve": {
+					"builder": "@angular-devkit/build-angular:dev-server",
+					"configurations": {
+						"development": { "buildTarget": "tmpl-frontend:build:development" },
+						"production": { "buildTarget": "tmpl-frontend:build:production" }
+					},
+					"defaultConfiguration": "development",
+					"options": {
+						"host": "0.0.0.0",
+						"port": 2083,
+						"ssl": true,
+						"sslCert": "./secrets/cert.pem",
+						"sslKey": "./secrets/key.pem"
+					}
+				}
+			},
+			"prefix": "app",
+			"projectType": "application",
+			"root": "",
+			"schematics": {
+				"@schematics/angular:component": {
+					"standalone": false,
+					"style": "sass"
+				},
+				"@schematics/angular:directive": { "standalone": false },
+				"@schematics/angular:pipe": { "standalone": false }
+			},
+			"sourceRoot": "src"
+		}
+	},
+	"version": 1
 }

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { methodDecorator } from '@backend/utils';
 import { Coordinate } from 'ol/coordinate';
 import Feature from 'ol/Feature';
 import Polyline from 'ol/format/Polyline';
@@ -12,15 +11,14 @@ import Icon from 'ol/style/Icon';
 import Stroke from 'ol/style/Stroke';
 import Style from 'ol/style/Style';
 import View from 'ol/View';
+import { methodDecorator } from 'place-review-backend';
 import { BehaviorSubject } from 'rxjs';
 
 interface MapData {
 	coordinate: Coordinate;
 }
 
-@Injectable({
-	providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class MapService extends BehaviorSubject<MapData> {
 	public map!: Map;
 
@@ -48,12 +46,13 @@ export class MapService extends BehaviorSubject<MapData> {
 				if (result.code === 'Ok') {
 					return new Feature({
 						type: 'route',
-						geometry: new Polyline({
-							factor: 1e6,
-						}).readGeometry(result.routes[0].geometry, {
-							dataProjection: 'EPSG:4326',
-							featureProjection: this.map.getView().getProjection(),
-						}),
+						geometry: new Polyline({ factor: 1e6 }).readGeometry(
+							result.routes[0].geometry,
+							{
+								dataProjection: 'EPSG:4326',
+								featureProjection: this.map.getView().getProjection(),
+							},
+						),
 					});
 				}
 				throw new Error('Bad request');
@@ -68,12 +67,7 @@ export class MapService extends BehaviorSubject<MapData> {
 			source: new VectorSource({
 				features: [await this.getRoute(coordinates)],
 			}),
-			style: new Style({
-				stroke: new Stroke({
-					width: 4,
-					color: 'red',
-				}),
-			}),
+			style: new Style({ stroke: new Stroke({ width: 4, color: 'red' }) }),
 		});
 
 		this.map.addLayer(vectorLayer);
@@ -88,10 +82,7 @@ export class MapService extends BehaviorSubject<MapData> {
 				features: [new Feature({ geometry: new Point(coordinate) })],
 			}),
 			style: new Style({
-				image: new Icon({
-					anchor: [0.5, 1],
-					src: './favicon.ico',
-				}),
+				image: new Icon({ anchor: [0.5, 1], src: './favicon.ico' }),
 			}),
 		});
 

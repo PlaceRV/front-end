@@ -1,6 +1,5 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 {
-	"name": "PlaceRV-frontend",
 	"customizations": {
 		"vscode": {
 			"extensions": [
@@ -19,7 +18,10 @@
 				"esbenp.prettier-vscode",
 				"mutantdino.resourcemonitor",
 				"bradlc.vscode-tailwindcss",
-				"redhat.vscode-yaml"
+				"redhat.vscode-yaml",
+				"syler.sass-indented",
+				"ecmel.vscode-html-css",
+				"EditorConfig.EditorConfig"
 			]
 		}
 	},
@@ -36,11 +38,8 @@
 			"version": "latest"
 		}
 	},
-	"forwardPorts": [
-		2083
-	],
+	"forwardPorts": [2083],
 	"image": "mcr.microsoft.com/devcontainers/base:ubuntu",
-	"runArgs": [
-		"--add-host=host.docker.internal:host-gateway"
-	]
+	"name": "PlaceRV-frontend",
+	"runArgs": ["--add-host=host.docker.internal:host-gateway"]
 }

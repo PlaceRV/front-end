@@ -1,17 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IPlace } from '@backend/place/place.interface';
 import { Apollo, gql } from 'apollo-angular';
 import { Coordinate } from 'ol/coordinate';
+import { IPlaceInfo } from 'place-review-backend';
 import { BehaviorSubject } from 'rxjs';
 
 interface EditData {
 	coordinate: Coordinate;
 }
 
-@Injectable({
-	providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class EditService extends BehaviorSubject<EditData> {
 	constructor(
 		private httpSvc: HttpClient,
@@ -22,7 +20,7 @@ export class EditService extends BehaviorSubject<EditData> {
 
 	async execute(
 		type: 'assign',
-		body: Omit<IPlace, 'createdBy'>,
+		body: IPlaceInfo,
 		next: (value: any) => void,
 		error?: (error: any) => void,
 	) {

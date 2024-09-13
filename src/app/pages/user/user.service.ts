@@ -1,12 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IUser } from '@backend/user/user.interface';
+import { IUser } from 'place-review-backend';
 import { BehaviorSubject, Observer } from 'rxjs';
 import { AppService } from '../../app.service';
 
-@Injectable({
-	providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class UserService extends BehaviorSubject<IUser> {
 	private authUrl = (path?: string) =>
 		`${this.appSvc.backendUrl()}/auth/${path}`;
