@@ -6,7 +6,7 @@ import { MapService } from 'cp/map/map.service';
 import { Coordinate } from 'ol/coordinate';
 import { toLonLat } from 'ol/proj';
 import { UserService } from 'pg/user/user.service';
-import { matching, Role } from 'place-review-backend';
+import { matching, PlaceType, Role } from 'place-review-backend';
 import { InputItem } from 'utils';
 import { EditService } from './edit.service';
 
@@ -82,15 +82,10 @@ export class EditComponent implements OnInit {
 		this.edtSvc.execute(
 			'assign',
 			{
-				location: {
-					type: 'Point',
-					coordinates: [
-						this.controls['Longitude'].value,
-						this.controls['Latitude'].value,
-					],
-				},
+				latitude: this.controls['Latitude'].value,
+				longitude: this.controls['Longitude'].value,
 				name: this.controls['Name'].value,
-				type: 'Temple',
+				type: PlaceType.TEMPLE,
 				description: this.controls['Description'].value,
 			},
 			(req: any) => {

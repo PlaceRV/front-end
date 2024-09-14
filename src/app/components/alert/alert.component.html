@@ -1,5 +1,9 @@
-<div class="w-full items-center fc">
-	<div *ngFor="let alert of alerts" class="{{ cssClass(alert) }} my-1 w-11/12" role="alert">
+<div class="fc w-full items-center">
+	<div
+		*ngFor="let alert of alerts"
+		class="{{ cssClass(alert) }} my-1 w-11/12"
+		role="alert"
+	>
 		<span [innerHTML]="alert.message"></span>
 		<button
 			class="ds-btn ds-btn-sm justify-self-end"

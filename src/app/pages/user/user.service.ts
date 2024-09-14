@@ -1,13 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IUser } from 'place-review-backend';
+import {
+	ILoginKeys,
+	InterfaceCasting,
+	ISignUpKeys,
+	IUser,
+	IUserAuthentication,
+	IUserInfo,
+} from 'place-review-backend';
 import { BehaviorSubject, Observer } from 'rxjs';
 import { AppService } from '../../app.service';
 
 @Injectable({ providedIn: 'root' })
 export class UserService extends BehaviorSubject<IUser> {
-	private authUrl = (path?: string) =>
-		`${this.appSvc.backendUrl()}/auth/${path}`;
+	private authUrl = (path?: string) => this.appSvc.backendUrl(`/auth/${path}`);
 
 	constructor(
 		private httpSvc: HttpClient,
@@ -18,12 +24,21 @@ export class UserService extends BehaviorSubject<IUser> {
 
 	async execute(
 		type: 'signup' | 'login' | 'logout',
-		body: any,
+		body: IUserAuthentication & Partial<IUserInfo>,
 		next: (value: any) => void,
 		error?: (error: any) => void,
 	) {
 		this.httpSvc
-			.post(this.authUrl(type), body, { withCredentials: true })
+			.post(
+				this.authUrl(type),
+				type === 'logout'
+					? body
+					: new InterfaceCasting(
+							body,
+							type === 'signup' ? ISignUpKeys : ILoginKeys,
+						),
+				{ withCredentials: true },
+			)
 			.subscribe({
 				next: async (value) => {
 					this.next(await this.get());

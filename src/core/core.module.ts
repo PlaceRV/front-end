@@ -11,8 +11,11 @@ import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserModule } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { AlertModule } from 'cp/alert/alert.module';
+import { InMemoryCache } from '@apollo/client/core';
+import { APOLLO_OPTIONS, ApolloModule } from 'apollo-angular';
+import { HttpLink } from 'apollo-angular/http';
 // Components
+import { AlertModule } from 'cp/alert/alert.module';
 import { LoadingComponent } from 'cp/loading/loading.component';
 import { MapComponent } from 'cp/map/map.component';
 import { SidenavComponent } from 'cp/sidenav/sidenav.component';
@@ -24,11 +27,11 @@ import { LuckComponent } from 'pg/luck/luck.component';
 import { InfoComponent } from 'pg/user/info/info.component';
 import { LoginComponent } from 'pg/user/login/login.component';
 import { SignupComponent } from 'pg/user/signup/signup.component';
-import { AppComponent } from '../app/app.component';
 // Core
+import { AppComponent } from '../app/app.component';
+import { AppService } from '../app/app.service';
 import { CoreRoutingModule } from './core-routing.module';
 import { CoreComponent } from './core.component';
-import { GraphQLModule } from './graphql.module';
 
 @NgModule({
 	declarations: [
@@ -53,12 +56,11 @@ import { GraphQLModule } from './graphql.module';
 	],
 	imports: [
 		BrowserModule,
+		ApolloModule,
 		CoreRoutingModule,
 		FormsModule,
 		ReactiveFormsModule,
 		CommonModule,
-		GraphQLModule,
-		// Core's modules
 		AlertModule,
 		// Materials
 		MatIconModule,
@@ -68,7 +70,19 @@ import { GraphQLModule } from './graphql.module';
 		MatCardModule,
 		MatFormFieldModule,
 	],
-	providers: [provideAnimationsAsync(), provideHttpClient()],
+	providers: [
+		provideAnimationsAsync(),
+		provideHttpClient(),
+		{
+			provide: APOLLO_OPTIONS,
+			useFactory(httpLink: HttpLink, appSvc: AppService) {
+				return {
+					cache: new InMemoryCache(),
+					link: httpLink.create({ uri: appSvc.backendUrl('/graphql') }),
+				};
+			},
+		},
+	],
 	bootstrap: [CoreComponent],
 })
 export class CoreModule {}

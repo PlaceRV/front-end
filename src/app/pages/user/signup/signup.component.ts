@@ -68,11 +68,13 @@ export class SignupComponent implements OnInit {
 				password: this.controls['Password'].value,
 				firstName: this.controls['First Name'].value,
 				lastName: this.controls['Last Name'].value,
+				description: '',
 			},
 			(value: any) => {
 				if (value.success) this.router.navigateByUrl('/user');
 			},
-			() => {
+			(error: any) => {
+				console.error(JSON.parse(error.error.message));
 				this.loading = false;
 			},
 		);
