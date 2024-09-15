@@ -2,7 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { Coordinate } from 'ol/coordinate';
-import { IPlaceInfo } from 'place-review-backend';
+import {
+	InterfaceCasting,
+	IPlaceInfo,
+	IPlaceInfoKeys,
+} from 'place-review-backend';
 import { BehaviorSubject } from 'rxjs';
 
 interface EditData {
@@ -29,12 +33,20 @@ export class EditService extends BehaviorSubject<EditData> {
 				mutation:
 					type === 'assign'
 						? gql`
-								mutation Create($assignPlace: PlaceAssign!) {
-									createPlace(assignPlace: $assignPlace)
+								mutation PlaceCreate($placeAssign: PlaceAssign!) {
+									placeCreate(placeAssign: $placeAssign) {
+										description
+										latitude
+										longitude
+										name
+										type
+									}
 								}
 							`
 						: gql``,
-				variables: { assignPlace: body },
+				variables: {
+					placeAssign: InterfaceCasting.quick(body, IPlaceInfoKeys),
+				},
 			})
 			.subscribe({ next, error });
 	}

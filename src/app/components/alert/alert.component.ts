@@ -15,7 +15,7 @@ export class AlertComponent implements OnInit, OnDestroy {
 	@Input() id = 'default-alert';
 	@Input() fade = true;
 	@HostBinding('class') classes =
-		'absolute w-full top-0 -translate-x-1/2 left-1/2';
+		'absolute w-full top-0 -translate-x-1/2 left-1/2 items-center fc z-10';
 
 	alerts: Alert[] = [];
 	alertSubscription!: Subscription;
@@ -40,7 +40,7 @@ export class AlertComponent implements OnInit, OnDestroy {
 				this.alerts.push(alert);
 
 				if (alert.autoClose) {
-					setTimeout(() => this.removeAlert(alert), 3000);
+					setTimeout(() => this.removeAlert(alert), 6000);
 				}
 			});
 
@@ -72,7 +72,7 @@ export class AlertComponent implements OnInit, OnDestroy {
 
 		const alertTypeClass = {
 			[AlertType.Success]: 'ds-alert-success',
-			[AlertType.Error]: 'ds-alert-danger',
+			[AlertType.Error]: 'ds-alert-error',
 			[AlertType.Info]: 'ds-alert-info',
 			[AlertType.Warning]: 'ds-alert-warning',
 		};

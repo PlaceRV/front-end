@@ -5,15 +5,8 @@ import { Router } from '@angular/router';
 import { InputItem } from 'utils';
 import { UserService } from '../user.service';
 
-@Component({
-	selector: 'pg-signup',
-	templateUrl: './signup.component.html',
-	styleUrl: './signup.component.sass',
-})
+@Component({ selector: 'pg-signup', templateUrl: './signup.component.html' })
 export class SignupComponent implements OnInit {
-	returnLogin() {
-		throw new Error('Method not implemented.');
-	}
 	form!: FormGroup;
 	loading = false;
 	submitted = false;
@@ -73,10 +66,7 @@ export class SignupComponent implements OnInit {
 			(value: any) => {
 				if (value.success) this.router.navigateByUrl('/user');
 			},
-			(error: any) => {
-				console.error(JSON.parse(error.error.message));
-				this.loading = false;
-			},
+			() => (this.loading = false),
 		);
 	}
 }

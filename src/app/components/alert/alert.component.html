@@ -1,28 +1,26 @@
-<div class="fc w-full items-center">
-	<div
-		*ngFor="let alert of alerts"
-		class="{{ cssClass(alert) }} my-1 w-11/12"
-		role="alert"
+<div
+	*ngFor="let alert of alerts"
+	class="{{ cssClass(alert) }} my-1 w-11/12"
+	role="alert"
+>
+	<span [innerHTML]="alert.message"></span>
+	<button
+		class="ds-btn ds-btn-sm justify-self-end"
+		(click)="removeAlert(alert)"
 	>
-		<span [innerHTML]="alert.message"></span>
-		<button
-			class="ds-btn ds-btn-sm justify-self-end"
-			(click)="removeAlert(alert)"
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			class="h-6 w-6"
+			fill="none"
+			viewBox="0 0 24 24"
+			stroke="currentColor"
 		>
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				class="h-6 w-6"
-				fill="none"
-				viewBox="0 0 24 24"
-				stroke="currentColor"
-			>
-				<path
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					stroke-width="2"
-					d="M6 18L18 6M6 6l12 12"
-				/>
-			</svg>
-		</button>
-	</div>
+			<path
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				stroke-width="2"
+				d="M6 18L18 6M6 6l12 12"
+			/>
+		</svg>
+	</button>
 </div>

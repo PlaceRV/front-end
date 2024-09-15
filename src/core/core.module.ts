@@ -74,11 +74,15 @@ import { CoreComponent } from './core.component';
 		provideAnimationsAsync(),
 		provideHttpClient(),
 		{
+			deps: [HttpLink, AppService],
 			provide: APOLLO_OPTIONS,
 			useFactory(httpLink: HttpLink, appSvc: AppService) {
 				return {
 					cache: new InMemoryCache(),
-					link: httpLink.create({ uri: appSvc.backendUrl('/graphql') }),
+					link: httpLink.create({
+						uri: appSvc.backendUrl('/graphql'),
+						withCredentials: true,
+					}),
 				};
 			},
 		},

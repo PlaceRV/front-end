@@ -6,7 +6,7 @@ import { MapService } from 'cp/map/map.service';
 import { Coordinate } from 'ol/coordinate';
 import { toLonLat } from 'ol/proj';
 import { UserService } from 'pg/user/user.service';
-import { matching, PlaceType, Role } from 'place-review-backend';
+import { IPlace, matching, PlaceType, Role } from 'place-review-backend';
 import { InputItem } from 'utils';
 import { EditService } from './edit.service';
 
@@ -89,7 +89,7 @@ export class EditComponent implements OnInit {
 				description: this.controls['Description'].value,
 			},
 			(req: any) => {
-				if (req.data.createPlace) {
+				if ((req.data as IPlace).name === this.controls['Name'].value) {
 					this.alrSvc.success('Place successfully assigned');
 					this.submitted = false;
 				}

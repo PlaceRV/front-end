@@ -5,12 +5,10 @@
 	"scripts": {
 		"backend": "npm i git+ssh://github.com/PlaceRV/back-end#package --save-dev",
 		"build": "ng build",
-		"deploy": "ng build && gh-pages -d dist/browser --cname tmplrv.anhvietnguyen.id.vn -r https://github.com/TmplRV/front-end",
 		"format": "replace '{\n' '{' . -r --include=\"*.ts,*.js*\" --exclude=\"node_modules\" --silent && replace \"\\[\n\" \"[\" . -r --include=\"*.ts,*.js*\" --exclude=\"node_modules\" --silent && prettier --write \"./**/*.{html,ts,css,scss}\" \"./**/*.js*\" \"./**/*.*rc\" --log-level silent",
 		"lint": "ng lint --fix",
 		"ng": "ng",
 		"start": "ng serve",
-		"test": "",
 		"watch": "ng build --watch --configuration development"
 	},
 	"dependencies": {

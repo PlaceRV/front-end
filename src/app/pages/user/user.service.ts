@@ -1,5 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AlertService } from 'cp/alert/alert.service';
 import {
 	ILoginKeys,
 	InterfaceCasting,
@@ -18,6 +19,7 @@ export class UserService extends BehaviorSubject<IUser> {
 	constructor(
 		private httpSvc: HttpClient,
 		private appSvc: AppService,
+		private alrSvc: AlertService,
 	) {
 		super(null);
 	}
@@ -26,7 +28,7 @@ export class UserService extends BehaviorSubject<IUser> {
 		type: 'signup' | 'login' | 'logout',
 		body: IUserAuthentication & Partial<IUserInfo>,
 		next: (value: any) => void,
-		error?: (error: any) => void,
+		onError?: (error: any) => void,
 	) {
 		this.httpSvc
 			.post(
@@ -44,7 +46,12 @@ export class UserService extends BehaviorSubject<IUser> {
 					this.next(await this.get());
 					next(value);
 				},
-				error,
+				error: (e: HttpErrorResponse) => {
+					const errors = JSON.parse(e.error.message);
+					for (const error in errors) this.alrSvc.error(errors[error]);
+
+					onError(e);
+				},
 			});
 	}
 
