@@ -25,14 +25,5 @@ export class MapComponent implements OnInit {
 				controls: [],
 			}),
 		);
-
-		// this.mapSvc.subscribe((value) => {		// 	if (!value) return; 11877618 1206460
-
-		// 	const coordinates = [		// 		[value.coordinate[0], value.coordinate[1]],
-		// 		[83.397634, 22.529407],
-		// 	];
-
-		// 	this.mapSvc.showRoute(coordinates);
-		// });
 	}
 }

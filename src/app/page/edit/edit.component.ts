@@ -12,16 +12,16 @@ import { EditService } from './edit.service';
 @Component({ selector: 'pg-edit', templateUrl: './edit.component.html' })
 export class EditComponent implements OnInit {
 	coordinate: Coordinate;
-	isLoaded = false;
+	pageLoaded = false;
 	form!: FormGroup;
-	loading = false;
+	processing = false;
 	submitted = false;
-	properties: InputItem[] = [
+	properties = InputItem.many([
 		{ label: 'Longitude', readonly: true },
 		{ label: 'Latitude', readonly: true },
 		{ label: 'Name' },
 		{ label: 'Description', required: false },
-	].map((_) => new InputItem(_));
+	]);
 
 	constructor(
 		private mapSvc: MapService,
@@ -51,11 +51,11 @@ export class EditComponent implements OnInit {
 		this.usrSvc.required((usr) => {
 			if (!usr || !matching(usr.roles, [Role.STAFF]))
 				this.router.navigateByUrl('/user');
-			else this.isLoaded = true;
+			else this.pageLoaded = true;
 		});
 
 		this.mapSvc.subscribe((value) => {
-			if (value && this.isLoaded) {
+			if (value && this.pageLoaded) {
 				this.edtSvc.next({ coordinate: value.coordinate });
 				this.mapSvc.showMarker(value.coordinate);
 			}
@@ -76,14 +76,19 @@ export class EditComponent implements OnInit {
 		this.submitted = true;
 		if (this.form.invalid) return;
 
-		this.loading = true;
-		this.edtSvc.execute('assign', {
-			latitude: this.controls['Latitude'].value,
-			longitude: this.controls['Longitude'].value,
-			name: this.controls['Name'].value,
-			type: PlaceType.TEMPLE,
-			description: this.controls['Description'].value,
-		});
-		this.loading = false;
+		this.processing = true;
+		this.edtSvc.execute(
+			'assign',
+			{
+				latitude: this.controls['Latitude'].value,
+				longitude: this.controls['Longitude'].value,
+				name: this.controls['Name'].value,
+				type: PlaceType.TEMPLE,
+				description: this.controls['Description'].value,
+			},
+			() => 0,
+			() => 0,
+			() => (this.processing = false),
+		);
 	}
 }

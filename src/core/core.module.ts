@@ -42,7 +42,7 @@ import { CoreComponent } from './core.component';
 		SidenavComponent,
 		MapComponent,
 		LoadingComponent,
-		// pg
+		// Pages
 		FameComponent,
 		LuckComponent,
 		FortuneComponent,

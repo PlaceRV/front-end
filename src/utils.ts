@@ -15,4 +15,8 @@ export class InputItem {
 	readonly = false;
 	defaultValue = '';
 	type: 'text' | 'password' = 'text';
+
+	static many(inputs: Partial<InputItem>[]) {
+		return inputs.map((i) => new InputItem(i));
+	}
 }

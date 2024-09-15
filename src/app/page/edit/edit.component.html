@@ -1,4 +1,4 @@
-<section *ngIf="!isLoaded" class="h-full">
+<section *ngIf="!pageLoaded" class="h-full">
 	<cp-loading></cp-loading>
 </section>
 <div class="fc relative h-full justify-center">
@@ -18,8 +18,8 @@
 			}
 
 			<div class="submit-buttons">
-				<button [disabled]="loading">
-					<span *ngIf="loading"></span>
+				<button [disabled]="processing">
+					<span *ngIf="processing"></span>
 					Assign
 				</button>
 			</div>

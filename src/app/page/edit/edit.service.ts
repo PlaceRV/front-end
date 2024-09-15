@@ -28,6 +28,7 @@ export class EditService extends BehaviorSubject<EditData> {
 		body: IPlaceInfo,
 		onNext = (v: any) => v,
 		onError = (e: any) => e,
+		onFinal = () => null,
 	) {
 		this.graphQl
 			.mutate({
@@ -59,5 +60,6 @@ export class EditService extends BehaviorSubject<EditData> {
 					onError(e);
 				},
 			});
+		onFinal();
 	}
 }
