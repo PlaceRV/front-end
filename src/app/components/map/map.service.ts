@@ -11,7 +11,7 @@ import Icon from 'ol/style/Icon';
 import Stroke from 'ol/style/Stroke';
 import Style from 'ol/style/Style';
 import View from 'ol/View';
-import { methodDecorator } from 'place-review-backend';
+import { methodDecorator } from 'place-review-types';
 import { BehaviorSubject } from 'rxjs';
 
 interface MapData {

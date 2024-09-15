@@ -7,7 +7,7 @@ import {
 	InterfaceCasting,
 	IPlaceInfo,
 	IPlaceInfoKeys,
-} from 'place-review-backend';
+} from 'place-review-types';
 import { BehaviorSubject } from 'rxjs';
 
 interface EditData {

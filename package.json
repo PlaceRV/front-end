@@ -39,7 +39,7 @@
 		"angular-eslint": "18.3.0",
 		"daisyui": "^4.12.10",
 		"eslint": "^9.9.0",
-		"place-review-backend": "github:PlaceRV/back-end#package",
+		"place-review-types": "github:PlaceRV/back-end#package",
 		"postcss": "^8.4.40",
 		"prettier": "^3.3.3",
 		"prettier-plugin-sort-json": "^4.0.0",

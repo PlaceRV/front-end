@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { IUser } from 'place-review-backend';
+import { IUser } from 'place-review-types';
 import { UserService } from '../user.service';
 
 @Component({ selector: 'pg-user-info', templateUrl: './info.component.html' })

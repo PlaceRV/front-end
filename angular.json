@@ -35,7 +35,11 @@
 					},
 					"defaultConfiguration": "production",
 					"options": {
-						"allowedCommonJsDependencies": ["geotiff", "lerc"],
+						"allowedCommonJsDependencies": [
+							"geotiff",
+							"lerc",
+							"place-review-types"
+						],
 						"assets": [{ "glob": "**/*", "input": "public" }],
 						"browser": "src/main.ts",
 						"index": "src/index.html",

@@ -5,7 +5,7 @@ import { MapService } from 'components/map/map.service';
 import { Coordinate } from 'ol/coordinate';
 import { toLonLat } from 'ol/proj';
 import { UserService } from 'page/user/user.service';
-import { matching, PlaceType, Role } from 'place-review-backend';
+import { matching, PlaceType, Role } from 'place-review-types';
 import { InputItem } from '../../../utils';
 import { EditService } from './edit.service';
 

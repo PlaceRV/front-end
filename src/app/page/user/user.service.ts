@@ -7,7 +7,7 @@ import {
 	IUser,
 	IUserAuthentication,
 	IUserInfo,
-} from 'place-review-backend';
+} from 'place-review-types';
 import { BehaviorSubject, Observer } from 'rxjs';
 import { AppService } from '../../app.service';
 import { AlertService } from 'components/alert/alert.service';
