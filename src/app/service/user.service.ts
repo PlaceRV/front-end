@@ -1,5 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AlertService } from 'components/alert/alert.service';
 import {
 	ILoginKeys,
 	InterfaceCasting,
@@ -9,8 +10,7 @@ import {
 	IUserInfo,
 } from 'place-review-types';
 import { BehaviorSubject, Observer } from 'rxjs';
-import { AppService } from '../../app.service';
-import { AlertService } from 'components/alert/alert.service';
+import { AppService } from 'service/app.service';
 
 @Injectable({ providedIn: 'root' })
 export class UserService extends BehaviorSubject<IUser> {
@@ -26,17 +26,19 @@ export class UserService extends BehaviorSubject<IUser> {
 
 	async execute(
 		type: 'signup' | 'login' | 'logout',
-		body: IUserAuthentication & Partial<IUserInfo>,
-		next: (value: any) => void,
-		onError?: (error: any) => void,
+		options?: {
+			body?: IUserAuthentication & Partial<IUserInfo>;
+			onNext?: (v: any) => void;
+			onError?: (e: any) => void;
+		},
 	) {
 		this.httpSvc
 			.post(
 				this.authUrl(type),
 				type === 'logout'
-					? body
+					? ''
 					: new InterfaceCasting(
-							body,
+							options.body!,
 							type === 'signup' ? ISignUpKeys : ILoginKeys,
 						),
 				{ withCredentials: true },
@@ -44,13 +46,13 @@ export class UserService extends BehaviorSubject<IUser> {
 			.subscribe({
 				next: async (value) => {
 					this.next(await this.get());
-					next(value);
+					options.onNext!(value);
 				},
 				error: (e: HttpErrorResponse) => {
 					const errors = JSON.parse(e.error.message);
 					for (const error in errors) this.alrSvc.error(errors[error]);
 
-					onError(e);
+					options.onError!(e);
 				},
 			});
 	}

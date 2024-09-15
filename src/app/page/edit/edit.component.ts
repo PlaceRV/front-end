@@ -4,10 +4,10 @@ import { Router } from '@angular/router';
 import { MapService } from 'components/map/map.service';
 import { Coordinate } from 'ol/coordinate';
 import { toLonLat } from 'ol/proj';
-import { UserService } from 'page/user/user.service';
 import { matching, PlaceType, Role } from 'place-review-types';
+import { UserService } from 'service/user.service';
 import { InputItem } from '../../../utils';
-import { EditService } from './edit.service';
+import { EditService } from '../../service/edit.service';
 
 @Component({ selector: 'pg-edit', templateUrl: './edit.component.html' })
 export class EditComponent implements OnInit {

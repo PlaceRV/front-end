@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit, signal } from '@angular/core';
-import { UserService } from 'page/user/user.service';
 import { IUser, matching, Role } from 'place-review-types';
+import { UserService } from 'service/user.service';
 
 export interface MenuItems {
 	icon: string;

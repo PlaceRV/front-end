@@ -2,8 +2,8 @@ import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UserService } from 'service/user.service';
 import { InputItem } from '../../../../utils';
-import { UserService } from '../user.service';
 
 @Component({ selector: 'pg-signup', templateUrl: './signup.component.html' })
 export class SignupComponent implements OnInit {
@@ -11,18 +11,17 @@ export class SignupComponent implements OnInit {
 	loading = false;
 	submitted = false;
 	isLoaded = false;
-	properties: InputItem[] = [
+	properties = InputItem.many([
 		{ label: 'Email' },
 		{ label: 'First Name' },
 		{ label: 'Last Name' },
-		{ label: 'Password', type: 'password' } as InputItem,
-	].map((_) => new InputItem(_));
+		{ label: 'Password', type: 'password' },
+	]);
 
 	constructor(
 		private formBuilder: FormBuilder,
 		private router: Router,
 		private usrSvc: UserService,
-		private lctSvc: Location,
 	) {}
 
 	async ngOnInit() {
@@ -50,23 +49,21 @@ export class SignupComponent implements OnInit {
 
 	onSubmit() {
 		this.submitted = true;
-
 		if (this.form.invalid) return;
 
 		this.loading = true;
-		this.usrSvc.execute(
-			'signup',
-			{
+		this.usrSvc.execute('signup', {
+			body: {
 				email: this.controls['Email'].value,
 				password: this.controls['Password'].value,
 				firstName: this.controls['First Name'].value,
 				lastName: this.controls['Last Name'].value,
 				description: '',
 			},
-			(value: any) => {
+			onNext: (value: any) => {
 				if (value.success) this.router.navigateByUrl('/user');
 			},
-			() => (this.loading = false),
-		);
+			onError: () => (this.loading = false),
+		});
 	}
 }

@@ -71,8 +71,8 @@ export class MapService extends BehaviorSubject<MapData> {
 		this.map.addLayer(vectorLayer);
 	}
 
-	@methodDecorator((t: MapService) => t.clear())
-	async showMarker(coordinate: Coordinate) {
+	async showMarker(coordinate: Coordinate, options?: { keepOthers: boolean }) {
+		if (!options.keepOthers) await this.clear();
 		const vectorLayer = new VectorLayer({
 			source: new VectorSource({
 				features: [new Feature({ geometry: new Point(coordinate) })],
@@ -88,7 +88,7 @@ export class MapService extends BehaviorSubject<MapData> {
 
 	@methodDecorator((_: MapService) => _.clear())
 	async showMarkers(coordinates: Coordinate[]) {
-		coordinates.forEach((i) => this.showMarker(i));
+		coordinates.forEach((i) => this.showMarker(i, { keepOthers: true }));
 	}
 
 	async clear() {

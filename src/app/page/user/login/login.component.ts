@@ -1,8 +1,7 @@
-import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserService } from '../user.service';
+import { UserService } from 'service/user.service';
 import { InputItem } from '../../../../utils';
 
 @Component({
@@ -15,16 +14,15 @@ export class LoginComponent implements OnInit {
 	loading = false;
 	submitted = false;
 	isLoaded = false;
-	properties: InputItem[] = [
+	properties = InputItem.many([
 		{ label: 'Email' },
 		{ label: 'Password', type: 'password' } as InputItem,
-	].map((_) => new InputItem(_));
+	]);
 
 	constructor(
 		private formBuilder: FormBuilder,
 		private router: Router,
 		private usrSvc: UserService,
-		private lctSvc: Location,
 	) {}
 
 	async ngOnInit() {
@@ -55,16 +53,15 @@ export class LoginComponent implements OnInit {
 		if (this.form.invalid) return;
 
 		this.loading = true;
-		this.usrSvc.execute(
-			'login',
-			{
+		this.usrSvc.execute('login', {
+			body: {
 				email: this.controls['Email'].value,
 				password: this.controls['Password'].value,
 			},
-			(req: any) => {
+			onNext: (req: any) => {
 				if (req.success) this.router.navigateByUrl('/user');
 			},
-			() => (this.loading = false),
-		);
+			onError: () => (this.loading = false),
+		});
 	}
 }

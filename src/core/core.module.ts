@@ -15,7 +15,6 @@ import { InMemoryCache } from '@apollo/client/core';
 import { APOLLO_OPTIONS, ApolloModule } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { AppComponent } from 'app.component';
-import { AppService } from 'app.service';
 // Components
 import { AlertModule } from 'components/alert/alert.module';
 import { LoadingComponent } from 'components/loading/loading.component';
@@ -29,6 +28,7 @@ import { LuckComponent } from 'page/luck/luck.component';
 import { InfoComponent } from 'page/user/info/info.component';
 import { LoginComponent } from 'page/user/login/login.component';
 import { SignupComponent } from 'page/user/signup/signup.component';
+import { AppService } from 'service/app.service';
 // Core
 import { CoreRoutingModule } from './core-routing.module';
 import { CoreComponent } from './core.component';

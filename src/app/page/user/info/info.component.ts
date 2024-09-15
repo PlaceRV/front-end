@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { IUser } from 'place-review-types';
-import { UserService } from '../user.service';
+import { UserService } from 'service/user.service';
 
 @Component({ selector: 'pg-user-info', templateUrl: './info.component.html' })
 export class InfoComponent implements OnInit {
@@ -19,8 +19,8 @@ export class InfoComponent implements OnInit {
 	}
 
 	logout() {
-		this.usrSvc.execute('logout', null, () => {
-			this.router.navigateByUrl('/user/login');
+		this.usrSvc.execute('logout', {
+			onNext: () => this.router.navigateByUrl('/user/login'),
 		});
 	}
 }
