@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
+import { AlertService } from 'components/alert/alert.service';
 import { Coordinate } from 'ol/coordinate';
 import {
 	InterfaceCasting,
@@ -16,17 +17,17 @@ interface EditData {
 @Injectable({ providedIn: 'root' })
 export class EditService extends BehaviorSubject<EditData> {
 	constructor(
-		private httpSvc: HttpClient,
 		private graphQl: Apollo,
+		private alrSvc: AlertService,
 	) {
 		super(null);
 	}
 
-	async execute(
+	execute(
 		type: 'assign',
 		body: IPlaceInfo,
-		next: (value: any) => void,
-		error?: (error: any) => void,
+		onNext = (v: any) => v,
+		onError = (e: any) => e,
 	) {
 		this.graphQl
 			.mutate({
@@ -48,6 +49,15 @@ export class EditService extends BehaviorSubject<EditData> {
 					placeAssign: InterfaceCasting.quick(body, IPlaceInfoKeys),
 				},
 			})
-			.subscribe({ next, error });
+			.subscribe({
+				next: (v: any) => {
+					this.alrSvc.success('Place Assigned');
+					onNext(v);
+				},
+				error: (e: HttpErrorResponse) => {
+					this.alrSvc.error(e.message);
+					onError(e);
+				},
+			});
 	}
 }

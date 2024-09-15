@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { EditComponent } from 'pg/edit/edit.component';
-import { FameComponent } from 'pg/fame/fame.component';
-import { FortuneComponent } from 'pg/fortune/fortune.component';
-import { LuckComponent } from 'pg/luck/luck.component';
-import { InfoComponent } from 'pg/user/info/info.component';
-import { LoginComponent } from 'pg/user/login/login.component';
-import { SignupComponent } from 'pg/user/signup/signup.component';
+// Pages
+import { EditComponent } from 'page/edit/edit.component';
+import { FameComponent } from 'page/fame/fame.component';
+import { FortuneComponent } from 'page/fortune/fortune.component';
+import { LuckComponent } from 'page/luck/luck.component';
+import { InfoComponent } from 'page/user/info/info.component';
+import { LoginComponent } from 'page/user/login/login.component';
+import { SignupComponent } from 'page/user/signup/signup.component';
 // Components
 import { AppComponent } from '../app/app.component';
 import { NotFoundComponent } from './not-found/not-found.component';

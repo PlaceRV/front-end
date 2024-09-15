@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit, signal } from '@angular/core';
-import { UserService } from 'pg/user/user.service';
+import { UserService } from 'page/user/user.service';
 import { IUser, matching, Role } from 'place-review-backend';
 
 export interface MenuItems {

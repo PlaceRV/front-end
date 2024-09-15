@@ -14,22 +14,22 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { InMemoryCache } from '@apollo/client/core';
 import { APOLLO_OPTIONS, ApolloModule } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
+import { AppComponent } from 'app.component';
+import { AppService } from 'app.service';
 // Components
-import { AlertModule } from 'cp/alert/alert.module';
-import { LoadingComponent } from 'cp/loading/loading.component';
-import { MapComponent } from 'cp/map/map.component';
-import { SidenavComponent } from 'cp/sidenav/sidenav.component';
+import { AlertModule } from 'components/alert/alert.module';
+import { LoadingComponent } from 'components/loading/loading.component';
+import { MapComponent } from 'components/map/map.component';
+import { SidenavComponent } from 'components/sidenav/sidenav.component';
 // Pages
-import { EditComponent } from 'pg/edit/edit.component';
-import { FameComponent } from 'pg/fame/fame.component';
-import { FortuneComponent } from 'pg/fortune/fortune.component';
-import { LuckComponent } from 'pg/luck/luck.component';
-import { InfoComponent } from 'pg/user/info/info.component';
-import { LoginComponent } from 'pg/user/login/login.component';
-import { SignupComponent } from 'pg/user/signup/signup.component';
+import { EditComponent } from 'page/edit/edit.component';
+import { FameComponent } from 'page/fame/fame.component';
+import { FortuneComponent } from 'page/fortune/fortune.component';
+import { LuckComponent } from 'page/luck/luck.component';
+import { InfoComponent } from 'page/user/info/info.component';
+import { LoginComponent } from 'page/user/login/login.component';
+import { SignupComponent } from 'page/user/signup/signup.component';
 // Core
-import { AppComponent } from '../app/app.component';
-import { AppService } from '../app/app.service';
 import { CoreRoutingModule } from './core-routing.module';
 import { CoreComponent } from './core.component';
 

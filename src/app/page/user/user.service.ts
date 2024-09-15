@@ -1,6 +1,5 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AlertService } from 'cp/alert/alert.service';
 import {
 	ILoginKeys,
 	InterfaceCasting,
@@ -11,6 +10,7 @@ import {
 } from 'place-review-backend';
 import { BehaviorSubject, Observer } from 'rxjs';
 import { AppService } from '../../app.service';
+import { AlertService } from 'components/alert/alert.service';
 
 @Injectable({ providedIn: 'root' })
 export class UserService extends BehaviorSubject<IUser> {

@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { InputItem } from 'utils';
+import { InputItem } from '../../../../utils';
 import { UserService } from '../user.service';
 
 @Component({ selector: 'pg-signup', templateUrl: './signup.component.html' })

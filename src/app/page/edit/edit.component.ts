@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AlertService } from 'cp/alert/alert.service';
-import { MapService } from 'cp/map/map.service';
+import { MapService } from 'components/map/map.service';
 import { Coordinate } from 'ol/coordinate';
 import { toLonLat } from 'ol/proj';
-import { UserService } from 'pg/user/user.service';
-import { IPlace, matching, PlaceType, Role } from 'place-review-backend';
-import { InputItem } from 'utils';
+import { UserService } from 'page/user/user.service';
+import { matching, PlaceType, Role } from 'place-review-backend';
+import { InputItem } from '../../../utils';
 import { EditService } from './edit.service';
 
 @Component({ selector: 'pg-edit', templateUrl: './edit.component.html' })
@@ -30,7 +29,6 @@ export class EditComponent implements OnInit {
 		private router: Router,
 		private formBuilder: FormBuilder,
 		private edtSvc: EditService,
-		public alrSvc: AlertService,
 	) {}
 
 	get controls() {
@@ -74,28 +72,18 @@ export class EditComponent implements OnInit {
 		});
 	}
 
-	onSubmit() {
+	async onSubmit() {
 		this.submitted = true;
 		if (this.form.invalid) return;
 
 		this.loading = true;
-		this.edtSvc.execute(
-			'assign',
-			{
-				latitude: this.controls['Latitude'].value,
-				longitude: this.controls['Longitude'].value,
-				name: this.controls['Name'].value,
-				type: PlaceType.TEMPLE,
-				description: this.controls['Description'].value,
-			},
-			(req: any) => {
-				if ((req.data as IPlace).name === this.controls['Name'].value) {
-					this.alrSvc.success('Place successfully assigned');
-					this.submitted = false;
-				}
-			},
-			() => null,
-		);
+		this.edtSvc.execute('assign', {
+			latitude: this.controls['Latitude'].value,
+			longitude: this.controls['Longitude'].value,
+			name: this.controls['Name'].value,
+			type: PlaceType.TEMPLE,
+			description: this.controls['Description'].value,
+		});
 		this.loading = false;
 	}
 }
