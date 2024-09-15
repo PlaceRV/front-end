@@ -59,9 +59,7 @@ export class MapService extends BehaviorSubject<MapData> {
 			});
 	}
 
-	@methodDecorator((t: MapService) => {
-		t.clear();
-	})
+	@methodDecorator((t: MapService) => t.clear())
 	async showRoute(coordinates: Coordinate[]) {
 		const vectorLayer = new VectorLayer({
 			source: new VectorSource({
@@ -73,9 +71,7 @@ export class MapService extends BehaviorSubject<MapData> {
 		this.map.addLayer(vectorLayer);
 	}
 
-	@methodDecorator((t: MapService) => {
-		t.clear();
-	})
+	@methodDecorator((t: MapService) => t.clear())
 	async showMarker(coordinate: Coordinate) {
 		const vectorLayer = new VectorLayer({
 			source: new VectorSource({
@@ -88,6 +84,11 @@ export class MapService extends BehaviorSubject<MapData> {
 
 		this.map.addLayer(vectorLayer);
 		this.setCenter(coordinate);
+	}
+
+	@methodDecorator((_: MapService) => _.clear())
+	async showMarkers(coordinates: Coordinate[]) {
+		coordinates.forEach((i) => this.showMarker(i));
 	}
 
 	async clear() {
