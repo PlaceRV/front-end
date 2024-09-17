@@ -1,6 +1,4 @@
-<section *ngIf="!pageLoaded" class="h-full">
-	<cp-loading></cp-loading>
-</section>
+<cp-loading [hidden]="status.pageLoaded" />
 <div class="fc relative h-full justify-center">
 	<div class="form">
 		<h4>Create new place</h4>
@@ -13,13 +11,15 @@
 						[readonly]="i.readonly"
 						formControlName="{{ i.label }}"
 					/>
-					<span *ngIf="controls[i.label].errors && submitted"> Not valid </span>
+					<span *ngIf="controls[i.label].errors && status.formSummited">
+						Not valid
+					</span>
 				</div>
 			}
 
 			<div class="submit-buttons">
-				<button [disabled]="processing">
-					<span *ngIf="processing"></span>
+				<button [disabled]="status.formProcessing">
+					<span *ngIf="status.formProcessing"></span>
 					Assign
 				</button>
 			</div>

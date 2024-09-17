@@ -31,13 +31,15 @@ export class UserService extends BehaviorSubject<IUser> {
 			onError?: (e: any) => void;
 		},
 	) {
+		const { body, onError = () => 0, onNext = () => 0 } = options || {};
+
 		this.httpSvc
 			.post(
 				this.authUrl(type),
 				type === 'logout'
 					? ''
 					: new InterfaceCasting(
-							options.body!,
+							body,
 							type === 'signup' ? ISignUpKeys : ILoginKeys,
 						),
 				{ withCredentials: true },
@@ -45,13 +47,17 @@ export class UserService extends BehaviorSubject<IUser> {
 			.subscribe({
 				next: async (value) => {
 					this.next(await this.get());
-					options.onNext!(value);
+					onNext!(value);
 				},
 				error: (e: HttpErrorResponse) => {
-					const errors = JSON.parse(e.error.message);
-					for (const error in errors) this.alrSvc.error(errors[error]);
+					try {
+						const errors = JSON.parse(e.error.message);
+						for (const error in errors) this.alrSvc.error(errors[error]);
+					} catch {
+						this.alrSvc.error(e.error.message);
+					}
 
-					options.onError!(e);
+					onError!(e);
 				},
 			});
 	}

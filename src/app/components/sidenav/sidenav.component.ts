@@ -1,6 +1,10 @@
 import { Component, Input, OnDestroy, OnInit, signal } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
 import { IUser, matching, Role } from 'place-review-types';
+import { Subscription } from 'rxjs';
 import { UserService } from 'service/user.service';
+import { BaseComponent } from '../../../utils';
 
 export interface MenuItems {
 	icon: string;
@@ -13,21 +17,35 @@ export interface MenuItems {
 	templateUrl: './sidenav.component.html',
 	styleUrl: './sidenav.component.sass',
 })
-export class SidenavComponent implements OnInit, OnDestroy {
+export class SidenavComponent
+	extends BaseComponent
+	implements OnInit, OnDestroy
+{
 	@Input({ required: false }) isCollapsed = signal(false);
 	user: IUser;
+	private userSubscription: Subscription;
 	menuItems = signal<MenuItems[]>([]);
 
-	constructor(private usrSvc: UserService) {}
+	constructor(
+		private usrSvc: UserService,
+		protected router: Router,
+		protected formBuilder: FormBuilder,
+	) {
+		super();
+		this.onLeaveUrl = () => {
+			console.log('sidenav');
+		};
+	}
 
 	async ngOnInit() {
-		this.usrSvc.subscribe((usr) => {
+		super.ngOnInit();
+		this.userSubscription = this.usrSvc.subscribe((usr) => {
 			this.user = usr;
 
 			const appendRows: MenuItems[] = this.user
 				? [
 						...(matching(this.user.roles, [Role.STAFF])
-							? [{ icon: 'edit', label: 'Chỉnh sửa', route: 'edit' }]
+							? [{ icon: 'edit', label: 'Chỉnh sửa', route: '/map/edit' }]
 							: []),
 						...(matching(this.user.roles, [Role.ADMIN])
 							? [
@@ -53,6 +71,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
 	}
 
 	async ngOnDestroy() {
-		this.usrSvc.unsubscribe();
+		super.ngOnDestroy();
+		this.userSubscription.unsubscribe();
 	}
 }

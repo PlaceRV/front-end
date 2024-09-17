@@ -1,7 +1,5 @@
-<section *ngIf="!user" class="h-full">
-	<cp-loading></cp-loading>
-</section>
-<section *ngIf="user" class="h-full">
+<cp-loading *ngIf="!status.pageLoaded" />
+<section *ngIf="status.pageLoaded" class="h-full">
 	<header>
 		<nav>
 			<ul>

@@ -20,6 +20,7 @@ module.exports = tseslint.config(
 			],
 			'@angular-eslint/component-selector': 'off',
 			'@typescript-eslint/no-explicit-any': 'off',
+			'@typescript-eslint/no-unsafe-function-type': 'off',
 		},
 	},
 	{

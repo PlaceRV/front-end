@@ -20,11 +20,11 @@ import { AlertModule } from 'components/alert/alert.module';
 import { LoadingComponent } from 'components/loading/loading.component';
 import { MapComponent } from 'components/map/map.component';
 import { SidenavComponent } from 'components/sidenav/sidenav.component';
-// Pages
-import { EditComponent } from 'page/edit/edit.component';
 import { FameComponent } from 'page/fame/fame.component';
 import { FortuneComponent } from 'page/fortune/fortune.component';
 import { LuckComponent } from 'page/luck/luck.component';
+// Pages
+import { EditComponent } from 'page/map/edit/edit.component';
 import { InfoComponent } from 'page/user/info/info.component';
 import { LoginComponent } from 'page/user/login/login.component';
 import { SignupComponent } from 'page/user/signup/signup.component';

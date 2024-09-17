@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-// Pages
-import { EditComponent } from 'page/edit/edit.component';
 import { FameComponent } from 'page/fame/fame.component';
 import { FortuneComponent } from 'page/fortune/fortune.component';
 import { LuckComponent } from 'page/luck/luck.component';
+// Pages
+import { EditComponent } from 'page/map/edit/edit.component';
 import { InfoComponent } from 'page/user/info/info.component';
 import { LoginComponent } from 'page/user/login/login.component';
 import { SignupComponent } from 'page/user/signup/signup.component';
@@ -21,7 +21,7 @@ const routes: Routes = [
 			{ path: 'luck', component: LuckComponent },
 			{ path: 'fortune', component: FortuneComponent },
 			{ path: 'fame', component: FameComponent },
-			{ path: 'edit', component: EditComponent },
+			{ path: 'map', children: [{ path: 'edit', component: EditComponent }] },
 			{
 				path: 'user',
 				children: [

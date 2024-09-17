@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostBinding } from '@angular/core';
 
 @Component({
 	selector: 'cp-loading',
@@ -8,4 +8,6 @@ import { Component } from '@angular/core';
 		</div>
 	`,
 })
-export class LoadingComponent {}
+export class LoadingComponent {
+	@HostBinding('class') classes = 'h-full';
+}

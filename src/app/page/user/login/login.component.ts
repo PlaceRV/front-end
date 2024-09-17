@@ -1,60 +1,45 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AppService } from 'service/app.service';
 import { UserService } from 'service/user.service';
-import { InputItem } from '../../../../utils';
+import { BaseComponent, InputItem } from '../../../../utils';
 
 @Component({
 	selector: 'pg-user-login',
 	templateUrl: './login.component.html',
 })
-export class LoginComponent implements OnInit {
-	form!: FormGroup;
-	loading = false;
-	submitted = false;
-	isLoaded = false;
+export class LoginComponent extends BaseComponent implements OnInit {
 	properties = InputItem.many([
 		{ label: 'Email' },
 		{ label: 'Password', type: 'password' },
 	]);
 
 	constructor(
-		private formBuilder: FormBuilder,
 		private appSvc: AppService,
 		private usrSvc: UserService,
-	) {}
+		protected router: Router,
+		protected formBuilder: FormBuilder,
+	) {
+		super();
+		this.initForm(this.properties);
+	}
 
 	async ngOnInit() {
-		this.form = this.formBuilder.group(
-			Object.assign(
-				{},
-				...this.properties.map((v) => ({
-					[v.label]: [
-						v.defaultValue,
-						v.required ? Validators.required : Validators.nullValidator,
-					],
-				})),
-			),
-		);
-
 		this.usrSvc.required(
 			(usr) => {
-				if (!usr) this.isLoaded = true;
+				if (!usr) this.status.pageLoaded = true;
 				else this.appSvc.nav('/user');
 			},
 			{ showError: false },
 		);
 	}
 
-	get controls() {
-		return this.form.controls;
-	}
-
 	onSubmit() {
-		this.submitted = true;
+		this.status.formSummited = true;
 		if (this.form.invalid) return;
 
-		this.loading = true;
+		this.status.formProcessing = true;
 		this.usrSvc.execute('login', {
 			body: {
 				email: this.controls['Email'].value,
@@ -63,7 +48,7 @@ export class LoginComponent implements OnInit {
 			onNext: (req: any) => {
 				if (req.success) this.appSvc.nav('/user');
 			},
-			onError: () => (this.loading = false),
+			onError: () => (this.status.formProcessing = false),
 		});
 	}
 }

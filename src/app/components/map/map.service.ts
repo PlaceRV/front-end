@@ -1,4 +1,8 @@
+import { Location } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Apollo, gql } from 'apollo-angular';
+import { AlertService } from 'components/alert/alert.service';
 import { Coordinate } from 'ol/coordinate';
 import Feature from 'ol/Feature';
 import Polyline from 'ol/format/Polyline';
@@ -11,8 +15,13 @@ import Icon from 'ol/style/Icon';
 import Stroke from 'ol/style/Stroke';
 import Style from 'ol/style/Style';
 import View from 'ol/View';
-import { methodDecorator } from 'place-review-types';
-import { BehaviorSubject } from 'rxjs';
+import {
+	InterfaceCasting,
+	IPlaceInfo,
+	IPlaceInfoKeys,
+	methodDecorator,
+} from 'place-review-types';
+import { Subject } from '../../../utils';
 
 interface MapData {
 	coordinate: Coordinate;
@@ -31,10 +40,14 @@ export class Options {
 }
 
 @Injectable({ providedIn: 'root' })
-export class MapService extends BehaviorSubject<MapData> {
+export class MapService extends Subject<MapData> {
 	public map!: Map;
 
-	constructor() {
+	constructor(
+		private GQL: Apollo,
+		private alrSvc: AlertService,
+		private location: Location,
+	) {
 		super(null);
 	}
 
@@ -42,8 +55,10 @@ export class MapService extends BehaviorSubject<MapData> {
 		this.map = map;
 
 		this.map.on('singleclick', (event) => {
-			const coordinate = this.map.getCoordinateFromPixel(event.pixel);
-			this.next({ coordinate });
+			if (this.location.path().match(/.*(\/map\/).*/)) {
+				const coordinate = this.map.getCoordinateFromPixel(event.pixel);
+				this.set({ coordinate });
+			}
 		});
 	}
 
@@ -115,5 +130,43 @@ export class MapService extends BehaviorSubject<MapData> {
 
 	setCenter(coordinate: Coordinate) {
 		this.map.setView(new View({ center: coordinate, zoom: 18 }));
+	}
+
+	assign(
+		body: IPlaceInfo,
+		options?: { onNext?: Function; onError?: Function; onFinal?: Function },
+	) {
+		const {
+			onError = () => 0,
+			onFinal = () => 0,
+			onNext = () => 0,
+		} = options || {};
+
+		this.GQL.mutate({
+			mutation: gql`
+				mutation PlaceCreate($placeAssign: PlaceAssign!) {
+					placeCreate(placeAssign: $placeAssign) {
+						description
+						latitude
+						longitude
+						name
+						type
+					}
+				}
+			`,
+			variables: {
+				placeAssign: InterfaceCasting.quick(body, IPlaceInfoKeys),
+			},
+		}).subscribe({
+			next: (v: any) => {
+				this.alrSvc.success('Place Assigned');
+				onNext(v);
+			},
+			error: (e: HttpErrorResponse) => {
+				this.alrSvc.error(e.message);
+				onError(e);
+			},
+		});
+		onFinal();
 	}
 }
