@@ -37,41 +37,40 @@ export class Subject<T> extends BehaviorSubject<T> {
 	}
 }
 
+interface PageStatus {
+	status: {
+		pageLoaded: boolean;
+		formProcessing: boolean;
+		formSummited: boolean;
+	};
+}
+
 @Component({
 	template: `
 		<div class="fr h-full w-full items-center justify-center">
 			<span class="ds-loading ds-loading-spinner w-1/12 text-primary"></span>
 		</div>
 	`,
-	selector: 'baseCp'
-
+	selector: 'baseCp',
 })
-export class BaseComponent implements OnInit, OnDestroy {
-	@HostBinding('class') classes = 'h-full'
+export class BaseComponent implements OnInit, OnDestroy, PageStatus {
+	@HostBinding('class') classes = 'h-full';
 
 	private routerSubscription: Subscription;
+	protected onLeaveUrl: Function = () => 0;
 	protected router: Router;
-	protected onLeaveUrl: Function;
 	protected formBuilder?: FormBuilder;
 
-	form!: FormGroup;
+	form: FormGroup;
+	properties: InputItem[];
 	status = {
 		pageLoaded: false,
 		formProcessing: false,
 		formSummited: false,
 	};
 
-	private Err(name: string) {
-		return new Error(name + ' must be initiated in ' + this.constructor.name);
-	}
-
-	private check(objects: string[]) {
-		objects.forEach((i) => {
-			if (!this[i]) throw this.Err(i);
-		});
-	}
-
 	get controls() {
+		if (!this.form) throw new Error('Must run initForm before get controls');
 		return this.form.controls;
 	}
 
@@ -80,7 +79,7 @@ export class BaseComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit(): void {
-		this.check(['formBuilder', 'router', 'onLeaveUrl']);
+		if (this.constructor.name === '_BaseComponent') return;
 		this.routerSubscription = this.router.events.subscribe((event) => {
 			if (event instanceof NavigationEnd) this.onLeaveUrl();
 		});
@@ -88,5 +87,13 @@ export class BaseComponent implements OnInit, OnDestroy {
 
 	ngOnDestroy(): void {
 		if (this.routerSubscription) this.routerSubscription.unsubscribe();
+	}
+
+	onSubmit() {
+		return;
+	}
+
+	get cur() {
+		return this;
 	}
 }

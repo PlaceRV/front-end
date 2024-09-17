@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MapService } from 'components/map/map.service';
 import { toLonLat } from 'ol/proj';
 import { matching, PlaceType, Role } from 'place-review-types';
 import { Subscription } from 'rxjs';
 import { AppService } from 'service/app.service';
+import { MapService } from 'service/map.service';
 import { UserService } from 'service/user.service';
 import { BaseComponent, InputItem } from '../../../../utils';
 

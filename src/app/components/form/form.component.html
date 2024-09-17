@@ -1,0 +1,24 @@
+<div class="form">
+	<h4>{{ title }}</h4>
+	<form [formGroup]="parent.form" (ngSubmit)="parent.onSubmit()">
+		@for (i of parent.properties; track i) {
+			<div class="text-input">
+				<label> {{ i.label }} </label>
+				<input
+					[type]="i.type"
+					[readonly]="i.readonly"
+					formControlName="{{ i.label }}"
+				/>
+				<span
+					*ngIf="parent.controls[i.label].errors && parent.status.formSummited"
+				>
+					Not valid
+				</span>
+			</div>
+		}
+
+		<div class="submit-buttons">
+			<ng-content />
+		</div>
+	</form>
+</div>

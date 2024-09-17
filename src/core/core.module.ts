@@ -17,7 +17,7 @@ import { HttpLink } from 'apollo-angular/http';
 import { AppComponent } from 'app.component';
 // Components
 import { AlertModule } from 'components/alert/alert.module';
-import { LoadingComponent } from 'components/loading/loading.component';
+import { FormComponent } from 'components/form/form.component';
 import { MapComponent } from 'components/map/map.component';
 import { SidenavComponent } from 'components/sidenav/sidenav.component';
 import { FameComponent } from 'page/fame/fame.component';
@@ -29,6 +29,7 @@ import { InfoComponent } from 'page/user/info/info.component';
 import { LoginComponent } from 'page/user/login/login.component';
 import { SignupComponent } from 'page/user/signup/signup.component';
 import { AppService } from 'service/app.service';
+import { BaseComponent } from '../utils';
 // Core
 import { CoreRoutingModule } from './core-routing.module';
 import { CoreComponent } from './core.component';
@@ -41,7 +42,8 @@ import { CoreComponent } from './core.component';
 		// Untils
 		SidenavComponent,
 		MapComponent,
-		LoadingComponent,
+		BaseComponent,
+		FormComponent,
 		// Pages
 		FameComponent,
 		LuckComponent,

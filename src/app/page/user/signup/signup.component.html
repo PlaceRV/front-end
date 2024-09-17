@@ -1,34 +1,13 @@
-<section *ngIf="!status.pageLoaded" class="h-full">
-	<cp-loading />
-</section>
+<baseCp *ngIf="!status.pageLoaded" />
 <div
 	*ngIf="status.pageLoaded"
 	class="relative flex h-full flex-col justify-center overflow-hidden"
 >
-	<div class="form">
-		<h4>Register</h4>
-		<form [formGroup]="form" (ngSubmit)="onSubmit()">
-			@for (i of properties; track i) {
-				<div class="text-input">
-					<label> {{ i.label }} </label>
-					<input
-						[type]="i.type"
-						[readonly]="i.readonly"
-						formControlName="{{ i.label }}"
-					/>
-					<span *ngIf="controls[i.label].errors && status.formSummited">
-						Not valid
-					</span>
-				</div>
-			}
-
-			<div class="submit-buttons">
-				<button [disabled]="status.formProcessing">
-					<span *ngIf="status.formProcessing"></span>
-					Register
-				</button>
-				<a routerLink="../login">Cancel</a>
-			</div>
-		</form>
-	</div>
+	<cp-form [parent]="cur" title="Register">
+		<button [disabled]="status.formProcessing">
+			<span *ngIf="status.formProcessing"></span>
+			Register
+		</button>
+		<a routerLink="../login">Cancel</a>
+	</cp-form>
 </div>

@@ -2,7 +2,6 @@ import { Location } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { AlertService } from 'components/alert/alert.service';
 import { Coordinate } from 'ol/coordinate';
 import Feature from 'ol/Feature';
 import Polyline from 'ol/format/Polyline';
@@ -21,7 +20,8 @@ import {
 	IPlaceInfoKeys,
 	methodDecorator,
 } from 'place-review-types';
-import { Subject } from '../../../utils';
+import { AlertService } from 'service/alert.service';
+import { Subject } from '../../utils';
 
 interface MapData {
 	coordinate: Coordinate;

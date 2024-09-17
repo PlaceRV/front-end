@@ -5,7 +5,7 @@ import View from 'ol/View';
 import 'ol/ol.css';
 import { fromLonLat } from 'ol/proj';
 import { OSM } from 'ol/source';
-import { MapService } from './map.service';
+import { MapService } from '../../service/map.service';
 
 @Component({
 	selector: 'cp-map',

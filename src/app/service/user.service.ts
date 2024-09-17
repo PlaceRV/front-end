@@ -1,6 +1,5 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AlertService } from 'components/alert/alert.service';
 import {
 	ILoginKeys,
 	InterfaceCasting,
@@ -10,6 +9,7 @@ import {
 	IUserInfo,
 } from 'place-review-types';
 import { BehaviorSubject, Observer } from 'rxjs';
+import { AlertService } from 'service/alert.service';
 import { AppService } from 'service/app.service';
 
 @Injectable({ providedIn: 'root' })
