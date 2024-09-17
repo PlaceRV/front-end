@@ -14,11 +14,10 @@ import { AppService } from 'service/app.service';
 
 @Injectable({ providedIn: 'root' })
 export class UserService extends BehaviorSubject<IUser> {
-	private authUrl = (path?: string) => this.appSvc.backendUrl(`/auth/${path}`);
+	private authUrl = (path?: string) => AppService.backendUrl(`/auth/${path}`);
 
 	constructor(
 		private httpSvc: HttpClient,
-		private appSvc: AppService,
 		private alrSvc: AlertService,
 	) {
 		super(null);
@@ -57,19 +56,25 @@ export class UserService extends BehaviorSubject<IUser> {
 			});
 	}
 
-	private get() {
+	private get({ showError = true }: { showError?: boolean } = {}) {
 		return new Promise<IUser>((resolve) => {
 			this.httpSvc
-				.post(this.appSvc.backendUrl('/user'), null, { withCredentials: true })
+				.post(AppService.backendUrl('/user'), null, { withCredentials: true })
 				.subscribe({
 					next: (val: object) => resolve(val as IUser),
-					error: () => resolve(null),
+					error: (e: HttpErrorResponse) => {
+						if (showError) this.alrSvc.error(e.message);
+						resolve(null);
+					},
 				});
 		});
 	}
 
-	async required(func?: Partial<Observer<IUser>> | ((value: IUser) => void)) {
-		if (!this.value) this.next(await this.get());
+	async required(
+		func?: Partial<Observer<IUser>> | ((value: IUser) => void),
+		{ showError = true }: { showError?: boolean } = {},
+	) {
+		if (!this.value) this.next(await this.get({ showError }));
 		this.subscribe(func);
 	}
 }

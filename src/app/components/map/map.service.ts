@@ -18,6 +18,18 @@ interface MapData {
 	coordinate: Coordinate;
 }
 
+export class Options {
+	clear = true;
+
+	constructor(i: Partial<Options>) {
+		Object.assign(this, i);
+	}
+
+	static quick(i: Options) {
+		return new Options(i);
+	}
+}
+
 @Injectable({ providedIn: 'root' })
 export class MapService extends BehaviorSubject<MapData> {
 	public map!: Map;
@@ -71,8 +83,10 @@ export class MapService extends BehaviorSubject<MapData> {
 		this.map.addLayer(vectorLayer);
 	}
 
-	async showMarker(coordinate: Coordinate, options?: { keepOthers: boolean }) {
-		if (!options.keepOthers) await this.clear();
+	async showMarker(coordinate: Coordinate, options?: Options) {
+		const { clear } = Options.quick(options);
+
+		if (clear) this.clear();
 		const vectorLayer = new VectorLayer({
 			source: new VectorSource({
 				features: [new Feature({ geometry: new Point(coordinate) })],
@@ -88,7 +102,7 @@ export class MapService extends BehaviorSubject<MapData> {
 
 	@methodDecorator((_: MapService) => _.clear())
 	async showMarkers(coordinates: Coordinate[]) {
-		coordinates.forEach((i) => this.showMarker(i, { keepOthers: true }));
+		coordinates.forEach((i) => this.showMarker(i, { clear: false }));
 	}
 
 	async clear() {

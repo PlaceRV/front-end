@@ -1,7 +1,6 @@
-import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { AppService } from 'service/app.service';
 import { UserService } from 'service/user.service';
 import { InputItem } from '../../../../utils';
 
@@ -20,27 +19,20 @@ export class SignupComponent implements OnInit {
 
 	constructor(
 		private formBuilder: FormBuilder,
-		private router: Router,
+		private appSvc: AppService,
 		private usrSvc: UserService,
 	) {}
 
 	async ngOnInit() {
-		this.form = this.formBuilder.group(
-			Object.assign(
-				{},
-				...this.properties.map((v) => ({
-					[v.label]: [
-						v.defaultValue,
-						v.required ? Validators.required : Validators.nullValidator,
-					],
-				})),
-			),
-		);
+		this.form = this.formBuilder.group(AppService.formAssign(this.properties));
 
-		this.usrSvc.required((usr) => {
-			if (usr) this.router.navigateByUrl('/user');
-			else this.isLoaded = true;
-		});
+		this.usrSvc.required(
+			(usr) => {
+				if (!usr) this.isLoaded = true;
+				else this.appSvc.nav('/user');
+			},
+			{ showError: false },
+		);
 	}
 
 	get controls() {
@@ -61,7 +53,7 @@ export class SignupComponent implements OnInit {
 				description: '',
 			},
 			onNext: (value: any) => {
-				if (value.success) this.router.navigateByUrl('/user');
+				if (value.success) this.appSvc.nav('/user');
 			},
 			onError: () => (this.loading = false),
 		});

@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { MapService } from 'components/map/map.service';
 import { Coordinate } from 'ol/coordinate';
 import { toLonLat } from 'ol/proj';
 import { matching, PlaceType, Role } from 'place-review-types';
+import { AppService } from 'service/app.service';
 import { UserService } from 'service/user.service';
 import { InputItem } from '../../../utils';
-import { EditService } from '../../service/edit.service';
+import { EditService } from './edit.service';
 
 @Component({ selector: 'pg-edit', templateUrl: './edit.component.html' })
 export class EditComponent implements OnInit {
@@ -26,9 +26,9 @@ export class EditComponent implements OnInit {
 	constructor(
 		private mapSvc: MapService,
 		private usrSvc: UserService,
-		private router: Router,
 		private formBuilder: FormBuilder,
 		private edtSvc: EditService,
+		private appSvc: AppService,
 	) {}
 
 	get controls() {
@@ -49,8 +49,7 @@ export class EditComponent implements OnInit {
 		);
 
 		this.usrSvc.required((usr) => {
-			if (!usr || !matching(usr.roles, [Role.STAFF]))
-				this.router.navigateByUrl('/user');
+			if (!usr || !matching(usr.roles, [Role.STAFF])) this.appSvc.nav('/user');
 			else this.pageLoaded = true;
 		});
 

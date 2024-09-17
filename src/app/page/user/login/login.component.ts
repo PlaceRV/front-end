@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { AppService } from 'service/app.service';
 import { UserService } from 'service/user.service';
 import { InputItem } from '../../../../utils';
 
 @Component({
 	selector: 'pg-user-login',
 	templateUrl: './login.component.html',
-	styleUrl: './login.component.sass',
 })
 export class LoginComponent implements OnInit {
 	form!: FormGroup;
@@ -16,12 +15,12 @@ export class LoginComponent implements OnInit {
 	isLoaded = false;
 	properties = InputItem.many([
 		{ label: 'Email' },
-		{ label: 'Password', type: 'password' } as InputItem,
+		{ label: 'Password', type: 'password' },
 	]);
 
 	constructor(
 		private formBuilder: FormBuilder,
-		private router: Router,
+		private appSvc: AppService,
 		private usrSvc: UserService,
 	) {}
 
@@ -38,10 +37,13 @@ export class LoginComponent implements OnInit {
 			),
 		);
 
-		this.usrSvc.required((usr) => {
-			if (usr) this.router.navigateByUrl('/user');
-			else this.isLoaded = true;
-		});
+		this.usrSvc.required(
+			(usr) => {
+				if (!usr) this.isLoaded = true;
+				else this.appSvc.nav('/user');
+			},
+			{ showError: false },
+		);
 	}
 
 	get controls() {
@@ -59,7 +61,7 @@ export class LoginComponent implements OnInit {
 				password: this.controls['Password'].value,
 			},
 			onNext: (req: any) => {
-				if (req.success) this.router.navigateByUrl('/user');
+				if (req.success) this.appSvc.nav('/user');
 			},
 			onError: () => (this.loading = false),
 		});
