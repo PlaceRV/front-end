@@ -2,7 +2,6 @@
 name: Deploy page
 
 on:
-  # Runs on pushes targeting the default branch
   push:
     branches: ['main']
 
@@ -19,7 +18,7 @@ permissions:
 # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
   group: 'pages'
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   # Single deploy job since we're just deploying
@@ -27,46 +26,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          path: front-end
-          ref: ${{ github.head_ref }}
-
-      - uses: actions/checkout@v4
-        with:
-          repository: TmplRV/back-end
-          path: back-end
 
       - uses: actions/setup-node@v4
-
-      - uses: actions/cache/restore@v4
         with:
-          path: './front-end/node_modules'
-          key: ${{ runner.os }}-front-${{ hashFiles('./front-end/package.json') }}
-          restore-keys: |
-            ${{ runner.os }}-front-
+          node-version: 22
 
-      - uses: actions/cache/restore@v4
+      - uses: actions/cache@v4
         with:
-          path: './back-end/node_modules'
-          key: ${{ runner.os }}-back-${{ hashFiles('./back-end/package.json') }}
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('/package.json') }}
           restore-keys: |
-            ${{ runner.os }}-back-
+            ${{ runner.os }}-node-
 
       - run: 'npm install'
-        working-directory: front-end
-
-      - run: 'npm install'
-        working-directory: back-end
 
       - run: 'npm run build'
-        working-directory: front-end
 
       - run: 'mv ./dist/browser/index.html ./dist/browser/404.html'
-        working-directory: front-end
 
       - uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./front-end/dist/browser
+          publish_dir: ./dist/browser
           cname: tmplrv.anhvietnguyen.id.vn
           force_orphan: true

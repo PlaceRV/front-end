@@ -1,7 +1,6 @@
 {
 	"debug.javascript.autoAttachFilter": "disabled",
-	"explorerExclude.backup": {},
-	"files.exclude": {
+	"explorerExclude.backup": {
 		"**/.git": true,
 		"**/.svn": true,
 		"**/.hg": true,
@@ -19,5 +18,24 @@
 		"dist": true,
 		"node_modules": true,
 		"secrets": true
+	},
+	"files.exclude": {
+		"**/.git": false,
+		"**/.svn": false,
+		"**/.hg": false,
+		"**/CVS": false,
+		"**/.DS_Store": false,
+		"**/Thumbs.db": false,
+		"**/*.js": false,
+		"**/*.json": false,
+		"**/*.md": false,
+		"**/*.spec.*": false,
+		"**/.*": false,
+		"**/package-lock.json": false,
+		"LICENSE": false,
+		"coverage": false,
+		"dist": false,
+		"node_modules": false,
+		"secrets": false
 	}
 }
