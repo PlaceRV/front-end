@@ -62,7 +62,8 @@ export class UserService extends BehaviorSubject<IUser> {
 			});
 	}
 
-	private get({ showError = true }: { showError?: boolean } = {}) {
+	private get(options: { showError?: boolean } = {}) {
+		const { showError = true } = options || {};
 		return new Promise<IUser>((resolve) => {
 			this.httpSvc
 				.post(AppService.backendUrl('/user'), null, { withCredentials: true })
@@ -78,9 +79,9 @@ export class UserService extends BehaviorSubject<IUser> {
 
 	async required(
 		func?: Partial<Observer<IUser>> | ((value: IUser) => void),
-		{ showError = true }: { showError?: boolean } = {},
+		options: { showError?: boolean } = {},
 	) {
-		if (!this.value) this.next(await this.get({ showError }));
-		this.subscribe(func);
+		if (!this.value) this.next(await this.get(options));
+		return this.subscribe(func);
 	}
 }

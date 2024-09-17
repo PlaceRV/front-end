@@ -31,7 +31,7 @@ export class SignupComponent
 	async ngOnInit() {
 		super.ngOnInit();
 
-		this.usrSvc.required(
+		await this.usrSvc.required(
 			(usr) => {
 				if (!usr) this.status.pageLoaded = true;
 				else this.appSvc.nav('/user');

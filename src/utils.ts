@@ -50,11 +50,13 @@ interface PageStatus {
 		<div class="fr h-full w-full items-center justify-center">
 			<span class="ds-loading ds-loading-spinner w-1/12 text-primary"></span>
 		</div>
+		<ng-content [parent]="current" />
 	`,
 	selector: 'baseCp',
 })
 export class BaseComponent implements OnInit, OnDestroy, PageStatus {
 	@HostBinding('class') classes = 'h-full';
+	@Input() parent: BaseComponent;
 
 	private routerSubscription: Subscription;
 	protected onLeaveUrl: Function = () => 0;
@@ -70,6 +72,8 @@ export class BaseComponent implements OnInit, OnDestroy, PageStatus {
 	};
 
 	get controls() {
+		if (this.constructor.name === '_BaseComponent' || !this.constructor.name)
+			return null;
 		if (!this.form) throw new Error('Must run initForm before get controls');
 		return this.form.controls;
 	}
@@ -93,7 +97,7 @@ export class BaseComponent implements OnInit, OnDestroy, PageStatus {
 		return;
 	}
 
-	get cur() {
+	get current() {
 		return this;
 	}
 }
