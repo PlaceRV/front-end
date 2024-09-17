@@ -5,4 +5,5 @@ import { BaseComponent } from '../../../utils';
 export class FormComponent {
 	@Input() parent: BaseComponent;
 	@Input() title: string;
+	@Input() submitButtonLabel?: string = 'Submit';
 }

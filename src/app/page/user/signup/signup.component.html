@@ -4,10 +4,6 @@
 	class="relative flex h-full flex-col justify-center overflow-hidden"
 >
 	<cp-form [parent]="cur" title="Register">
-		<button [disabled]="status.formProcessing">
-			<span *ngIf="status.formProcessing"></span>
-			Register
-		</button>
 		<a routerLink="../login">Cancel</a>
 	</cp-form>
 </div>
