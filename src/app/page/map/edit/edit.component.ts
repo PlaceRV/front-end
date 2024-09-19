@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { toLonLat } from 'ol/proj';
@@ -10,7 +10,7 @@ import { UserService } from 'service/user.service';
 import { BaseComponent, InputItem } from '../../../../utils';
 
 @Component({ selector: 'pg-edit', templateUrl: './edit.component.html' })
-export class EditComponent extends BaseComponent implements OnInit, OnDestroy {
+export class EditComponent extends BaseComponent {
 	private mapSubscription: Subscription;
 
 	properties = InputItem.many([
@@ -32,7 +32,7 @@ export class EditComponent extends BaseComponent implements OnInit, OnDestroy {
 		this.initForm(this.properties);
 	}
 
-	ngOnInit(): void {
+	OnInit(): void {
 		super.ngOnInit();
 
 		this.usrSvc.required((usr) => {
@@ -53,7 +53,7 @@ export class EditComponent extends BaseComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	ngOnDestroy(): void {
+	OnDestroy(): void {
 		super.ngOnDestroy();
 		if (this.mapSubscription) this.mapSubscription.unsubscribe();
 	}

@@ -86,7 +86,7 @@ export class MapService extends Subject<MapData> {
 			});
 	}
 
-	@methodDecorator((t: MapService) => t.clear())
+	@methodDecorator({ prerun: (target: MapService) => target.clear() })
 	async showRoute(coordinates: Coordinate[]) {
 		const vectorLayer = new VectorLayer({
 			source: new VectorSource({
@@ -115,7 +115,7 @@ export class MapService extends Subject<MapData> {
 		this.setCenter(coordinate);
 	}
 
-	@methodDecorator((_: MapService) => _.clear())
+	@methodDecorator({ prerun: (target: MapService) => target.clear() })
 	async showMarkers(coordinates: Coordinate[]) {
 		coordinates.forEach((i) => this.showMarker(i, { clear: false }));
 	}

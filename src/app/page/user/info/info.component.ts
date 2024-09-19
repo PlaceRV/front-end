@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IUser } from 'place-review-types';
@@ -7,7 +7,7 @@ import { UserService } from 'service/user.service';
 import { BaseComponent } from '../../../../utils';
 
 @Component({ selector: 'pg-user-info', templateUrl: './info.component.html' })
-export class InfoComponent extends BaseComponent implements OnInit, OnDestroy {
+export class InfoComponent extends BaseComponent {
 	user: IUser;
 
 	constructor(
@@ -22,8 +22,7 @@ export class InfoComponent extends BaseComponent implements OnInit, OnDestroy {
 		};
 	}
 
-	async ngOnInit() {
-		super.ngOnInit();
+	async OnInit() {
 		this.usrSvc.required((usr) => {
 			if (!usr) this.appSvc.nav('/user/login');
 			else {
@@ -31,10 +30,6 @@ export class InfoComponent extends BaseComponent implements OnInit, OnDestroy {
 				this.status.pageLoaded = true;
 			}
 		});
-	}
-
-	ngOnDestroy(): void {
-		super.ngOnDestroy();
 	}
 
 	logout() {

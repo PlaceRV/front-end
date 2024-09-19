@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, Input, signal } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IUser, matching, Role } from 'place-review-types';
@@ -17,10 +17,7 @@ export interface MenuItems {
 	templateUrl: './sidenav.component.html',
 	styleUrl: './sidenav.component.sass',
 })
-export class SidenavComponent
-	extends BaseComponent
-	implements OnInit, OnDestroy
-{
+export class SidenavComponent extends BaseComponent {
 	@Input({ required: false }) isCollapsed = signal(false);
 	user: IUser;
 	private userSubscription: Subscription;
@@ -37,8 +34,7 @@ export class SidenavComponent
 		};
 	}
 
-	async ngOnInit() {
-		super.ngOnInit();
+	async OnInit() {
 		this.userSubscription = this.usrSvc.subscribe((usr) => {
 			this.user = usr;
 
@@ -70,8 +66,7 @@ export class SidenavComponent
 		});
 	}
 
-	async ngOnDestroy() {
-		super.ngOnDestroy();
+	async OnDestroy() {
 		this.userSubscription.unsubscribe();
 	}
 }

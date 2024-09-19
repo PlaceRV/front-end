@@ -7,7 +7,11 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NavigationEnd, Router } from '@angular/router';
-import { allImplement, logMethodCall } from 'place-review-types';
+import {
+	allImplement,
+	logMethodCall,
+	methodDecorator,
+} from 'place-review-types';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { AppService } from 'service/app.service';
 
@@ -44,27 +48,27 @@ export class Subject<T> extends BehaviorSubject<T> {
 	}
 }
 
-interface PageStatus {
+interface PageRequirements {
 	status: {
 		pageLoaded: boolean;
 		formProcessing: boolean;
 		formSummited: boolean;
 	};
+	OnInit: () => void;
+	OnDestroy: () => void;
 }
 
-function override(container, key, other1) {
-	const baseType = Object.getPrototypeOf(container);
-	if (typeof baseType[key] !== 'function') {
-		throw new Error(
-			'Method ' +
-				key +
-				' of ' +
-				container.constructor.name +
-				' does not override any base class method',
-		);
-	}
-}
-
+@allImplement(
+	methodDecorator({
+		prerun(target) {
+			return (
+				!target.constructor ||
+				target.constructor.name === '_BaseComponent' ||
+				!target.constructor.name
+			);
+		},
+	}),
+)
 @allImplement(logMethodCall)
 @Component({
 	template: `
@@ -75,14 +79,24 @@ function override(container, key, other1) {
 	`,
 	selector: 'baseCp',
 })
-export class BaseComponent implements OnInit, OnDestroy, PageStatus {
+export class BaseComponent implements OnInit, OnDestroy, PageRequirements {
 	@HostBinding('class') classes = 'h-full';
 	@Input() parent: BaseComponent;
 
-	private routerSubscription: Subscription;
+	private routerSubscription: Subscription = null;
 	protected onLeaveUrl: Function = () => 0;
 	protected router: Router;
 	protected formBuilder?: FormBuilder;
+
+	OnInit(): any {
+		return;
+	}
+	OnDestroy(): any {
+		return;
+	}
+	OnSubmit(): any {
+		return;
+	}
 
 	form: FormGroup;
 	properties: InputItem[];
@@ -112,10 +126,6 @@ export class BaseComponent implements OnInit, OnDestroy, PageStatus {
 
 	ngOnDestroy(): void {
 		if (this.routerSubscription) this.routerSubscription.unsubscribe();
-	}
-
-	onSubmit() {
-		return;
 	}
 
 	get current() {

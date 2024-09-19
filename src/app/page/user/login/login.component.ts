@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AppService } from 'service/app.service';
@@ -9,7 +9,7 @@ import { BaseComponent, InputItem } from '../../../../utils';
 	selector: 'pg-user-login',
 	templateUrl: './login.component.html',
 })
-export class LoginComponent extends BaseComponent implements OnInit {
+export class LoginComponent extends BaseComponent {
 	properties = InputItem.many([
 		{ label: 'Email' },
 		{ label: 'Password', type: 'password' },
@@ -25,7 +25,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
 		this.initForm(this.properties);
 	}
 
-	async ngOnInit() {
+	async OnInit() {
 		this.usrSvc.required(
 			(usr) => {
 				if (!usr) this.status.pageLoaded = true;
@@ -35,7 +35,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
 		);
 	}
 
-	onSubmit() {
+	OnSubmit() {
 		this.status.formSummited = true;
 		if (this.form.invalid) return;
 

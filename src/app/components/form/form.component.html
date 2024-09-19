@@ -1,6 +1,6 @@
 <div class="form">
 	<h4>{{ title }}</h4>
-	<form [formGroup]="parent.form" (ngSubmit)="parent.onSubmit()">
+	<form [formGroup]="parent.form" (ngSubmit)="parent.OnSubmit()">
 		@for (i of parent.properties; track i) {
 			<div class="text-input">
 				<label> {{ i.label }} </label>

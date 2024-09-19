@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AppService } from 'service/app.service';
@@ -6,10 +6,7 @@ import { UserService } from 'service/user.service';
 import { BaseComponent, InputItem } from '../../../../utils';
 
 @Component({ selector: 'pg-signup', templateUrl: './signup.component.html' })
-export class SignupComponent
-	extends BaseComponent
-	implements OnInit, OnDestroy
-{
+export class SignupComponent extends BaseComponent {
 	properties = InputItem.many([
 		{ label: 'Email' },
 		{ label: 'First Name' },
@@ -28,9 +25,7 @@ export class SignupComponent
 		this.onLeaveUrl = () => console.log('signup');
 	}
 
-	async ngOnInit() {
-		super.ngOnInit();
-
+	async OnInit() {
 		await this.usrSvc.required(
 			(usr) => {
 				if (!usr) this.status.pageLoaded = true;
@@ -40,11 +35,7 @@ export class SignupComponent
 		);
 	}
 
-	ngOnDestroy(): void {
-		super.ngOnDestroy();
-	}
-
-	onSubmit() {
+	override OnSubmit() {
 		this.status.formSummited = true;
 		if (this.form.invalid) return;
 
