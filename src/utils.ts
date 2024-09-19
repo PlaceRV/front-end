@@ -7,11 +7,6 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NavigationEnd, Router } from '@angular/router';
-import {
-	allImplement,
-	logMethodCall,
-	methodDecorator,
-} from 'place-review-types';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { AppService } from 'service/app.service';
 
@@ -58,18 +53,6 @@ interface PageRequirements {
 	OnDestroy: () => void;
 }
 
-@allImplement(
-	methodDecorator({
-		prerun(target) {
-			return (
-				!target.constructor ||
-				target.constructor.name === '_BaseComponent' ||
-				!target.constructor.name
-			);
-		},
-	}),
-)
-@allImplement(logMethodCall)
 @Component({
 	template: `
 		<div class="fr h-full w-full items-center justify-center">
@@ -89,10 +72,12 @@ export class BaseComponent implements OnInit, OnDestroy, PageRequirements {
 	protected formBuilder?: FormBuilder;
 
 	OnInit(): any {
-		return;
+		console.warn('Please initiate OnInit method at ' + this.constructor.name);
 	}
 	OnDestroy(): any {
-		return;
+		console.warn(
+			'Please initiate OnDestroy method at ' + this.constructor.name,
+		);
 	}
 	OnSubmit(): any {
 		return;
@@ -107,10 +92,8 @@ export class BaseComponent implements OnInit, OnDestroy, PageRequirements {
 	};
 
 	get controls() {
-		if (this.constructor.name === '_BaseComponent' || !this.constructor.name)
-			return null;
-		if (!this.form) throw new Error('Must run initForm before get controls');
-		return this.form.controls;
+		if (this.form) return this.form.controls;
+		return null;
 	}
 
 	initForm(i: InputItem[]) {
@@ -118,14 +101,16 @@ export class BaseComponent implements OnInit, OnDestroy, PageRequirements {
 	}
 
 	ngOnInit(): void {
-		if (this.constructor.name === '_BaseComponent') return;
-		this.routerSubscription = this.router.events.subscribe((event) => {
-			if (event instanceof NavigationEnd) this.onLeaveUrl();
-		});
+		if (this.router)
+			this.routerSubscription = this.router.events.subscribe((event) => {
+				if (event instanceof NavigationEnd) this.onLeaveUrl();
+			});
+		this.OnInit();
 	}
 
 	ngOnDestroy(): void {
 		if (this.routerSubscription) this.routerSubscription.unsubscribe();
+		this.OnDestroy();
 	}
 
 	get current() {

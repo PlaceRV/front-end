@@ -29,7 +29,7 @@ export class LoginComponent extends BaseComponent {
 		this.usrSvc.required(
 			(usr) => {
 				if (!usr) this.status.pageLoaded = true;
-				else this.appSvc.nav('/user');
+				else this.appSvc.nav('/user/info');
 			},
 			{ showError: false },
 		);
@@ -46,7 +46,7 @@ export class LoginComponent extends BaseComponent {
 				password: this.controls['Password'].value,
 			},
 			onNext: (req: any) => {
-				if (req.success) this.appSvc.nav('/user');
+				if (req.success) this.appSvc.nav('/user/info');
 			},
 			onError: () => (this.status.formProcessing = false),
 		});

@@ -29,7 +29,7 @@ export class SignupComponent extends BaseComponent {
 		await this.usrSvc.required(
 			(usr) => {
 				if (!usr) this.status.pageLoaded = true;
-				else this.appSvc.nav('/user');
+				else this.appSvc.nav('/user/info');
 			},
 			{ showError: false },
 		);
@@ -49,7 +49,7 @@ export class SignupComponent extends BaseComponent {
 				description: '',
 			},
 			onNext: (value: any) => {
-				if (value.success) this.appSvc.nav('/user');
+				if (value.success) this.appSvc.nav('/user/info');
 			},
 			onError: () => (this.status.formProcessing = false),
 		});

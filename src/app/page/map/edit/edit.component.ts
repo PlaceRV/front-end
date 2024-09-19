@@ -33,10 +33,9 @@ export class EditComponent extends BaseComponent {
 	}
 
 	OnInit(): void {
-		super.ngOnInit();
-
 		this.usrSvc.required((usr) => {
-			if (!usr || !matching(usr.roles, [Role.STAFF])) this.appSvc.nav('/user');
+			if (!usr || !matching(usr.roles, [Role.STAFF]))
+				this.appSvc.nav('/user/info');
 			else this.status.pageLoaded = true;
 		});
 
@@ -54,11 +53,10 @@ export class EditComponent extends BaseComponent {
 	}
 
 	OnDestroy(): void {
-		super.ngOnDestroy();
 		if (this.mapSubscription) this.mapSubscription.unsubscribe();
 	}
 
-	async onSubmit() {
+	async OnSubmit() {
 		this.status.formSummited = true;
 		if (this.form.invalid) return;
 
