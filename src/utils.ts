@@ -1,6 +1,13 @@
-import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
+import {
+	Component,
+	HostBinding,
+	Input,
+	OnDestroy,
+	OnInit,
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NavigationEnd, Router } from '@angular/router';
+import { allImplement, logMethodCall } from 'place-review-types';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { AppService } from 'service/app.service';
 
@@ -45,6 +52,20 @@ interface PageStatus {
 	};
 }
 
+function override(container, key, other1) {
+	const baseType = Object.getPrototypeOf(container);
+	if (typeof baseType[key] !== 'function') {
+		throw new Error(
+			'Method ' +
+				key +
+				' of ' +
+				container.constructor.name +
+				' does not override any base class method',
+		);
+	}
+}
+
+@allImplement(logMethodCall)
 @Component({
 	template: `
 		<div class="fr h-full w-full items-center justify-center">
