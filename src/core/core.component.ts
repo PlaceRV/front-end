@@ -6,6 +6,6 @@ export class CoreComponent implements OnInit {
 	constructor(private usrSvc: UserService) {}
 
 	async ngOnInit() {
-		this.usrSvc.required(() => 0, { showError: false });
+		this.usrSvc.required({ showError: false });
 	}
 }

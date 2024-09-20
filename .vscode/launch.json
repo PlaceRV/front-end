@@ -5,7 +5,7 @@
 			"name": "ng serve",
 			"request": "launch",
 			"type": "msedge",
-			"url": " https://localhost:2083/"
+			"url": "https://testfront.anhvietnguyen.id.vn/"
 		},
 		{
 			"name": "ng test",

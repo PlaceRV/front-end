@@ -19,10 +19,12 @@ export class EditComponent extends BaseComponent {
 		super();
 
 		this.OnInit = (): void => {
-			this.usrSvc.required((usr) => {
-				if (!usr || !matching(usr.roles, [Role.STAFF]))
-					this.appSvc.nav('/user/info');
-				else this.status.pageLoaded = true;
+			this.usrSvc.required({
+				onSubscribe: (usr) => {
+					if (!usr || !matching(usr.roles, [Role.STAFF]))
+						this.appSvc.nav('/user');
+					else this.status.pageLoaded = true;
+				},
 			});
 
 			this.mapSvc.set({ coordinate: null });

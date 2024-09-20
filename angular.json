@@ -2,7 +2,7 @@
 	"$schema": "./node_modules/@angular/cli/lib/config/schema.json",
 	"cli": {
 		"analytics": "084960d4-1b14-4061-a783-5783acb05374",
-		"cache": { "enabled": false },
+		"cache": { "enabled": true },
 		"schematicCollections": ["@angular-eslint/schematics"]
 	},
 	"newProjectRoot": "projects",

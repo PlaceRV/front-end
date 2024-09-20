@@ -24,61 +24,86 @@ export class UserService extends BehaviorSubject<IUser> {
 	}
 
 	async execute(
-		type: 'signup' | 'login' | 'logout',
-		options?: {
+		type: 'signup' | 'login' | 'logout' | 'refresh',
+		options: {
 			body?: IUserAuthentication & Partial<IUserInfo>;
-			onNext?: (v: any) => void;
-			onError?: (e: any) => void;
-		},
+			onNext?: Function;
+			onError?: Function;
+			onSubscribe?: Partial<Observer<IUser>> | ((value: IUser) => void);
+			showError?: boolean;
+		} = {},
 	) {
-		const { body, onError = () => 0, onNext = () => 0 } = options || {};
+		const {
+			body,
+			onError = () => 0,
+			onNext = () => 0,
+			onSubscribe = null,
+			showError = true,
+		} = options || {};
 
-		this.httpSvc
-			.post(
-				this.authUrl(type),
-				type === 'logout'
-					? ''
-					: new InterfaceCasting(
-							body,
-							type === 'signup' ? ISignUpKeys : ILoginKeys,
-						),
-				{ withCredentials: true },
-			)
-			.subscribe({
-				next: (value) => {
-					this.get();
-					onNext(value);
-				},
-				error: (e: HttpErrorResponse) => {
-					try {
-						const errors = JSON.parse(e.error.message);
-						for (const error in errors) this.alrSvc.error(errors[error]);
-					} catch {
-						this.alrSvc.error(e.error.message);
-					}
-
-					onError(e);
-				},
-			});
+		return new Promise((resolve) =>
+			this.httpSvc
+				.post(
+					this.authUrl(type),
+					['refresh', 'logout'].includes(type)
+						? ''
+						: new InterfaceCasting(
+								body,
+								type === 'signup' ? ISignUpKeys : ILoginKeys,
+							),
+					{ withCredentials: true },
+				)
+				.subscribe({
+					next: (v) => {
+						onNext(v);
+						resolve(this.subscribe(onSubscribe));
+						if (type === 'logout') this.next(null);
+						else if (type === 'refresh') this.get();
+					},
+					error: (e: HttpErrorResponse) => {
+						if (showError && type !== 'refresh')
+							try {
+								const errors = JSON.parse(e.error.message);
+								for (const error in errors) this.alrSvc.error(errors[error]);
+							} catch {
+								this.alrSvc.error(e.error.message);
+							}
+						onError(e);
+						resolve(this.subscribe(onSubscribe));
+					},
+				}),
+		);
 	}
 
-	private get(options: { showError?: boolean } = {}) {
-		const { showError = true } = options || {};
-		this.httpSvc
-			.post(AppService.backendUrl('/user'), null, { withCredentials: true })
-			.subscribe({
-				next: (val: object) => this.next(val as IUser),
-				error: (e: HttpErrorResponse) => {
-					if (showError) this.alrSvc.error(e.message);
-				},
-			});
+	private get(
+		options: {
+			showError?: boolean;
+			onSubscribe?: Partial<Observer<IUser>> | ((value: IUser) => void);
+		} = {},
+	) {
+		const { showError = true, onSubscribe = () => 0 } = options;
+		return new Promise((resolve) =>
+			this.httpSvc
+				.post(AppService.backendUrl('/user'), null, { withCredentials: true })
+				.subscribe({
+					next: (val: object) => {
+						this.next(val as IUser);
+						resolve(this.subscribe(onSubscribe));
+					},
+					error: (e: HttpErrorResponse) => {
+						if (showError) this.alrSvc.error(e.message);
+						resolve(this.execute('refresh', options));
+					},
+				}),
+		);
 	}
 
-	required(
-		func?: Partial<Observer<IUser>> | ((value: IUser) => void),
-		options: { showError?: boolean } = {},
+	async required(
+		options: {
+			showError?: boolean;
+			onSubscribe?: Partial<Observer<IUser>> | ((value: IUser) => void);
+		} = {},
 	) {
-		if (!this.value) this.get(options);
-		return this.subscribe(func);
+		return await this.get(options);
 	}
 }

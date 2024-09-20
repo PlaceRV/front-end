@@ -12,7 +12,7 @@ export class AppService {
 	}
 
 	nav(url: string, options?: NavigationBehaviorOptions) {
-		this.router.navigateByUrl(url, options);
+		this.router.navigate([url], options);
 	}
 
 	static formAssign(input: InputItem[]) {

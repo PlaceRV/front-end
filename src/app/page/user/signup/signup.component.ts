@@ -12,13 +12,13 @@ export class SignupComponent extends BaseComponent {
 		super();
 
 		this.OnInit = () =>
-			this.usrSvc.required(
-				(usr) => {
+			this.usrSvc.required({
+				showError: false,
+				onSubscribe: (usr) => {
 					if (!usr) this.status.pageLoaded = true;
-					else this.appSvc.nav('/user/info');
+					else this.appSvc.nav('/user');
 				},
-				{ showError: false },
-			);
+			});
 		this.OnDestroy = () => console.log('signup');
 		this.OnSubmit = () => {
 			this.status.formSummited = true;
@@ -34,7 +34,7 @@ export class SignupComponent extends BaseComponent {
 					description: '',
 				},
 				onNext: (value: any) => {
-					if (value.success) this.appSvc.nav('/user/info');
+					if (value) this.appSvc.nav('/user');
 				},
 				onError: () => (this.status.formProcessing = false),
 			});

@@ -25,12 +25,12 @@ const routes: Routes = [
 			{
 				path: 'user',
 				children: [
-					{ path: 'info', component: InfoComponent },
+					{ path: '', component: InfoComponent },
 					{ path: 'login', component: LoginComponent },
 					{ path: 'signup', component: SignupComponent },
 				],
 			},
-			{ path: '', pathMatch: 'full', redirectTo: 'user/info' },
+			{ path: '', pathMatch: 'full', redirectTo: 'user' },
 		],
 	},
 	{ path: '**', component: NotFoundComponent },

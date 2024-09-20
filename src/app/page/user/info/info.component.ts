@@ -14,15 +14,16 @@ export class InfoComponent extends BaseComponent {
 	) {
 		super();
 
-		this.OnInit = () => {
-			this.usrSvc.required((usr) => {
-				if (!usr) this.appSvc.nav('/user/login');
-				else {
-					this.user = usr;
-					this.status.pageLoaded = true;
-				}
+		this.OnInit = () =>
+			this.usrSvc.required({
+				onSubscribe: (usr) => {
+					if (!usr) this.appSvc.nav('/user/login');
+					else {
+						this.user = usr;
+						this.status.pageLoaded = true;
+					}
+				},
 			});
-		};
 		this.OnDestroy = () => {
 			console.log('info');
 		};

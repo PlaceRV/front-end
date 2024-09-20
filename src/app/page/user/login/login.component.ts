@@ -14,15 +14,14 @@ export class LoginComponent extends BaseComponent {
 	) {
 		super();
 
-		this.OnInit = () => {
-			this.usrSvc.required(
-				(usr) => {
+		this.OnInit = () =>
+			this.usrSvc.required({
+				showError: false,
+				onSubscribe: (usr) => {
 					if (!usr) this.status.pageLoaded = true;
-					else this.appSvc.nav('/user/info');
+					else this.appSvc.nav('/user');
 				},
-				{ showError: false },
-			);
-		};
+			});
 
 		this.OnSubmit = () => {
 			this.status.formSummited = true;
@@ -35,7 +34,7 @@ export class LoginComponent extends BaseComponent {
 					password: this.controls['Password'].value,
 				},
 				onNext: (req: any) => {
-					if (req.success) this.appSvc.nav('/user/info');
+					if (req) this.appSvc.nav('/user');
 				},
 				onError: () => (this.status.formProcessing = false),
 			});
