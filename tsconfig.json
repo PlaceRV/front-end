@@ -23,7 +23,7 @@
 		"moduleResolution": "bundler",
 		"noFallthroughCasesInSwitch": true,
 		"noImplicitAny": false,
-		"noImplicitOverride": false,
+		"noImplicitOverride": true,
 		"noImplicitReturns": true,
 		"noPropertyAccessFromIndexSignature": true,
 		"outDir": "./dist/out-tsc",

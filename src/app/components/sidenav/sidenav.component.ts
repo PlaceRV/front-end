@@ -1,6 +1,4 @@
 import { Component, Input, signal } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
 import { IUser, matching, Role } from 'place-review-types';
 import { Subscription } from 'rxjs';
 import { UserService } from 'service/user.service';
@@ -23,50 +21,43 @@ export class SidenavComponent extends BaseComponent {
 	private userSubscription: Subscription;
 	menuItems = signal<MenuItems[]>([]);
 
-	constructor(
-		private usrSvc: UserService,
-		protected router: Router,
-		protected formBuilder: FormBuilder,
-	) {
+	constructor(private usrSvc: UserService) {
 		super();
-		this.onLeaveUrl = () => {
-			console.log('sidenav');
+
+		this.OnInit = () => {
+			this.userSubscription = this.usrSvc.subscribe((usr) => {
+				this.user = usr;
+
+				const appendRows: MenuItems[] = this.user
+					? [
+							...(matching(this.user.roles, [Role.STAFF])
+								? [{ icon: 'edit', label: 'Chỉnh sửa', route: '/map/edit' }]
+								: []),
+							...(matching(this.user.roles, [Role.ADMIN])
+								? [
+										{
+											icon: 'delete_forever',
+											label: 'Xóa trang',
+											route: 'deletePage',
+										},
+									]
+								: []),
+						]
+					: [];
+
+				this.menuItems.set([
+					...[
+						{ icon: 'playing_cards', label: 'May mắn', route: 'luck' },
+						{ icon: 'payments', label: 'Lộc tài', route: 'fortune' },
+						{ icon: 'rewarded_ads', label: 'Công danh', route: 'fame' },
+					],
+					...appendRows,
+				]);
+			});
 		};
-	}
-
-	async OnInit() {
-		this.userSubscription = this.usrSvc.subscribe((usr) => {
-			this.user = usr;
-
-			const appendRows: MenuItems[] = this.user
-				? [
-						...(matching(this.user.roles, [Role.STAFF])
-							? [{ icon: 'edit', label: 'Chỉnh sửa', route: '/map/edit' }]
-							: []),
-						...(matching(this.user.roles, [Role.ADMIN])
-							? [
-									{
-										icon: 'delete_forever',
-										label: 'Xóa trang',
-										route: 'deletePage',
-									},
-								]
-							: []),
-					]
-				: [];
-
-			this.menuItems.set([
-				...[
-					{ icon: 'playing_cards', label: 'May mắn', route: 'luck' },
-					{ icon: 'payments', label: 'Lộc tài', route: 'fortune' },
-					{ icon: 'rewarded_ads', label: 'Công danh', route: 'fame' },
-				],
-				...appendRows,
-			]);
-		});
-	}
-
-	async OnDestroy() {
-		this.userSubscription.unsubscribe();
+		this.OnDestroy = () => {
+			console.log('sidenav');
+			this.userSubscription.unsubscribe();
+		};
 	}
 }

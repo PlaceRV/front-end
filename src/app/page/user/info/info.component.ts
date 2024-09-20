@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
 import { IUser } from 'place-review-types';
 import { AppService } from 'service/app.service';
 import { UserService } from 'service/user.service';
@@ -13,23 +11,21 @@ export class InfoComponent extends BaseComponent {
 	constructor(
 		private usrSvc: UserService,
 		private appSvc: AppService,
-		protected router: Router,
-		protected formBuilder: FormBuilder,
 	) {
 		super();
-		this.onLeaveUrl = () => {
+
+		this.OnInit = () => {
+			this.usrSvc.required((usr) => {
+				if (!usr) this.appSvc.nav('/user/login');
+				else {
+					this.user = usr;
+					this.status.pageLoaded = true;
+				}
+			});
+		};
+		this.OnDestroy = () => {
 			console.log('info');
 		};
-	}
-
-	async OnInit() {
-		this.usrSvc.required((usr) => {
-			if (!usr) this.appSvc.nav('/user/login');
-			else {
-				this.user = usr;
-				this.status.pageLoaded = true;
-			}
-		});
 	}
 
 	logout() {

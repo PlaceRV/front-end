@@ -1,13 +1,13 @@
 import {
 	Component,
 	HostBinding,
+	inject,
 	Input,
 	OnDestroy,
 	OnInit,
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { NavigationEnd, Router } from '@angular/router';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { AppService } from 'service/app.service';
 
 export const dummyDecorator = (input?: object) =>
@@ -66,10 +66,7 @@ export class BaseComponent implements OnInit, OnDestroy, PageRequirements {
 	@HostBinding('class') classes = 'h-full';
 	@Input() parent: BaseComponent;
 
-	private routerSubscription: Subscription = null;
-	protected onLeaveUrl: Function = () => 0;
-	protected router: Router;
-	protected formBuilder?: FormBuilder;
+	protected formBuilder = inject(FormBuilder);
 
 	OnInit(): any {
 		console.warn('Please initiate OnInit method at ' + this.constructor.name);
@@ -80,10 +77,10 @@ export class BaseComponent implements OnInit, OnDestroy, PageRequirements {
 		);
 	}
 	OnSubmit(): any {
-		return;
+		console.warn('Please initiate OnSubmit method at ' + this.constructor.name);
 	}
 
-	form: FormGroup;
+	_form: FormGroup;
 	properties: InputItem[];
 	status = {
 		pageLoaded: false,
@@ -91,29 +88,28 @@ export class BaseComponent implements OnInit, OnDestroy, PageRequirements {
 		formSummited: false,
 	};
 
+	get form() {
+		if (!this._form) this.initForm();
+		return this._form;
+	}
+
 	get controls() {
-		if (this.form) return this.form.controls;
-		return null;
-	}
-
-	initForm(i: InputItem[]) {
-		this.form = this.formBuilder.group(AppService.formAssign(i));
-	}
-
-	ngOnInit(): void {
-		if (this.router)
-			this.routerSubscription = this.router.events.subscribe((event) => {
-				if (event instanceof NavigationEnd) this.onLeaveUrl();
-			});
-		this.OnInit();
-	}
-
-	ngOnDestroy(): void {
-		if (this.routerSubscription) this.routerSubscription.unsubscribe();
-		this.OnDestroy();
+		return this.form.controls;
 	}
 
 	get current() {
 		return this;
+	}
+
+	private initForm() {
+		this._form = this.formBuilder.group(AppService.formAssign(this.properties));
+	}
+
+	ngOnInit() {
+		this.OnInit();
+	}
+
+	ngOnDestroy() {
+		this.OnDestroy();
 	}
 }
