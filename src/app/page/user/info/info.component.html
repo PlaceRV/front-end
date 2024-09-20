@@ -1,5 +1,4 @@
-<baseCp *ngIf="!status.pageLoaded" />
-<section *ngIf="status.pageLoaded" class="h-full">
+<baseCp [isLoaded]="status.pageLoaded">
 	<header>
 		<nav>
 			<ul>
@@ -22,4 +21,4 @@
 	<footer>
 		<p>&copy; 2023 My Angular Website</p>
 	</footer>
-</section>
+</baseCp>

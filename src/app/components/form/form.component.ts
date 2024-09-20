@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { BaseComponent } from '../../../utils';
+import { BaseComponent } from 'utils';
 
 @Component({ selector: 'cp-form', templateUrl: './form.component.html' })
 export class FormComponent {

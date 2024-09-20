@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { InputItem } from '../../utils';
+import { InputItem } from 'utils';
 
 @Injectable({ providedIn: 'root' })
 export class AppService {

@@ -55,16 +55,16 @@ interface PageRequirements {
 
 @Component({
 	template: `
-		<div class="fr h-full w-full items-center justify-center">
+		<div *ngIf="!isLoaded" class="fr h-full w-full items-center justify-center">
 			<span class="ds-loading ds-loading-spinner w-1/12 text-primary"></span>
 		</div>
-		<ng-content [parent]="current" />
+		<ng-content *ngIf="isLoaded" />
 	`,
 	selector: 'baseCp',
 })
 export class BaseComponent implements OnInit, OnDestroy, PageRequirements {
-	@HostBinding('class') classes = 'h-full';
-	@Input() parent: BaseComponent;
+	@HostBinding('class') classes = 'fc full';
+	@Input() isLoaded = false;
 
 	protected formBuilder = inject(FormBuilder);
 

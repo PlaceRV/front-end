@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { AppService } from 'service/app.service';
 import { MapService } from 'service/map.service';
 import { UserService } from 'service/user.service';
-import { BaseComponent, InputItem } from '../../../../utils';
+import { BaseComponent, InputItem } from 'utils';
 
 @Component({ selector: 'pg-edit', templateUrl: './edit.component.html' })
 export class EditComponent extends BaseComponent {

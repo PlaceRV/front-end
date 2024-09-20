@@ -29,7 +29,7 @@ import { InfoComponent } from 'page/user/info/info.component';
 import { LoginComponent } from 'page/user/login/login.component';
 import { SignupComponent } from 'page/user/signup/signup.component';
 import { AppService } from 'service/app.service';
-import { BaseComponent } from '../utils';
+import { BaseComponent } from 'utils';
 // Core
 import { CoreRoutingModule } from './core-routing.module';
 import { CoreComponent } from './core.component';

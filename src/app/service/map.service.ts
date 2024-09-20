@@ -21,7 +21,7 @@ import {
 	methodDecorator,
 } from 'place-review-types';
 import { AlertService } from 'service/alert.service';
-import { Subject } from '../../utils';
+import { Subject } from 'utils';
 
 interface MapData {
 	coordinate: Coordinate;

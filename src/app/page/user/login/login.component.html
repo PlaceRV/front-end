@@ -1,9 +1,10 @@
-<baseCp *ngIf="!status.pageLoaded" />
-<div
-	*ngIf="status.pageLoaded"
-	class="relative flex h-full flex-col justify-center overflow-hidden"
->
-	<cp-form [parent]="current" title="Login">
-		<a routerLink="../signup">Register</a>
-	</cp-form>
-</div>
+<baseCp [isLoaded]="status.pageLoaded">
+	<div
+		*ngIf="status.pageLoaded"
+		class="relative flex h-full flex-col justify-center overflow-hidden"
+	>
+		<cp-form [parent]="current" title="Login">
+			<a routerLink="../signup">Register</a>
+		</cp-form>
+	</div>
+</baseCp>

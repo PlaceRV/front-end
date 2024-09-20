@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { AppService } from 'service/app.service';
 import { UserService } from 'service/user.service';
-import { BaseComponent, InputItem } from '../../../../utils';
+import { BaseComponent, InputItem } from 'utils';
 
 @Component({
 	selector: 'pg-user-login',

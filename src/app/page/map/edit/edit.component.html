@@ -1,8 +1,9 @@
-<baseCp *ngIf="!status.pageLoaded" />
-<div *ngIf="status.pageLoaded" class="fc relative h-full justify-center">
-	<cp-form
-		title="Create new place"
-		[parent]="current"
-		submitButtonLabel="Assign"
-	/>
-</div>
+<baseCp [isLoaded]="status.pageLoaded">
+	<div *ngIf="status.pageLoaded" class="fc relative h-full justify-center">
+		<cp-form
+			title="Create new place"
+			[parent]="current"
+			submitButtonLabel="Assign"
+		/>
+	</div>
+</baseCp>
