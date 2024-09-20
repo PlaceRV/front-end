@@ -6,7 +6,7 @@
 		"backend": "npm i git+ssh://github.com/PlaceRV/back-end#package --save-dev",
 		"prebuild": "npm i && npm run backend",
 		"build": "ng build",
-		"format": "replace '{\n' '{' . -r --include=\"*.ts,*.js*\" --exclude=\"node_modules\" --silent && replace \"\\[\n\" \"[\" . -r --include=\"*.ts,*.js*\" --exclude=\"node_modules\" --silent && prettier --write \"./**/*.{html,ts,css,scss}\" \"./**/*.js*\" \"./**/*.*rc\" --log-level silent",
+		"format": "replace '{\n' '{' . -r --include=\"*.ts,*.js*\" --exclude=\"node_modules\" --silent && replace \"\\[\n\" \"[\" . -r --include=\"*.ts,*.js*\" --exclude=\"node_modules\" --silent && prettier --write \"./**/*.{ts,html,css,scss,sass}\" \"./**/*.js*\" \"./**/*.*rc\" --log-level silent",
 		"lint": "ng lint --fix",
 		"ng": "ng",
 		"start": "ng serve",

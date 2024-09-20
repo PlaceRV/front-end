@@ -69,24 +69,25 @@ export class BaseComponent implements OnInit, OnDestroy, PageRequirements {
 	protected formBuilder = inject(FormBuilder);
 
 	OnInit(): any {
-		console.warn('Please initiate OnInit method at ' + this.constructor.name);
+		if (!this.constructor.name.includes(BaseComponent.name))
+			console.warn('Please initiate OnInit method at ' + this.constructor.name);
 	}
 	OnDestroy(): any {
-		console.warn(
-			'Please initiate OnDestroy method at ' + this.constructor.name,
-		);
+		if (!this.constructor.name.includes(BaseComponent.name))
+			console.warn(
+				'Please initiate OnDestroy method at ' + this.constructor.name,
+			);
 	}
 	OnSubmit(): any {
-		console.warn('Please initiate OnSubmit method at ' + this.constructor.name);
+		if (!this.constructor.name.includes(BaseComponent.name))
+			console.warn(
+				'Please initiate OnSubmit method at ' + this.constructor.name,
+			);
 	}
 
 	_form: FormGroup;
 	properties: InputItem[];
-	status = {
-		pageLoaded: false,
-		formProcessing: false,
-		formSummited: false,
-	};
+	status = { pageLoaded: false, formProcessing: false, formSummited: false };
 
 	get form() {
 		if (!this._form) this.initForm();

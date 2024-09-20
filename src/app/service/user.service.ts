@@ -45,9 +45,9 @@ export class UserService extends BehaviorSubject<IUser> {
 				{ withCredentials: true },
 			)
 			.subscribe({
-				next: async (value) => {
-					this.next(await this.get());
-					onNext!(value);
+				next: (value) => {
+					this.get();
+					onNext(value);
 				},
 				error: (e: HttpErrorResponse) => {
 					try {
@@ -57,31 +57,28 @@ export class UserService extends BehaviorSubject<IUser> {
 						this.alrSvc.error(e.error.message);
 					}
 
-					onError!(e);
+					onError(e);
 				},
 			});
 	}
 
 	private get(options: { showError?: boolean } = {}) {
 		const { showError = true } = options || {};
-		return new Promise<IUser>((resolve) => {
-			this.httpSvc
-				.post(AppService.backendUrl('/user'), null, { withCredentials: true })
-				.subscribe({
-					next: (val: object) => resolve(val as IUser),
-					error: (e: HttpErrorResponse) => {
-						if (showError) this.alrSvc.error(e.message);
-						resolve(null);
-					},
-				});
-		});
+		this.httpSvc
+			.post(AppService.backendUrl('/user'), null, { withCredentials: true })
+			.subscribe({
+				next: (val: object) => this.next(val as IUser),
+				error: (e: HttpErrorResponse) => {
+					if (showError) this.alrSvc.error(e.message);
+				},
+			});
 	}
 
-	async required(
+	required(
 		func?: Partial<Observer<IUser>> | ((value: IUser) => void),
 		options: { showError?: boolean } = {},
 	) {
-		if (!this.value) this.next(await this.get(options));
+		if (!this.value) this.get(options);
 		return this.subscribe(func);
 	}
 }

@@ -11,15 +11,14 @@ export class SignupComponent extends BaseComponent {
 	) {
 		super();
 
-		this.OnInit = async () => {
-			await this.usrSvc.required(
+		this.OnInit = () =>
+			this.usrSvc.required(
 				(usr) => {
 					if (!usr) this.status.pageLoaded = true;
 					else this.appSvc.nav('/user/info');
 				},
 				{ showError: false },
 			);
-		};
 		this.OnDestroy = () => console.log('signup');
 		this.OnSubmit = () => {
 			this.status.formSummited = true;
