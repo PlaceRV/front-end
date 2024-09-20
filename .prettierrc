@@ -5,9 +5,11 @@
 	"jsonRecursiveSort": true,
 	"plugins": [
 		"@ianvs/prettier-plugin-sort-imports",
-		"prettier-plugin-sort-json"
+		"prettier-plugin-sort-json",
+		"prettier-plugin-tailwindcss"
 	],
 	"printWidth": 80,
+	"singleAttributePerLine": false,
 	"singleQuote": true,
 	"tabWidth": 2,
 	"trailingComma": "all",

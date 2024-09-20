@@ -1,4 +1,4 @@
-<div class="fc justify-between h-full">
+<div class="fc h-full justify-between">
 	<div class="tabs fc">
 		@for (item of menuItems(); track item.label) {
 			<button
@@ -11,7 +11,7 @@
 			</button>
 		}
 	</div>
-	<button routerLink="user" class="user">
+	<button routerLink="/user/info" class="user">
 		<img src="https://github.com/takahashinguyen.png" />
 		<span *ngIf="!isCollapsed()">
 			{{ user ? user.firstName : 'Login' }}

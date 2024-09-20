@@ -1,7 +1,8 @@
-import { Component, Input, OnDestroy, OnInit, signal } from '@angular/core';
-import { matchingRoles, Role } from '@backend/user/user.enum';
-import { IUser } from '@backend/user/user.interface';
-import { UserService } from 'pg/user/user.service';
+import { Component, Input, signal } from '@angular/core';
+import { IUser, matching, Role } from 'place-review-types';
+import { Subscription } from 'rxjs';
+import { UserService } from 'service/user.service';
+import { BaseComponent } from 'utils';
 
 export interface MenuItems {
 	icon: string;
@@ -14,46 +15,49 @@ export interface MenuItems {
 	templateUrl: './sidenav.component.html',
 	styleUrl: './sidenav.component.sass',
 })
-export class SidenavComponent implements OnInit, OnDestroy {
+export class SidenavComponent extends BaseComponent {
 	@Input({ required: false }) isCollapsed = signal(false);
 	user: IUser;
+	private userSubscription: Subscription;
 	menuItems = signal<MenuItems[]>([]);
 
-	constructor(private usrSvc: UserService) {}
+	constructor(private usrSvc: UserService) {
+		super();
 
-	async ngOnInit() {
-		this.usrSvc.subscribe((usr) => {
-			this.user = usr;
+		this.OnInit = () => {
+			this.userSubscription = this.usrSvc.subscribe((usr) => {
+				this.user = usr;
 
-			const appendRows: MenuItems[] = this.user
-				? [
-						...(matchingRoles(this.user.roles, [Role.STAFF])
-							? [{ icon: 'edit', label: 'Chỉnh sửa', route: 'edit' }]
-							: []),
-						...(matchingRoles(this.user.roles, [Role.ADMIN])
-							? [
-									{
-										icon: 'delete_forever',
-										label: 'Xóa trang',
-										route: 'deletePage',
-									},
-								]
-							: []),
-					]
-				: [];
+				const appendRows: MenuItems[] = this.user
+					? [
+							...(matching(this.user.roles, [Role.STAFF])
+								? [{ icon: 'edit', label: 'Chỉnh sửa', route: '/map/edit' }]
+								: []),
+							...(matching(this.user.roles, [Role.ADMIN])
+								? [
+										{
+											icon: 'delete_forever',
+											label: 'Xóa trang',
+											route: 'deletePage',
+										},
+									]
+								: []),
+						]
+					: [];
 
-			this.menuItems.set([
-				...[
-					{ icon: 'playing_cards', label: 'May mắn', route: 'luck' },
-					{ icon: 'payments', label: 'Lộc tài', route: 'fortune' },
-					{ icon: 'rewarded_ads', label: 'Công danh', route: 'fame' },
-				],
-				...appendRows,
-			]);
-		});
-	}
-
-	async ngOnDestroy() {
-		this.usrSvc.unsubscribe();
+				this.menuItems.set([
+					...[
+						{ icon: 'playing_cards', label: 'May mắn', route: 'luck' },
+						{ icon: 'payments', label: 'Lộc tài', route: 'fortune' },
+						{ icon: 'rewarded_ads', label: 'Công danh', route: 'fame' },
+					],
+					...appendRows,
+				]);
+			});
+		};
+		this.OnDestroy = () => {
+			console.log('sidenav');
+			this.userSubscription.unsubscribe();
+		};
 	}
 }

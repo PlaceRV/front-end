@@ -5,8 +5,8 @@
 				(click)="toggleMenu()"
 				[ngClass]="
 					isCollapsed()
-						? 'ds-btn ds-btn-circle scale-75 h-12'
-						: 'ds-btn round w-full static h-9'
+						? 'ds-btn ds-btn-circle h-12 scale-75'
+						: 'round ds-btn static h-9 w-full'
 				"
 			>
 				<div class="extendButton" [ngClass]="isCollapsed() ? '' : 'w-full'">
@@ -17,10 +17,11 @@
 			<cp-sidenav [isCollapsed]="isCollapsed" class="flex-grow" />
 		</div>
 		<div class="content">
+			<cp-alert />
 			<router-outlet />
 		</div>
 	</div>
-	<div class="relative full">
+	<div class="full relative">
 		<cp-map />
 	</div>
 </div>

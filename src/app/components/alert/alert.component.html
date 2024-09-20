@@ -1,10 +1,13 @@
-<div class="w-full items-center fc">
-	<div *ngFor="let alert of alerts" class="{{ cssClass(alert) }} my-1 w-11/12" role="alert">
+<div
+	*ngFor="let alert of alerts"
+	class="{{ cssClass(alert) }} alert w-11/12 mt-2 fr flex-nowrap justify-between"
+	role="alert"
+>
+	<div class="truncate text-pretty">
 		<span [innerHTML]="alert.message"></span>
-		<button
-			class="ds-btn ds-btn-sm justify-self-end"
-			(click)="removeAlert(alert)"
-		>
+	</div>
+	<div>
+		<button class="ds-btn ds-btn-sm" (click)="removeAlert(alert)">
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				class="h-6 w-6"

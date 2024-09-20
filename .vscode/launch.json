@@ -1,19 +1,19 @@
+// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
 {
-	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-	"version": "0.2.0",
 	"configurations": [
 		{
 			"name": "ng serve",
-			"type": "msedge",
 			"request": "launch",
-			"url": "https://backend.anhvietnguyen.id.vn:2083/"
+			"type": "msedge",
+			"url": "https://testfront.anhvietnguyen.id.vn/"
 		},
 		{
 			"name": "ng test",
-			"type": "msedge",
-			"request": "launch",
 			"preLaunchTask": "npm: test",
+			"request": "launch",
+			"type": "msedge",
 			"url": "http://localhost:9876/debug.html"
 		}
-	]
+	],
+	"version": "0.2.0"
 }

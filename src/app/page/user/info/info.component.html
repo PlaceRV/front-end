@@ -1,0 +1,24 @@
+<baseCp [isLoaded]="status.pageLoaded">
+	<header>
+		<nav>
+			<ul>
+				<li>Home</li>
+				<li>About</li>
+				<li>Contact</li>
+				<li>
+					<button (click)="logout()">Logout</button>
+				</li>
+			</ul>
+		</nav>
+	</header>
+
+	<main>
+		<h2>User Information</h2>
+		<p>Username: {{ user.firstName + ' ' + user.lastName }}</p>
+		<p>Email: {{ user.email }}</p>
+	</main>
+
+	<footer>
+		<p>&copy; 2023 My Angular Website</p>
+	</footer>
+</baseCp>

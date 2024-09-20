@@ -11,24 +11,28 @@ import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserModule } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { AlertModule } from 'cp/alert/alert.module';
+import { InMemoryCache } from '@apollo/client/core';
+import { APOLLO_OPTIONS, ApolloModule } from 'apollo-angular';
+import { HttpLink } from 'apollo-angular/http';
+import { AppComponent } from 'app.component';
 // Components
-import { LoadingComponent } from 'cp/loading/loading.component';
-import { MapComponent } from 'cp/map/map.component';
-import { SidenavComponent } from 'cp/sidenav/sidenav.component';
+import { AlertModule } from 'components/alert/alert.module';
+import { FormComponent } from 'components/form/form.component';
+import { MapComponent } from 'components/map/map.component';
+import { SidenavComponent } from 'components/sidenav/sidenav.component';
+import { FameComponent } from 'page/fame/fame.component';
+import { FortuneComponent } from 'page/fortune/fortune.component';
+import { LuckComponent } from 'page/luck/luck.component';
 // Pages
-import { EditComponent } from 'pg/edit/edit.component';
-import { FameComponent } from 'pg/fame/fame.component';
-import { FortuneComponent } from 'pg/fortune/fortune.component';
-import { LuckComponent } from 'pg/luck/luck.component';
-import { InfoComponent } from 'pg/user/info/info.component';
-import { LoginComponent } from 'pg/user/login/login.component';
-import { SignupComponent } from 'pg/user/signup/signup.component';
-import { AppComponent } from '../app/app.component';
+import { EditComponent } from 'page/map/edit/edit.component';
+import { InfoComponent } from 'page/user/info/info.component';
+import { LoginComponent } from 'page/user/login/login.component';
+import { SignupComponent } from 'page/user/signup/signup.component';
+import { AppService } from 'service/app.service';
+import { BaseComponent } from 'utils';
 // Core
 import { CoreRoutingModule } from './core-routing.module';
 import { CoreComponent } from './core.component';
-import { GraphQLModule } from './graphql.module';
 
 @NgModule({
 	declarations: [
@@ -38,8 +42,9 @@ import { GraphQLModule } from './graphql.module';
 		// Untils
 		SidenavComponent,
 		MapComponent,
-		LoadingComponent,
-		// pg
+		BaseComponent,
+		FormComponent,
+		// Pages
 		FameComponent,
 		LuckComponent,
 		FortuneComponent,
@@ -53,12 +58,11 @@ import { GraphQLModule } from './graphql.module';
 	],
 	imports: [
 		BrowserModule,
+		ApolloModule,
 		CoreRoutingModule,
 		FormsModule,
 		ReactiveFormsModule,
 		CommonModule,
-		GraphQLModule,
-		// Core's modules
 		AlertModule,
 		// Materials
 		MatIconModule,
@@ -68,7 +72,23 @@ import { GraphQLModule } from './graphql.module';
 		MatCardModule,
 		MatFormFieldModule,
 	],
-	providers: [provideAnimationsAsync(), provideHttpClient()],
+	providers: [
+		provideAnimationsAsync(),
+		provideHttpClient(),
+		{
+			deps: [HttpLink],
+			provide: APOLLO_OPTIONS,
+			useFactory(httpLink: HttpLink) {
+				return {
+					cache: new InMemoryCache(),
+					link: httpLink.create({
+						uri: AppService.backendUrl('/graphql'),
+						withCredentials: true,
+					}),
+				};
+			},
+		},
+	],
 	bootstrap: [CoreComponent],
 })
 export class CoreModule {}
