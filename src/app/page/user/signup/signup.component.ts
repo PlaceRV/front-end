@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { IUser } from 'place-review-types';
 import { AppService } from 'service/app.service';
 import { UserService } from 'service/user.service';
 import { BaseComponent, InputItem } from 'utils';
@@ -12,12 +13,12 @@ export class SignupComponent extends BaseComponent {
 		super();
 
 		this.OnInit = () =>
-			this.usrSvc.required({
-				showError: false,
-				onSubscribe: (usr) => {
+			this.usrSvc.execute('user', {
+				onAny: (usr: IUser) => {
 					if (!usr) this.status.pageLoaded = true;
 					else this.appSvc.nav('/user');
 				},
+				showError: false,
 			});
 		this.OnDestroy = () => console.log('signup');
 		this.OnSubmit = () => {

@@ -15,8 +15,8 @@ export class InfoComponent extends BaseComponent {
 		super();
 
 		this.OnInit = () =>
-			this.usrSvc.required({
-				onSubscribe: (usr) => {
+			this.usrSvc.execute('user', {
+				onAny: (usr: IUser) => {
 					if (!usr) this.appSvc.nav('/user/login');
 					else {
 						this.user = usr;
