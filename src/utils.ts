@@ -106,11 +106,11 @@ export class BaseComponent implements OnInit, OnDestroy, PageRequirements {
 		this._form = this.formBuilder.group(AppService.formAssign(this.properties));
 	}
 
-	ngOnInit() {
-		this.OnInit();
+	async ngOnInit() {
+		await this.OnInit();
 	}
 
-	ngOnDestroy() {
-		this.OnDestroy();
+	async ngOnDestroy() {
+		await this.OnDestroy();
 	}
 }

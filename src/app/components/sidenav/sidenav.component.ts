@@ -25,34 +25,38 @@ export class SidenavComponent extends BaseComponent {
 		super();
 
 		this.OnInit = () => {
-			this.userSubscription = this.usrSvc.subscribe((usr) => {
-				this.user = usr;
+			this.usrSvc.execute('subscribe', {
+				onAny: ({ t }) =>
+					t.subscribe((value: IUser) => {
+						this.user = value;
 
-				const appendRows: MenuItems[] = this.user
-					? [
-							...(matching(this.user.roles, [Role.STAFF])
-								? [{ icon: 'edit', label: 'Chỉnh sửa', route: '/map/edit' }]
-								: []),
-							...(matching(this.user.roles, [Role.ADMIN])
-								? [
-										{
-											icon: 'delete_forever',
-											label: 'Xóa trang',
-											route: 'deletePage',
-										},
-									]
-								: []),
-						]
-					: [];
+						const appendRows: MenuItems[] = this.user
+							? [
+									...(matching(this.user.roles, [Role.STAFF])
+										? [{ icon: 'edit', label: 'Chỉnh sửa', route: '/map/edit' }]
+										: []),
+									...(matching(this.user.roles, [Role.ADMIN])
+										? [
+												{
+													icon: 'delete_forever',
+													label: 'Xóa trang',
+													route: 'deletePage',
+												},
+											]
+										: []),
+								]
+							: [];
 
-				this.menuItems.set([
-					...[
-						{ icon: 'playing_cards', label: 'May mắn', route: 'luck' },
-						{ icon: 'payments', label: 'Lộc tài', route: 'fortune' },
-						{ icon: 'rewarded_ads', label: 'Công danh', route: 'fame' },
-					],
-					...appendRows,
-				]);
+						this.menuItems.set([
+							...[
+								{ icon: 'playing_cards', label: 'May mắn', route: 'luck' },
+								{ icon: 'payments', label: 'Lộc tài', route: 'fortune' },
+								{ icon: 'rewarded_ads', label: 'Công danh', route: 'fame' },
+							],
+							...appendRows,
+						]);
+					}),
+				showError: false,
 			});
 		};
 		this.OnDestroy = () => {

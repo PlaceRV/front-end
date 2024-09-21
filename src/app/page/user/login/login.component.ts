@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { IUser } from 'place-review-types';
 import { AppService } from 'service/app.service';
 import { UserService } from 'service/user.service';
 import { BaseComponent, InputItem } from 'utils';
@@ -17,8 +16,8 @@ export class LoginComponent extends BaseComponent {
 
 		this.OnInit = () =>
 			this.usrSvc.execute('user', {
-				onAny: (usr: IUser) => {
-					if (!usr) this.status.pageLoaded = true;
+				onAny: ({ value }) => {
+					if (!value) this.status.pageLoaded = true;
 					else this.appSvc.nav('/user');
 				},
 				showError: false,

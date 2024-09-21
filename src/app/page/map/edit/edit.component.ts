@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { toLonLat } from 'ol/proj';
-import { IUser, matching, PlaceType, Role } from 'place-review-types';
+import { matching, PlaceType, Role } from 'place-review-types';
 import { Subscription } from 'rxjs';
 import { AppService } from 'service/app.service';
 import { MapService } from 'service/map.service';
@@ -20,8 +20,8 @@ export class EditComponent extends BaseComponent {
 
 		this.OnInit = (): void => {
 			this.usrSvc.execute('user', {
-				onAny: (usr: IUser) => {
-					if (!usr || !matching(usr.roles, [Role.STAFF]))
+				onAny: ({ value }) => {
+					if (!value || !matching(value.roles, [Role.STAFF]))
 						this.appSvc.nav('/user');
 					else this.status.pageLoaded = true;
 				},

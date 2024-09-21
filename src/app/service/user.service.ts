@@ -24,13 +24,14 @@ export class UserService extends BehaviorSubject<IUser> {
 	}
 
 	async execute(
-		type: 'signup' | 'login' | 'logout' | 'refresh' | 'user',
+		type: 'signup' | 'login' | 'logout' | 'refresh' | 'user' | 'subscribe',
 		options: {
 			body?: IUserAuthentication & Partial<IUserInfo>;
-			onNext?: Function;
-			onError?: Function;
-			onAny?: Function;
+			onNext?: (re?: { value: any; t?: UserService }) => void;
+			onError?: (re?: { error: any; t?: UserService }) => void;
+			onAny?: (re?: { value: any; t?: UserService }) => void;
 			showError?: boolean;
+			allowRefresh?: boolean;
 		} = {},
 	): Promise<boolean> {
 		const {
@@ -39,55 +40,61 @@ export class UserService extends BehaviorSubject<IUser> {
 			onNext = () => 0,
 			onAny = () => 0,
 			showError = true,
+			allowRefresh = true,
 		} = options || {};
 
-		return new Promise((resolve) => {
-			this.httpSvc
-				.post(
-					type === 'user' ? AppService.backendUrl('/user') : this.authUrl(type),
-					['refresh', 'logout', 'user'].includes(type)
-						? ''
-						: new InterfaceCasting(
-								body,
-								type === 'signup' ? ISignUpKeys : ILoginKeys,
-							),
-					{ withCredentials: true },
-				)
-				.subscribe({
-					next: (v) => {
-						if (type !== 'refresh') {
-							onNext(v);
-							onAny(v);
-						}
-
-						if (type === 'logout') this.next(null);
-						else if (type === 'refresh') this.execute('user', options);
-						else if (type === 'user') this.next(v as IUser);
-
-						resolve(true);
-					},
-					error: async (e: HttpErrorResponse) => {
-						if (type !== 'refresh') {
-							if (await this.execute('refresh'))
-								resolve(await this.execute(type, options));
-							else {
-								if (showError)
-									try {
-										const errors = JSON.parse(e.error.message);
-										for (const error in errors)
-											this.alrSvc.error(errors[error]);
-									} catch {
-										this.alrSvc.error(e.error.message);
-									}
-
-								onError(e);
-								onAny(null);
-
-								resolve(false);
+		if (type === 'subscribe') {
+			onAny({ value: null, t: this });
+			return true;
+		} else
+			return new Promise((resolve) => {
+				this.httpSvc
+					.post(
+						type === 'user'
+							? AppService.backendUrl('/user')
+							: this.authUrl(type),
+						['refresh', 'logout', 'user'].includes(type)
+							? ''
+							: new InterfaceCasting(
+									body,
+									type === 'signup' ? ISignUpKeys : ILoginKeys,
+								),
+						{ withCredentials: true },
+					)
+					.subscribe({
+						next: async (value) => {
+							if (type !== 'refresh') {
+								onNext({ value, t: this });
+								onAny({ value, t: this });
 							}
-						}
-					},
-				});
-		});
+
+							if (type === 'logout') this.next(null);
+							else if (type === 'refresh') await this.execute('user', options);
+							else if (type === 'user') this.next(value as IUser);
+
+							resolve(true);
+						},
+						error: async ({ error }: HttpErrorResponse) => {
+							if (type !== 'refresh') {
+								if (allowRefresh && (await this.execute('refresh')))
+									resolve(await this.execute(type, options));
+								else {
+									if (showError)
+										try {
+											const errors = JSON.parse(error.message);
+											for (const error in errors)
+												this.alrSvc.error(errors[error]);
+										} catch {
+											this.alrSvc.error(error.message);
+										}
+
+									onError({ error });
+									onAny({ value: null, t: this });
+								}
+							}
+							resolve(false);
+						},
+					});
+			});
 	}
 }
