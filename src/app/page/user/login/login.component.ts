@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { AppService } from 'service/app.service';
-import { UserService } from 'service/user.service';
 import { BaseComponent, InputItem } from 'utils';
 
 @Component({
@@ -8,21 +6,17 @@ import { BaseComponent, InputItem } from 'utils';
 	templateUrl: './login.component.html',
 })
 export class LoginComponent extends BaseComponent {
-	constructor(
-		private appSvc: AppService,
-		private usrSvc: UserService,
-	) {
+	constructor() {
 		super();
 
-		this.OnInit = () => {
-			this.usrSvc.required(
-				(usr) => {
-					if (!usr) this.status.pageLoaded = true;
-					else this.appSvc.nav('/user/info');
+		this.OnInit = () =>
+			this.usrSvc.execute('user', {
+				onAny: ({ value }) => {
+					if (!value) this.status.pageLoaded = true;
+					else this.appSvc.nav('/user');
 				},
-				{ showError: false },
-			);
-		};
+				showError: false,
+			});
 
 		this.OnSubmit = () => {
 			this.status.formSummited = true;
@@ -35,7 +29,7 @@ export class LoginComponent extends BaseComponent {
 					password: this.controls['Password'].value,
 				},
 				onNext: (req: any) => {
-					if (req.success) this.appSvc.nav('/user/info');
+					if (req) this.appSvc.nav('/user');
 				},
 				onError: () => (this.status.formProcessing = false),
 			});

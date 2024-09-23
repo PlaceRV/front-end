@@ -2,27 +2,23 @@ import { Component } from '@angular/core';
 import { toLonLat } from 'ol/proj';
 import { matching, PlaceType, Role } from 'place-review-types';
 import { Subscription } from 'rxjs';
-import { AppService } from 'service/app.service';
 import { MapService } from 'service/map.service';
-import { UserService } from 'service/user.service';
 import { BaseComponent, InputItem } from 'utils';
 
 @Component({ selector: 'pg-edit', templateUrl: './edit.component.html' })
 export class EditComponent extends BaseComponent {
 	private mapSubscription: Subscription;
 
-	constructor(
-		private mapSvc: MapService,
-		private usrSvc: UserService,
-		private appSvc: AppService,
-	) {
+	constructor(private mapSvc: MapService) {
 		super();
 
 		this.OnInit = (): void => {
-			this.usrSvc.required((usr) => {
-				if (!usr || !matching(usr.roles, [Role.STAFF]))
-					this.appSvc.nav('/user/info');
-				else this.status.pageLoaded = true;
+			this.usrSvc.execute('user', {
+				onAny: ({ value }) => {
+					if (!value || !matching(value.roles, [Role.STAFF]))
+						this.appSvc.nav('/user');
+					else this.status.pageLoaded = true;
+				},
 			});
 
 			this.mapSvc.set({ coordinate: null });

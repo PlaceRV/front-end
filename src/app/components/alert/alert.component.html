@@ -1,6 +1,8 @@
 <div
 	*ngFor="let alert of alerts"
-	class="{{ cssClass(alert) }} alert w-11/12 mt-2 fr flex-nowrap justify-between"
+	class="{{
+		cssClass(alert)
+	}} alert w-11/12 mt-2 fr flex-nowrap justify-between"
 	role="alert"
 >
 	<div class="truncate text-pretty">

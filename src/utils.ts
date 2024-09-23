@@ -9,6 +9,7 @@ import {
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { AppService } from 'service/app.service';
+import { UserService } from 'service/user.service';
 
 export const dummyDecorator = (input?: object) =>
 	function (target?: any, context?: string) {
@@ -67,26 +68,29 @@ export class BaseComponent implements OnInit, OnDestroy, PageRequirements {
 	@Input() isLoaded = false;
 
 	protected formBuilder = inject(FormBuilder);
+	protected usrSvc = inject(UserService);
+	protected appSvc = inject(AppService);
 
 	OnInit(): any {
-		console.warn('Please initiate OnInit method at ' + this.constructor.name);
+		if (!this.constructor.name.includes(BaseComponent.name))
+			console.warn('Please initiate OnInit method at ' + this.constructor.name);
 	}
 	OnDestroy(): any {
-		console.warn(
-			'Please initiate OnDestroy method at ' + this.constructor.name,
-		);
+		if (!this.constructor.name.includes(BaseComponent.name))
+			console.warn(
+				'Please initiate OnDestroy method at ' + this.constructor.name,
+			);
 	}
 	OnSubmit(): any {
-		console.warn('Please initiate OnSubmit method at ' + this.constructor.name);
+		if (!this.constructor.name.includes(BaseComponent.name))
+			console.warn(
+				'Please initiate OnSubmit method at ' + this.constructor.name,
+			);
 	}
 
 	_form: FormGroup;
 	properties: InputItem[];
-	status = {
-		pageLoaded: false,
-		formProcessing: false,
-		formSummited: false,
-	};
+	status = { pageLoaded: false, formProcessing: false, formSummited: false };
 
 	get form() {
 		if (!this._form) this.initForm();
@@ -105,11 +109,11 @@ export class BaseComponent implements OnInit, OnDestroy, PageRequirements {
 		this._form = this.formBuilder.group(AppService.formAssign(this.properties));
 	}
 
-	ngOnInit() {
-		this.OnInit();
+	async ngOnInit() {
+		await this.OnInit();
 	}
 
-	ngOnDestroy() {
-		this.OnDestroy();
+	async ngOnDestroy() {
+		await this.OnDestroy();
 	}
 }

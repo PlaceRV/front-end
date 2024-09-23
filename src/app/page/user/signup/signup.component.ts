@@ -1,25 +1,19 @@
 import { Component } from '@angular/core';
-import { AppService } from 'service/app.service';
-import { UserService } from 'service/user.service';
 import { BaseComponent, InputItem } from 'utils';
 
 @Component({ selector: 'pg-signup', templateUrl: './signup.component.html' })
 export class SignupComponent extends BaseComponent {
-	constructor(
-		private appSvc: AppService,
-		private usrSvc: UserService,
-	) {
+	constructor() {
 		super();
 
-		this.OnInit = async () => {
-			await this.usrSvc.required(
-				(usr) => {
-					if (!usr) this.status.pageLoaded = true;
-					else this.appSvc.nav('/user/info');
+		this.OnInit = () =>
+			this.usrSvc.execute('user', {
+				onAny: ({ value }) => {
+					if (!value) this.status.pageLoaded = true;
+					else this.appSvc.nav('/user');
 				},
-				{ showError: false },
-			);
-		};
+				showError: false,
+			});
 		this.OnDestroy = () => console.log('signup');
 		this.OnSubmit = () => {
 			this.status.formSummited = true;
@@ -35,7 +29,7 @@ export class SignupComponent extends BaseComponent {
 					description: '',
 				},
 				onNext: (value: any) => {
-					if (value.success) this.appSvc.nav('/user/info');
+					if (value) this.appSvc.nav('/user');
 				},
 				onError: () => (this.status.formProcessing = false),
 			});

@@ -8,7 +8,7 @@ import {
 	IUserAuthentication,
 	IUserInfo,
 } from 'place-review-types';
-import { BehaviorSubject, Observer } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { AlertService } from 'service/alert.service';
 import { AppService } from 'service/app.service';
 
@@ -24,64 +24,77 @@ export class UserService extends BehaviorSubject<IUser> {
 	}
 
 	async execute(
-		type: 'signup' | 'login' | 'logout',
-		options?: {
+		type: 'signup' | 'login' | 'logout' | 'refresh' | 'user' | 'subscribe',
+		options: {
 			body?: IUserAuthentication & Partial<IUserInfo>;
-			onNext?: (v: any) => void;
-			onError?: (e: any) => void;
-		},
-	) {
-		const { body, onError = () => 0, onNext = () => 0 } = options || {};
+			onNext?: (re?: { value: any; t?: UserService }) => void;
+			onError?: (re?: { error: any; t?: UserService }) => void;
+			onAny?: (re?: { value: any; t?: UserService }) => void;
+			showError?: boolean;
+			allowRefresh?: boolean;
+		} = {},
+	): Promise<boolean> {
+		const {
+			body,
+			onError = () => 0,
+			onNext = () => 0,
+			onAny = () => 0,
+			showError = true,
+			allowRefresh = true,
+		} = options || {};
 
-		this.httpSvc
-			.post(
-				this.authUrl(type),
-				type === 'logout'
-					? ''
-					: new InterfaceCasting(
-							body,
-							type === 'signup' ? ISignUpKeys : ILoginKeys,
-						),
-				{ withCredentials: true },
-			)
-			.subscribe({
-				next: async (value) => {
-					this.next(await this.get());
-					onNext!(value);
-				},
-				error: (e: HttpErrorResponse) => {
-					try {
-						const errors = JSON.parse(e.error.message);
-						for (const error in errors) this.alrSvc.error(errors[error]);
-					} catch {
-						this.alrSvc.error(e.error.message);
-					}
+		if (type === 'subscribe') {
+			onAny({ value: null, t: this });
+			return true;
+		} else
+			return new Promise((resolve) => {
+				this.httpSvc
+					.post(
+						type === 'user'
+							? AppService.backendUrl('/user')
+							: this.authUrl(type),
+						['refresh', 'logout', 'user'].includes(type)
+							? ''
+							: new InterfaceCasting(
+									body,
+									type === 'signup' ? ISignUpKeys : ILoginKeys,
+								),
+						{ withCredentials: true },
+					)
+					.subscribe({
+						next: async (value) => {
+							if (type !== 'refresh') {
+								onNext({ value, t: this });
+								onAny({ value, t: this });
+							}
 
-					onError!(e);
-				},
+							if (type === 'logout') this.next(null);
+							else if (type === 'refresh') await this.execute('user', options);
+							else if (type === 'user') this.next(value as IUser);
+
+							resolve(true);
+						},
+						error: async ({ error }: HttpErrorResponse) => {
+							if (type !== 'refresh') {
+								if (allowRefresh && (await this.execute('refresh')))
+									resolve(await this.execute(type, options));
+								else {
+									if (showError)
+										try {
+											const errors = JSON.parse(error.message);
+											for (const error in errors)
+												this.alrSvc.error(errors[error]);
+										} catch {
+											this.alrSvc.error(error.message);
+										}
+
+									onError({ error });
+									onAny({ value: null, t: this });
+								}
+							}
+							resolve(false);
+						},
+					});
 			});
-	}
-
-	private get(options: { showError?: boolean } = {}) {
-		const { showError = true } = options || {};
-		return new Promise<IUser>((resolve) => {
-			this.httpSvc
-				.post(AppService.backendUrl('/user'), null, { withCredentials: true })
-				.subscribe({
-					next: (val: object) => resolve(val as IUser),
-					error: (e: HttpErrorResponse) => {
-						if (showError) this.alrSvc.error(e.message);
-						resolve(null);
-					},
-				});
-		});
-	}
-
-	async required(
-		func?: Partial<Observer<IUser>> | ((value: IUser) => void),
-		options: { showError?: boolean } = {},
-	) {
-		if (!this.value) this.next(await this.get(options));
-		return this.subscribe(func);
 	}
 }

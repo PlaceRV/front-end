@@ -5,7 +5,11 @@
 			"name": "ng serve",
 			"request": "launch",
 			"type": "msedge",
-			"url": "https://testfront.anhvietnguyen.id.vn/"
+			"url": "https://testfront.anhvietnguyen.id.vn/",
+			"runtimeArgs": [
+				"--disable-features=MemoryOptimizedCache",
+				"--auto-open-devtools-for-tabs"
+			]
 		},
 		{
 			"name": "ng test",
