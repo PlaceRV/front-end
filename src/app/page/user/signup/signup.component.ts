@@ -1,14 +1,9 @@
 import { Component } from '@angular/core';
-import { AppService } from 'service/app.service';
-import { UserService } from 'service/user.service';
 import { BaseComponent, InputItem } from 'utils';
 
 @Component({ selector: 'pg-signup', templateUrl: './signup.component.html' })
 export class SignupComponent extends BaseComponent {
-	constructor(
-		private appSvc: AppService,
-		private usrSvc: UserService,
-	) {
+	constructor() {
 		super();
 
 		this.OnInit = () =>

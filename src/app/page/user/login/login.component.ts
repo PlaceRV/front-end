@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { AppService } from 'service/app.service';
-import { UserService } from 'service/user.service';
 import { BaseComponent, InputItem } from 'utils';
 
 @Component({
@@ -8,10 +6,7 @@ import { BaseComponent, InputItem } from 'utils';
 	templateUrl: './login.component.html',
 })
 export class LoginComponent extends BaseComponent {
-	constructor(
-		private appSvc: AppService,
-		private usrSvc: UserService,
-	) {
+	constructor() {
 		super();
 
 		this.OnInit = () =>

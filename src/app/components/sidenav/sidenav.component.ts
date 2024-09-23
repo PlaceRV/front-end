@@ -1,7 +1,6 @@
 import { Component, Input, signal } from '@angular/core';
 import { IUser, matching, Role } from 'place-review-types';
 import { Subscription } from 'rxjs';
-import { UserService } from 'service/user.service';
 import { BaseComponent } from 'utils';
 
 export interface MenuItems {
@@ -21,7 +20,7 @@ export class SidenavComponent extends BaseComponent {
 	private userSubscription: Subscription;
 	menuItems = signal<MenuItems[]>([]);
 
-	constructor(private usrSvc: UserService) {
+	constructor() {
 		super();
 
 		this.OnInit = () => {

@@ -9,6 +9,7 @@ import {
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { AppService } from 'service/app.service';
+import { UserService } from 'service/user.service';
 
 export const dummyDecorator = (input?: object) =>
 	function (target?: any, context?: string) {
@@ -67,6 +68,8 @@ export class BaseComponent implements OnInit, OnDestroy, PageRequirements {
 	@Input() isLoaded = false;
 
 	protected formBuilder = inject(FormBuilder);
+	protected usrSvc = inject(UserService);
+	protected appSvc = inject(AppService);
 
 	OnInit(): any {
 		if (!this.constructor.name.includes(BaseComponent.name))
