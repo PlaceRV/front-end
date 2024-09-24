@@ -11,7 +11,6 @@
 					(change)="
 						i.type === 'file' ? parent.OnFileChange($event, i.label) : ''
 					"
-					[disabled]="parent.status.formProcessing"
 				/>
 				<span
 					*ngIf="parent.controls[i.label].errors && parent.status.formSummited"
