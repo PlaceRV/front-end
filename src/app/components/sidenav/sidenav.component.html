@@ -12,7 +12,13 @@
 		}
 	</div>
 	<button routerLink="/user" class="user">
-		<img src="https://github.com/takahashinguyen.png" />
+		@if (!user) {
+			<img src="https://testback.anhvietnguyen.id.vn/defaultUser.server.jpg" />
+		} @else {
+			<img
+				[src]="'https://testback.anhvietnguyen.id.vn/' + user.avatarFilePath"
+			/>
+		}
 		<span *ngIf="!isCollapsed()">
 			{{ user ? user.firstName : 'Login' }}
 		</span>
