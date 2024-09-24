@@ -12,7 +12,7 @@
 		}
 	</div>
 	<button routerLink="/user" class="user">
-		@if (!user) {
+		@if (!user || !user.avatarFilePath) {
 			<img src="https://testback.anhvietnguyen.id.vn/defaultUser.server.jpg" />
 		} @else {
 			<img
