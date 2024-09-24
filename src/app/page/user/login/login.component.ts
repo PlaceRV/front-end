@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { toFormData } from 'components/form/form.component';
 import { BaseComponent, InputItem } from 'utils';
 
 @Component({
@@ -24,10 +25,7 @@ export class LoginComponent extends BaseComponent {
 
 			this.status.formProcessing = true;
 			this.usrSvc.execute('login', {
-				body: {
-					email: this.controls['Email'].value,
-					password: this.controls['Password'].value,
-				},
+				body: toFormData(this.form.value),
 				onNext: (req: any) => {
 					if (req) this.appSvc.nav('/user');
 				},

@@ -27,7 +27,7 @@ export class InputItem {
 	required = true;
 	readonly = false;
 	defaultValue = '';
-	type: 'text' | 'password' = 'text';
+	type: 'text' | 'password' | 'file' = 'text';
 
 	static many(inputs: Partial<InputItem>[]) {
 		return inputs.map((i) => new InputItem(i));
@@ -70,6 +70,7 @@ export class BaseComponent implements OnInit, OnDestroy, PageRequirements {
 	protected formBuilder = inject(FormBuilder);
 	protected usrSvc = inject(UserService);
 	protected appSvc = inject(AppService);
+	files: Record<string, File> = {};
 
 	OnInit(): any {
 		if (!this.constructor.name.includes(BaseComponent.name))
@@ -86,6 +87,12 @@ export class BaseComponent implements OnInit, OnDestroy, PageRequirements {
 			console.warn(
 				'Please initiate OnSubmit method at ' + this.constructor.name,
 			);
+	}
+	OnFileChange(event: Event, name: string) {
+		const target = event.target as HTMLInputElement;
+		if (target.files) {
+			this.files[name] = target.files[0];
+		}
 	}
 
 	_form: FormGroup;

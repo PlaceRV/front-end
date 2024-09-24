@@ -1,13 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-	ILoginKeys,
-	InterfaceCasting,
-	ISignUpKeys,
-	IUser,
-	IUserAuthentication,
-	IUserInfo,
-} from 'place-review-types';
+import { IUser } from 'place-review-types';
 import { BehaviorSubject } from 'rxjs';
 import { AlertService } from 'service/alert.service';
 import { AppService } from 'service/app.service';
@@ -26,7 +19,7 @@ export class UserService extends BehaviorSubject<IUser> {
 	async execute(
 		type: 'signup' | 'login' | 'logout' | 'refresh' | 'user' | 'subscribe',
 		options: {
-			body?: IUserAuthentication & Partial<IUserInfo>;
+			body?: FormData;
 			onNext?: (re?: { value: any; t?: UserService }) => void;
 			onError?: (re?: { error: any; t?: UserService }) => void;
 			onAny?: (re?: { value: any; t?: UserService }) => void;
@@ -53,12 +46,7 @@ export class UserService extends BehaviorSubject<IUser> {
 						type === 'user'
 							? AppService.backendUrl('/user')
 							: this.authUrl(type),
-						['refresh', 'logout', 'user'].includes(type)
-							? ''
-							: new InterfaceCasting(
-									body,
-									type === 'signup' ? ISignUpKeys : ILoginKeys,
-								),
+						['refresh', 'logout', 'user'].includes(type) ? '' : body,
 						{ withCredentials: true },
 					)
 					.subscribe({
