@@ -33,7 +33,7 @@
 		"zone.js": "~0.14.3"
 	},
 	"devDependencies": {
-		"@angular/cli": "^18.1.2",
+		"@angular/cli": "^19.0.4",
 		"@ianvs/prettier-plugin-sort-imports": "^4.3.1",
 		"@types/jasmine": "~5.1.0",
 		"angular-eslint": "19.0.2",
